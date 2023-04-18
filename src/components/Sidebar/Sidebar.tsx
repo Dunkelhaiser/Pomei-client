@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faBorderAll,
-    faList,
+    // faBorderAll,
+    // faList,
     faRightToBracket,
-    faRightFromBracket,
+    // faRightFromBracket,
     faGear,
-    faArrowRotateRight,
+    // faArrowRotateRight,
     faHome,
     faNoteSticky,
     faFolder,
