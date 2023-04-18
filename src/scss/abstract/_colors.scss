@@ -1,13 +1,12 @@
 :root {
+    --white: #fff;
     --background: #f7f7f7;
-    --foreground: #f9f9f9;
-    --text: #292d36;
+    --foreground: #fcfcff;
+    --primary: #4e6981;
+    --primary-light: hsl(208deg 25% 45%);
+    --primary-dark: hsl(208deg 25% 36%);
+    --text: #2d2e37;
+    --text-light: #63646e;
+    --text-dark: #1c1d26;
     --light-shadow: rgba(149 157 165 / 5%);
-}
-
-html[data-theme="dark"] {
-    --background: #22252d;
-    --foreground: #292d36;
-    --text: #f9f9f9;
-    --dark-shadow: rgba(32 37 41 / 20%);
 }

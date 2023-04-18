@@ -6,6 +6,11 @@
     padding: 0;
 }
 
+*::selection {
+    color: var(--white);
+    background-color: var(--primary);
+}
+
 html {
     font-family: var(--font);
     color: var(--text);
@@ -50,4 +55,26 @@ select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
     box-shadow: 0 0 0 1000px transparent inset;
     transition: background-color 5000s ease-in-out 0s;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--foreground);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    background-clip: content-box;
+    border-radius: 0.5em;
+
+    &:hover {
+        background-color: var(--primary);
+    }
+
+    &:active {
+        background-color: var(--primary);
+    }
 }

@@ -1,0 +1,78 @@
+@use "../../scss/abstract/mixins" as *;
+@use "../../scss/abstract/screen-queries" as *;
+
+.sidebar {
+    @include flex($gap: 3rem);
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    height: 100%;
+    padding: 3.25rem 1.5rem 2rem 3.25rem;
+
+    background-color: var(--primary);
+
+    li {
+        @include flex($direction: row, $align: center, $gap: 1rem);
+
+        cursor: pointer;
+
+        width: 100%;
+        padding: 0.75rem 7rem 0.75rem 1rem;
+
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--white);
+
+        opacity: 0.65;
+        border-radius: 0.5rem;
+
+        transition: var(--hover);
+
+        svg {
+            font-size: 1.25rem;
+        }
+    }
+
+    li:hover,
+    li:focus-visible {
+        opacity: 0.85;
+        background-color: var(--primary-light);
+    }
+
+    li:active {
+        opacity: 0.9;
+    }
+
+    li.active {
+        cursor: default;
+        opacity: 1;
+        background-color: var(--primary-dark);
+    }
+
+    @media ($tablet) {
+        padding: 3rem 1.5rem 2rem;
+    }
+}
+
+.logo {
+    padding: 0.75rem;
+    background-color: var(--background);
+    border-radius: 0.5rem;
+
+    img {
+        height: 1.75rem;
+    }
+}
+
+.navigation {
+    @include flex($gap: 1rem);
+
+    list-style: none;
+
+    &:last-child {
+        margin-top: auto;
+    }
+}
