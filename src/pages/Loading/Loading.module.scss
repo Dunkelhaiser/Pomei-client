@@ -1,6 +1,7 @@
+@use "../../scss/abstract/mixins" as *;
+
 .loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+    @include flex($align: center, $justify: center);
+
+    height: 100%;
 }

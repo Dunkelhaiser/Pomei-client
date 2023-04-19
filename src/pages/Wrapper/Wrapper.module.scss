@@ -1,9 +1,11 @@
 @use "../../scss/abstract/screen-queries" as *;
 
 .wrapper {
+    height: 100vh;
     min-height: 100vh;
     margin-left: 300.46px;
     padding: 3.25rem 3.25rem 3rem;
+
     @media ($tablet) {
         margin-left: 272.46px;
         padding: 3rem 1.5rem 2rem;
