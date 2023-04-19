@@ -8,7 +8,7 @@
 
 *::selection {
     color: var(--white);
-    background-color: var(--primary);
+    background-color: var(--primary-light);
 }
 
 html {
@@ -71,10 +71,10 @@ select:-webkit-autofill:focus {
     border-radius: 0.5em;
 
     &:hover {
-        background-color: var(--primary);
+        background-color: var(--primary-light);
     }
 
     &:active {
-        background-color: var(--primary);
+        background-color: var(--primary-dark);
     }
 }

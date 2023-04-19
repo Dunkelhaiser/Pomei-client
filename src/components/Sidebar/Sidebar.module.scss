@@ -10,46 +10,51 @@
     left: 0;
 
     height: 100%;
-    padding: 3.25rem 1.5rem 2rem 3.25rem;
+    padding: 3.25rem 1.5rem 3rem 3.25rem;
 
     background-color: var(--primary);
 
     li {
-        @include flex($direction: row, $align: center, $gap: 1rem);
-
-        cursor: pointer;
-
         width: 100%;
-        padding: 0.75rem 7rem 0.75rem 1rem;
-
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: var(--white);
-
-        opacity: 0.65;
-        border-radius: 0.5rem;
-
-        transition: var(--hover);
 
         svg {
             font-size: 1.25rem;
         }
-    }
 
-    li:hover,
-    li:focus-visible {
-        opacity: 0.85;
-        background-color: var(--primary-light);
-    }
+        a {
+            @include flex($direction: row, $align: center, $gap: 1rem);
 
-    li:active {
-        opacity: 0.9;
-    }
+            cursor: pointer;
 
-    li.active {
-        cursor: default;
-        opacity: 1;
-        background-color: var(--primary-dark);
+            width: 100%;
+            padding: 0.75rem 7rem 0.75rem 1rem;
+
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--white);
+            text-decoration: none;
+
+            opacity: 0.65;
+            border-radius: 0.5rem;
+
+            transition: var(--hover);
+
+            &:hover,
+            &:focus-visible {
+                opacity: 0.85;
+                background-color: var(--primary-light);
+            }
+
+            &:active {
+                opacity: 0.9;
+            }
+
+            &.active {
+                cursor: default;
+                opacity: 1;
+                background-color: var(--primary-dark);
+            }
+        }
     }
 
     @media ($tablet) {
