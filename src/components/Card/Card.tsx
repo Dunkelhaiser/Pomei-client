@@ -16,7 +16,7 @@ const Card: React.FC<Props> = ({ title, content, date, textLimit }) => {
         <Link to="/" className={CardStyles.card}>
             <div className={CardStyles.heading}>
                 <h3>{title}</h3>
-                <FontAwesomeIcon icon={faEllipsis} />
+                <FontAwesomeIcon icon={faEllipsis} className={CardStyles.options} />
             </div>
             <p>{truncate(content, textLimit || 400)}</p>
 

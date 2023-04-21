@@ -35,7 +35,7 @@
     }
 
     &:hover {
-        svg {
+        .options {
             visibility: visible;
             opacity: 0.5;
         }
@@ -52,14 +52,19 @@
     }
 
     /* stylelint-disable-next-line no-descending-specificity */
-    svg {
+    .options {
         font-size: 1.2rem;
         visibility: hidden;
         opacity: 0;
         transition: var(--hover);
 
-        &:hover {
-            opacity: 0.85;
+        &:hover,
+        &:focus-visible {
+            opacity: 0.75;
+        }
+
+        &:active {
+            opacity: 0.9;
         }
     }
 }
