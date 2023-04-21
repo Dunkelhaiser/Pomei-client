@@ -63,6 +63,45 @@ const Sidebar: React.FC = () => {
                     </NavLink>
                 </li>
             </ul>
+            <nav className={SidebarStyles.phone_nav}>
+                <ul className={SidebarStyles.navigation}>
+                    <li>
+                        <NavLink to="/" end className={(navData) => (navData.isActive ? SidebarStyles.active : "")}>
+                            <FontAwesomeIcon icon={faHome} />
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/notes" className={(navData) => (navData.isActive ? SidebarStyles.active : "")}>
+                            <FontAwesomeIcon icon={faNoteSticky} />
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/folders" className={(navData) => (navData.isActive ? SidebarStyles.active : "")}>
+                            <FontAwesomeIcon icon={faFolder} />
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/archive" className={(navData) => (navData.isActive ? SidebarStyles.active : "")}>
+                            <FontAwesomeIcon icon={faBoxArchive} />
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/bin" className={(navData) => (navData.isActive ? SidebarStyles.active : "")}>
+                            <FontAwesomeIcon icon={faTrash} aria-label="Sign In" />
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/settings" className={(navData) => (navData.isActive ? SidebarStyles.active : "")}>
+                            <FontAwesomeIcon icon={faGear} aria-label="Sign In" />
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/sign_in" className={(navData) => (navData.isActive ? SidebarStyles.active : "")}>
+                            <FontAwesomeIcon icon={faRightToBracket} aria-label="Sign In" />
+                        </NavLink>
+                    </li>
+                </ul>
+            </nav>
         </aside>
     );
 };

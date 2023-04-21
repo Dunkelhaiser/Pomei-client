@@ -54,11 +54,34 @@
                 opacity: 1;
                 background-color: var(--primary-dark);
             }
+            @media ($phone) {
+                padding: 0.75rem;
+            }
+        }
+        @media ($phone) {
+            width: auto;
         }
     }
 
     @media ($tablet) {
         padding: 3rem 1.5rem 2rem;
+    }
+
+    @media ($phone) {
+        @include flex($direction: row, $gap: 0);
+
+        z-index: 9999;
+        top: auto;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        height: auto;
+        padding: 1rem 1.5rem;
+
+        & > *:not(.phone_nav) {
+            display: none;
+        }
     }
 }
 
@@ -79,5 +102,19 @@
 
     &:last-child {
         margin-top: auto;
+    }
+
+    @media ($phone) {
+        @include flex($direction: row, $justify: space-between);
+
+        width: 100%;
+    }
+}
+
+.phone_nav {
+    display: none;
+    width: 100%;
+    @media ($phone) {
+        display: flex;
     }
 }
