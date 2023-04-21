@@ -1,8 +1,29 @@
 @use "../../scss/abstract/screen-queries" as *;
+@use "../../scss/abstract/mixins" as *;
 
 .title {
-    margin-bottom: 1.75rem;
     font-size: 2.5rem;
+}
+
+.header {
+    @include flex($direction: row, $justify: space-between, $align: center);
+
+    margin-bottom: 1.75rem;
+
+    svg {
+        cursor: pointer;
+        font-size: 1.5rem;
+        transition: var(--hover);
+
+        &:hover,
+        &:focus-visible {
+            opacity: 0.75;
+        }
+
+        &:active {
+            opacity: 1;
+        }
+    }
 }
 
 .grid {

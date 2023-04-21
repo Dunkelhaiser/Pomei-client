@@ -1,9 +1,11 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Card from "../../components/Card/Card";
 import Layout from "../../components/Layout/Layout";
 
 const Notes = () => {
     return (
-        <Layout title="Notes" type="masonry">
+        <Layout title="Notes" controls={<FontAwesomeIcon icon={faPlus} />} type="masonry">
             <Card title="Apps" content="Bitwarden Bitdefender PCloud/IceDrive/Google One/OneDrive" date="28th April, 2023" />
             <Card
                 title="Quotes"

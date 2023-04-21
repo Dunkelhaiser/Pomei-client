@@ -1,3 +1,5 @@
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Card from "../../components/Card/Card";
 import Folder from "../../components/Folder/Folder";
 import Layout from "../../components/Layout/Layout";
@@ -6,7 +8,10 @@ import HomeStyles from "./Home.module.scss";
 const Home = () => {
     return (
         <Layout title="Home">
-            <h2 className={HomeStyles.sub_title}>Latest Notes</h2>
+            <div className={HomeStyles.heading}>
+                <h2>Latest Notes</h2>
+                <FontAwesomeIcon icon={faPlus} className={HomeStyles.add_icon} />
+            </div>
             <section className={HomeStyles.layout}>
                 <Card
                     title="Apps"
@@ -41,7 +46,10 @@ const Home = () => {
                     textLimit={100}
                 />
             </section>
-            <h2 className={HomeStyles.sub_title}>Latest Folders</h2>
+            <div className={HomeStyles.heading}>
+                <h2>Latest Folders</h2>
+                <FontAwesomeIcon icon={faPlus} className={HomeStyles.add_icon} />
+            </div>
             <section className={HomeStyles.layout}>
                 <Folder title="My Folder" />
                 <Folder title="Homework" color="purple" />

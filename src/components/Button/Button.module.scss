@@ -1,24 +1,80 @@
+@use "../../scss/abstract/mixins" as *;
+
 .button {
+    @include flex($direction: row, $justify: center, $align: center, $gap: 0.5rem);
+
     cursor: pointer;
 
     padding: 0.75em 1em;
 
-    font-size: 1.2rem;
     font-weight: 500;
-    color: var(--foreground);
+    text-transform: capitalize;
 
-    background-color: var(--primary);
     border: none;
     border-radius: 0.5em;
 
     transition: var(--hover);
 
+    svg {
+        font-size: inherit;
+    }
+}
+
+.primary {
+    --color: var(--primary);
+    --color-hover: var(--primary-light);
+    --color-active: var(--primary-dark);
+}
+
+.danger {
+    --color: var(--danger);
+    --color-hover: var(--danger-light);
+    --color-active: var(--danger-dark);
+}
+
+.normal {
+    color: var(--foreground);
+    background-color: var(--color);
+
     &:hover,
     &:focus-visible {
-        background-color: var(--primary-light);
+        background-color: var(--color-hover);
     }
 
     &:active {
-        background-color: var(--primary-dark);
+        background-color: var(--color-active);
+    }
+}
+
+.outline {
+    font-weight: 700;
+    color: var(--color);
+    background-color: transparent;
+    border: 0.15em solid var(--color);
+
+    &:hover,
+    &:focus-visible {
+        color: var(--color-hover);
+        border-color: var(--color-hover);
+    }
+
+    &:active {
+        color: var(--color-active);
+        border-color: var(--color-active);
+    }
+}
+
+.text {
+    font-weight: 700;
+    color: var(--color);
+    background-color: transparent;
+
+    &:hover,
+    &:focus-visible {
+        color: var(--color-hover);
+    }
+
+    &:active {
+        color: var(--color-active);
     }
 }

@@ -1,4 +1,5 @@
 @use "../../scss/abstract/screen-queries" as *;
+@use "../../scss/abstract/mixins" as *;
 
 .layout {
     display: grid;
@@ -49,7 +50,24 @@
     }
 }
 
-.sub_title {
+.add_icon {
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: var(--hover);
+
+    &:hover,
+    &:focus-visible {
+        opacity: 0.75;
+    }
+
+    &:active {
+        opacity: 1;
+    }
+}
+
+.heading {
+    @include flex($direction: row, $justify: space-between, $align: center);
+
     margin: 1rem 0;
 
     &:not(:first-child) {
