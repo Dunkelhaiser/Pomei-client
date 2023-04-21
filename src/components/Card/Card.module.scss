@@ -18,11 +18,8 @@
 
     transition: var(--hover);
 
-    h3 {
-        font-size: 1.2rem;
-    }
-
     p {
+        margin-bottom: 0.15rem;
         font-size: 0.9rem;
         opacity: 0.65;
     }
@@ -36,4 +33,39 @@
     &:active {
         top: -4px;
     }
+
+    &:hover {
+        svg {
+            visibility: visible;
+            opacity: 0.5;
+        }
+    }
+}
+
+.heading {
+    @include flex($direction: row, $justify: space-between, $align: center);
+
+    width: 100%;
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    /* stylelint-disable-next-line no-descending-specificity */
+    svg {
+        font-size: 1.2rem;
+        visibility: hidden;
+        opacity: 0;
+        transition: var(--hover);
+
+        &:hover {
+            opacity: 0.85;
+        }
+    }
+}
+
+.date {
+    margin-top: auto;
+    font-size: 0.75rem;
+    opacity: 0.5;
 }
