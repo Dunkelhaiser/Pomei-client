@@ -1,9 +1,9 @@
 import Card from "../../components/Card/Card";
 import Layout from "../../components/Layout/Layout";
 
-const Notes = () => {
+const Bin = () => {
     return (
-        <Layout title="Notes" type="masonry">
+        <Layout title="Bin" type="masonry">
             <Card title="Apps" content="Bitwarden Bitdefender PCloud/IceDrive/Google One/OneDrive" date="28th April, 2023" />
             <Card
                 title="Quotes"
@@ -23,4 +23,4 @@ const Notes = () => {
         </Layout>
     );
 };
-export default Notes;
+export default Bin;

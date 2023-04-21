@@ -1,0 +1,21 @@
+@use "../../scss/abstract/screen-queries" as *;
+
+.layout {
+    display: column;
+    columns: 4;
+
+    & > * {
+        break-inside: avoid;
+        margin-bottom: 1rem;
+    }
+
+    @media ($tablet) {
+        columns: 3;
+    }
+    @media ($tablet-small) {
+        columns: 2;
+    }
+    @media ($phone) {
+        columns: 1;
+    }
+}
