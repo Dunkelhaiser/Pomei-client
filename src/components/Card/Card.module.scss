@@ -3,13 +3,13 @@
 .card {
     @include flex($gap: 0.75rem);
 
+    cursor: pointer;
+
     position: relative;
     top: 0;
 
     padding: 1.25rem;
 
-    color: inherit;
-    text-decoration: inherit;
     word-break: break-all;
 
     background-color: var(--white);
@@ -28,10 +28,6 @@
     &:focus-visible {
         top: -2px;
         box-shadow: 0 4px 5px var(--light-shadow);
-    }
-
-    &:active {
-        top: -4px;
     }
 
     &:hover {
@@ -53,9 +49,13 @@
 
     /* stylelint-disable-next-line no-descending-specificity */
     .options {
+        cursor: pointer;
+
         font-size: 1.2rem;
+
         visibility: hidden;
         opacity: 0;
+
         transition: var(--hover);
 
         &:hover,
@@ -74,4 +74,11 @@
     font-size: 0.7rem;
     font-weight: 500;
     opacity: 0.5;
+}
+
+.context_menu {
+    position: absolute;
+    z-index: 9999;
+    top: calc(1.25rem + 1.2rem + 0.3rem);
+    right: 1.25rem;
 }
