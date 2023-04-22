@@ -23,7 +23,7 @@ const Card: React.FC<Props> = ({ title, content, date, textLimit }) => {
     };
 
     return (
-        <div onClick={() => navigate("/")} role="button" tabIndex={0} className={CardStyles.card}>
+        <div onClick={() => navigate("/")} role="button" tabIndex={0} className={`${CardStyles.card} ${expanded ? CardStyles.active : ""}`}>
             <div className={CardStyles.heading}>
                 <h3>{title}</h3>
                 <FontAwesomeIcon icon={faEllipsis} className={CardStyles.options} onClick={expand} />
@@ -34,7 +34,7 @@ const Card: React.FC<Props> = ({ title, content, date, textLimit }) => {
             {expanded && (
                 <ContextMenu
                     classRef={CardStyles.context_menu}
-                    outsideClick={() => setExpanded(false)}
+                    outsideClick={() => setTimeout(() => setExpanded(false), 150)}
                     options={[
                         { label: "Pin", onClick: () => {} },
                         { label: "Copy", onClick: () => {} },

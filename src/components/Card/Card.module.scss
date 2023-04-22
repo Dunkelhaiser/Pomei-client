@@ -25,12 +25,11 @@
     }
 
     &:hover,
-    &:focus-visible {
+    &:focus-visible,
+    &.active {
         top: -2px;
         box-shadow: 0 4px 5px var(--light-shadow);
-    }
 
-    &:hover {
         .options {
             visibility: visible;
             opacity: 0.5;
