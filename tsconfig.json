@@ -18,8 +18,8 @@
         "noImplicitAny": true,
         "noEmit": true,
         "jsx": "react-jsx",
-        "types": ["vite/client"]
+        "types": ["vite/client", "@testing-library/jest-dom"]
     },
-    "include": [".eslintrc.json", "src"],
+    "include": [".eslintrc.json", "src", "vite.config.ts"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }
