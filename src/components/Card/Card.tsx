@@ -27,13 +27,9 @@ const Card: React.FC<Props> = ({ title, content, date, textLimit }) => {
             <div className={CardStyles.heading}>
                 <h3>{title}</h3>
                 <FontAwesomeIcon icon={faEllipsis} className={CardStyles.options} role="button" tabIndex={0} onClick={expand} />
-            </div>
-            <p>{truncate(content, textLimit || 400)}</p>
-
-            <span className={CardStyles.date}>{date}</span>
-            {expanded && (
                 <ContextMenu
                     classRef={CardStyles.context_menu}
+                    isVisible={expanded}
                     outsideClick={() => setTimeout(() => setExpanded(false), 150)}
                     options={[
                         { label: "Pin", onClick: () => {} },
@@ -42,7 +38,10 @@ const Card: React.FC<Props> = ({ title, content, date, textLimit }) => {
                         { label: "Delete", onClick: () => {} },
                     ]}
                 />
-            )}
+            </div>
+            <p>{truncate(content, textLimit || 400)}</p>
+
+            <span className={CardStyles.date}>{date}</span>
         </div>
     );
 };
