@@ -6,12 +6,18 @@ interface NotesContextType {
     notes: Note[];
     createLocalNote: (note: NoteForm) => void;
     deleteLocalNote: (id: string) => void;
+    getLocalNote: (id: string) => Note;
+    updateLocalNote: (note: Note) => void;
+    copyLocalNote: (id: string) => void;
 }
 
 const iNotesContextState = {
     notes: [],
     createLocalNote: () => {},
     deleteLocalNote: () => {},
+    getLocalNote: () => [] as unknown as Note,
+    updateLocalNote: () => {},
+    copyLocalNote: () => {},
 };
 
 export const NotesContext = createContext<NotesContextType>(iNotesContextState);
@@ -34,11 +40,33 @@ const NotesContextProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         localStorage.setItem("notes", JSON.stringify(notes.filter((note) => note.id !== id)));
     };
 
+    const getLocalNote = (id: string) => {
+        return notes.filter((note) => note.id === id)[0];
+    };
+
+    const updateLocalNote = (note: Note) => {
+        setNotes(notes.map((n) => (n.id === note.id ? note : n)));
+        localStorage.setItem("notes", JSON.stringify(notes.map((n) => (n.id === note.id ? note : n))));
+    };
+
+    const copyLocalNote = (id: string) => {
+        const note = getLocalNote(id);
+        const newNote = {
+            ...note,
+            id: uuid(),
+        };
+        setNotes([newNote, ...notes]);
+        localStorage.setItem("notes", JSON.stringify([newNote, ...notes]));
+    };
+
     const values = useMemo(
         () => ({
             notes,
             createLocalNote,
             deleteLocalNote,
+            getLocalNote,
+            updateLocalNote,
+            copyLocalNote,
         }),
         [notes]
     );

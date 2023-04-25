@@ -5,6 +5,7 @@ import Bin from "./pages/Bin/Bin";
 import CreateNote from "./pages/CreateNote/CreateNote";
 import Folders from "./pages/Folders/Folders";
 import Home from "./pages/Home/Home";
+import Note from "./pages/Note/Note";
 import Notes from "./pages/Notes/Notes";
 import NotFound from "./pages/NotFound/NotFound";
 import Welcome from "./pages/Welcome/Welcome";
@@ -16,6 +17,7 @@ const router = createBrowserRouter(
         <Route path="/" element={<Wrapper />}>
             <Route index element={<Home />} />
             <Route path="notes" element={<Notes />} />
+            <Route path="note/:id" element={<Note />} />
             <Route path="create_note" element={<CreateNote />} />
             <Route element={<ProtectedRoutes />}>
                 <Route path="folders">

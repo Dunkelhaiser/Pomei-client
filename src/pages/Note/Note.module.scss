@@ -1,0 +1,7 @@
+@use "../../scss/abstract/mixins" as *;
+
+.header {
+    @include flex($direction: row, $justify: space-between, $align: center);
+
+    margin-bottom: 2rem;
+}

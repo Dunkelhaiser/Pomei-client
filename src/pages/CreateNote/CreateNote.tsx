@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { NotesContext } from "../../context/NotesContext";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
@@ -10,12 +11,14 @@ import Form from "../../components/Form/Form";
 import { NoteForm } from "../../models/Note";
 
 const CreateNote = () => {
+    const navigate = useNavigate();
     const { createLocalNote } = useContext(NotesContext);
     const { register, handleSubmit, reset } = useForm<NoteForm>();
 
     const createNoteHandler = (note: NoteForm) => {
         createLocalNote(note);
         reset();
+        navigate("/notes");
     };
 
     return (

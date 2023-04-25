@@ -28,14 +28,6 @@
 
 .default {
     @include flex($gap: 1rem);
-
-    @media ($phone) {
-        & > button,
-        & > input,
-        & > textarea {
-            width: 100%;
-        }
-    }
 }
 
 .grid {

@@ -19,7 +19,7 @@ interface Props {
 
 const Card: React.FC<Props> = ({ title, content, date, textLimit, id }) => {
     const { user } = useContext(UserContext);
-    const { deleteLocalNote } = useContext(NotesContext);
+    const { deleteLocalNote, copyLocalNote } = useContext(NotesContext);
     const [expanded, setExpanded] = useToggle();
     const navigate = useNavigate();
 
@@ -29,7 +29,12 @@ const Card: React.FC<Props> = ({ title, content, date, textLimit, id }) => {
     };
 
     return (
-        <div onClick={() => navigate("/")} role="button" tabIndex={0} className={`${CardStyles.card} ${expanded ? CardStyles.active : ""}`}>
+        <div
+            onClick={() => navigate(`/note/${id}`)}
+            role="button"
+            tabIndex={0}
+            className={`${CardStyles.card} ${expanded ? CardStyles.active : ""}`}
+        >
             <div className={CardStyles.heading}>
                 <h3>{title || "Untitled"}</h3>
                 <FontAwesomeIcon
@@ -51,7 +56,7 @@ const Card: React.FC<Props> = ({ title, content, date, textLimit, id }) => {
                                   { label: "Delete", onClick: () => {} },
                               ]
                             : [
-                                  { label: "Copy", onClick: () => {} },
+                                  { label: "Copy", onClick: () => copyLocalNote(id) },
                                   { label: "Delete", onClick: () => deleteLocalNote(id) },
                               ]
                     }
