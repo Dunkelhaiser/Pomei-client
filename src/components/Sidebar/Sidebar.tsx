@@ -13,10 +13,14 @@ import {
     faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, NavLink } from "react-router-dom";
+import { useContext } from "react";
 import SidebarStyles from "./Sidebar.module.scss";
 import Logo from "../../images/Logo.svg";
+import { UserContext } from "../../context/UserContext";
 
 const Sidebar: React.FC = () => {
+    const { user } = useContext(UserContext);
+
     return (
         <aside className={SidebarStyles.sidebar}>
             <Link to="/" className={SidebarStyles.logo}>
@@ -35,17 +39,32 @@ const Sidebar: React.FC = () => {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/folders" className={(navData) => (navData.isActive ? SidebarStyles.active : "")}>
+                        <NavLink
+                            to="/folders"
+                            className={
+                                user.loggedIn ? (navData) => `${navData.isActive ? SidebarStyles.active : ""}` : SidebarStyles.disabled
+                            }
+                        >
                             <FontAwesomeIcon icon={faFolder} /> Folders
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/archive" className={(navData) => (navData.isActive ? SidebarStyles.active : "")}>
+                        <NavLink
+                            to="/archive"
+                            className={
+                                user.loggedIn ? (navData) => `${navData.isActive ? SidebarStyles.active : ""}` : SidebarStyles.disabled
+                            }
+                        >
                             <FontAwesomeIcon icon={faBoxArchive} /> Archive
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/bin" className={(navData) => (navData.isActive ? SidebarStyles.active : "")}>
+                        <NavLink
+                            to="/bin"
+                            className={
+                                user.loggedIn ? (navData) => `${navData.isActive ? SidebarStyles.active : ""}` : SidebarStyles.disabled
+                            }
+                        >
                             <FontAwesomeIcon icon={faTrash} /> Bin
                         </NavLink>
                     </li>
@@ -53,7 +72,10 @@ const Sidebar: React.FC = () => {
             </nav>
             <ul className={SidebarStyles.navigation}>
                 <li>
-                    <NavLink to="/settings" className={(navData) => (navData.isActive ? SidebarStyles.active : "")}>
+                    <NavLink
+                        to="/settings"
+                        className={user.loggedIn ? (navData) => `${navData.isActive ? SidebarStyles.active : ""}` : SidebarStyles.disabled}
+                    >
                         <FontAwesomeIcon icon={faGear} /> Settings
                     </NavLink>
                 </li>
@@ -76,22 +98,42 @@ const Sidebar: React.FC = () => {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/folders" className={(navData) => (navData.isActive ? SidebarStyles.active : "")}>
+                        <NavLink
+                            to="/folders"
+                            className={
+                                user.loggedIn ? (navData) => `${navData.isActive ? SidebarStyles.active : ""}` : SidebarStyles.disabled
+                            }
+                        >
                             <FontAwesomeIcon icon={faFolder} />
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/archive" className={(navData) => (navData.isActive ? SidebarStyles.active : "")}>
+                        <NavLink
+                            to="/archive"
+                            className={
+                                user.loggedIn ? (navData) => `${navData.isActive ? SidebarStyles.active : ""}` : SidebarStyles.disabled
+                            }
+                        >
                             <FontAwesomeIcon icon={faBoxArchive} />
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/bin" className={(navData) => (navData.isActive ? SidebarStyles.active : "")}>
+                        <NavLink
+                            to="/bin"
+                            className={
+                                user.loggedIn ? (navData) => `${navData.isActive ? SidebarStyles.active : ""}` : SidebarStyles.disabled
+                            }
+                        >
                             <FontAwesomeIcon icon={faTrash} aria-label="Sign In" />
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/settings" className={(navData) => (navData.isActive ? SidebarStyles.active : "")}>
+                        <NavLink
+                            to="/settings"
+                            className={
+                                user.loggedIn ? (navData) => `${navData.isActive ? SidebarStyles.active : ""}` : SidebarStyles.disabled
+                            }
+                        >
                             <FontAwesomeIcon icon={faGear} aria-label="Sign In" />
                         </NavLink>
                     </li>

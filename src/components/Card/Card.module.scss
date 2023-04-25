@@ -63,7 +63,8 @@
             opacity: 0.75;
         }
 
-        &:active {
+        &:active,
+        &.active {
             opacity: 0.9;
         }
 

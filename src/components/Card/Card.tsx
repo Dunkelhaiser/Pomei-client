@@ -26,7 +26,12 @@ const Card: React.FC<Props> = ({ title, content, date, textLimit }) => {
         <div onClick={() => navigate("/")} role="button" tabIndex={0} className={`${CardStyles.card} ${expanded ? CardStyles.active : ""}`}>
             <div className={CardStyles.heading}>
                 <h3>{title}</h3>
-                <FontAwesomeIcon icon={faEllipsis} className={CardStyles.options} role="button" tabIndex={0} onClick={expand} />
+                <FontAwesomeIcon
+                    icon={faEllipsis}
+                    className={`${CardStyles.options} ${expanded ? CardStyles.active : ""}`}
+                    role="button"
+                    onClick={expand}
+                />
                 <ContextMenu
                     classRef={CardStyles.context_menu}
                     isVisible={expanded}

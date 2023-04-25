@@ -1,11 +1,14 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext } from "react";
 import Card from "../../components/Card/Card";
 import Folder from "../../components/Folder/Folder";
 import Layout from "../../components/Layout/Layout";
+import { UserContext } from "../../context/UserContext";
 import HomeStyles from "./Home.module.scss";
 
 const Home = () => {
+    const { user } = useContext(UserContext);
     return (
         <Layout title="Home">
             <div className={HomeStyles.heading}>
@@ -46,16 +49,20 @@ const Home = () => {
                     textLimit={100}
                 />
             </section>
-            <div className={HomeStyles.heading}>
-                <h2>Latest Folders</h2>
-                <FontAwesomeIcon icon={faPlus} className={HomeStyles.add_icon} />
-            </div>
-            <section className={HomeStyles.layout}>
-                <Folder title="My Folder" />
-                <Folder title="Homework" color="purple" />
-                <Folder title="Secret" color="green" />
-                <Folder title="Copy" />
-            </section>
+            {user.loggedIn && (
+                <>
+                    <div className={HomeStyles.heading}>
+                        <h2>Latest Folders</h2>
+                        <FontAwesomeIcon icon={faPlus} className={HomeStyles.add_icon} />
+                    </div>
+                    <section className={HomeStyles.layout}>
+                        <Folder title="My Folder" />
+                        <Folder title="Homework" color="purple" />
+                        <Folder title="Secret" color="green" />
+                        <Folder title="Copy" />
+                    </section>
+                </>
+            )}
         </Layout>
     );
 };

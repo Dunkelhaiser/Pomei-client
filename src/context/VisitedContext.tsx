@@ -9,12 +9,14 @@ interface Props {
     children: React.ReactNode;
 }
 
-export const VisitedContext = createContext<VisitedContextInterface>({
+const iVisitedProviderState = {
     visitedBefore: null,
     setVisited: () => {},
-});
+};
 
-export const VisitedProvider: React.FC<Props> = ({ children }) => {
+export const VisitedContext = createContext<VisitedContextInterface>(iVisitedProviderState);
+
+const VisitedContextProvider: React.FC<Props> = ({ children }) => {
     const [visitedBefore, setVisitedBefore] = useState<boolean | null>(Boolean(localStorage.getItem("visitedBefore")));
 
     const setVisited = () => {
@@ -32,3 +34,5 @@ export const VisitedProvider: React.FC<Props> = ({ children }) => {
 
     return <VisitedContext.Provider value={values}>{children}</VisitedContext.Provider>;
 };
+
+export default VisitedContextProvider;

@@ -1,4 +1,5 @@
 import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
+import ProtectedRoutes from "./context/ProtectedRoutes";
 import Archive from "./pages/Archive/Archive";
 import Bin from "./pages/Bin/Bin";
 import Folders from "./pages/Folders/Folders";
@@ -14,12 +15,14 @@ const router = createBrowserRouter(
         <Route path="/" element={<Wrapper />}>
             <Route index element={<Home />} />
             <Route path="notes" element={<Notes />} />
-            <Route path="folders">
-                <Route index element={<Folders />} />
-                <Route path=":folderId" element={<Notes />} />
+            <Route element={<ProtectedRoutes />}>
+                <Route path="folders">
+                    <Route index element={<Folders />} />
+                    <Route path=":folderId" element={<Notes />} />
+                </Route>
+                <Route path="archive" element={<Archive />} />
+                <Route path="bin" element={<Bin />} />
             </Route>
-            <Route path="archive" element={<Archive />} />
-            <Route path="bin" element={<Bin />} />
             <Route path="home" element={<Navigate to="/" />} />
             <Route path="index" element={<Navigate to="/" />} />
             <Route path="welcome" element={<Welcome />} />
