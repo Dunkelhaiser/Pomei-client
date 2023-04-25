@@ -22,7 +22,7 @@ const Home = () => {
             </div>
             <section className={HomeStyles.layout}>
                 {notes.map((note) => (
-                    <Card key={uuid()} title={note.title} content={note.content} date={note.date} textLimit={100} />
+                    <Card key={uuid()} id={note.id} title={note.title} content={note.content} date={note.date} textLimit={100} />
                 ))}
                 {notes.length < 1 && <p>No notes found.</p>}
             </section>

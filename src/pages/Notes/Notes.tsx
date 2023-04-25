@@ -13,7 +13,7 @@ const Notes = () => {
     return (
         <Layout title="Notes" controls={<FontAwesomeIcon icon={faPlus} onClick={() => navigate("/create_note")} />} type="masonry">
             {notes.map((note) => (
-                <Card key={uuid()} title={note.title} content={note.content} date={note.date} textLimit={100} />
+                <Card key={uuid()} id={note.id} title={note.title} content={note.content} date={note.date} textLimit={100} />
             ))}
             {notes.length < 1 && <p>No notes found.</p>}
         </Layout>
