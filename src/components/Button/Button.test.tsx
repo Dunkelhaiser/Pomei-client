@@ -15,7 +15,7 @@ describe("Button", () => {
 
     it("renders correctly with specified props", () => {
         const { getByText } = render(
-            <Button label="Delete" color="danger" fontSize={1.5} type="outline" icon={<span>X</span>} onClick={onClick} />
+            <Button label="Delete" color="danger" fontSize={1.5} styleType="outline" icon={<span>X</span>} onClick={onClick} />
         );
         const button = getByText("Delete");
         expect(button).toBeInTheDocument();

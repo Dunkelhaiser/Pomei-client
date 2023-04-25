@@ -11,21 +11,21 @@ describe("ContextMenu", () => {
     const outsideClick = vitest.fn();
 
     it("renders correctly", () => {
-        const { container } = render(<ContextMenu classRef="test" options={options} outsideClick={outsideClick} />);
+        const { container } = render(<ContextMenu isVisible classRef="test" options={options} outsideClick={outsideClick} />);
         const contextMenu = container.querySelector(".test");
         expect(contextMenu).toBeInTheDocument();
         expect(contextMenu?.querySelectorAll("li")).toHaveLength(3);
     });
 
     it("calls the correct callback when an option is clicked", () => {
-        const { container } = render(<ContextMenu classRef="test" options={options} outsideClick={outsideClick} />);
+        const { container } = render(<ContextMenu isVisible classRef="test" options={options} outsideClick={outsideClick} />);
         const option = container.querySelector("li span");
         if (option) fireEvent.click(option);
         expect(options[0].onClick).toHaveBeenCalledTimes(1);
     });
 
     it("calls the outsideClick callback when clicking outside the menu", () => {
-        render(<ContextMenu classRef="test" options={options} outsideClick={outsideClick} />);
+        render(<ContextMenu isVisible classRef="test" options={options} outsideClick={outsideClick} />);
         fireEvent.mouseDown(document);
         expect(outsideClick).toHaveBeenCalledTimes(1);
     });

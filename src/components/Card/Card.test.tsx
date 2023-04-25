@@ -13,7 +13,7 @@ describe("Card component", () => {
     test("renders with default props", () => {
         const { getByRole, getByText } = render(
             <MemoryRouter>
-                <Card {...defaultProps} />
+                <Card id="1" {...defaultProps} />
             </MemoryRouter>
         );
 
@@ -26,7 +26,7 @@ describe("Card component", () => {
     test("truncates content with textLimit prop", () => {
         const { getByText } = render(
             <MemoryRouter>
-                <Card {...defaultProps} textLimit={10} />
+                <Card id="1" {...defaultProps} textLimit={10} />
             </MemoryRouter>
         );
 
@@ -36,7 +36,7 @@ describe("Card component", () => {
     test("shows context menu when options button is clicked", () => {
         const { getByRole } = render(
             <MemoryRouter>
-                <Card {...defaultProps} />
+                <Card id="1" {...defaultProps} />
             </MemoryRouter>
         );
 
