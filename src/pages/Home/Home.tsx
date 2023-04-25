@@ -1,22 +1,31 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuid } from "uuid";
 import Card from "../../components/Card/Card";
 import Folder from "../../components/Folder/Folder";
 import Layout from "../../components/Layout/Layout";
+import { NotesContext } from "../../context/NotesContext";
 import { UserContext } from "../../context/UserContext";
 import HomeStyles from "./Home.module.scss";
 
 const Home = () => {
+    const navigate = useNavigate();
     const { user } = useContext(UserContext);
+    const { notes } = useContext(NotesContext);
     return (
         <Layout title="Home">
             <div className={HomeStyles.heading}>
                 <h2>Latest Notes</h2>
-                <FontAwesomeIcon icon={faPlus} className={HomeStyles.add_icon} />
+                <FontAwesomeIcon icon={faPlus} className={HomeStyles.add_icon} onClick={() => navigate("/create_note")} />
             </div>
             <section className={HomeStyles.layout}>
-                <Card
+                {notes.map((note) => (
+                    <Card key={uuid()} title={note.title} content={note.content} date={note.date} textLimit={100} />
+                ))}
+                {notes.length < 1 && <p>No notes found.</p>}
+                {/* <Card
                     title="Apps"
                     content="Bitwarden Bitdefender PCloud/IceDrive/Google One/OneDrive"
                     date="28th April, 2023"
@@ -47,7 +56,7 @@ const Home = () => {
                     content="Bitwarden Bitdefender PCloud/IceDrive/Google One/OneDrive"
                     date="28th April, 2023"
                     textLimit={100}
-                />
+                /> */}
             </section>
             {user.loggedIn && (
                 <>

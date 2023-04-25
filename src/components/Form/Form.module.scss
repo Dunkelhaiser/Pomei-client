@@ -1,0 +1,11 @@
+@use "../../scss/abstract/mixins" as *;
+
+.form {
+    @include flex($gap: 1rem);
+
+    width: 100%;
+
+    button {
+        margin-top: 1rem;
+    }
+}

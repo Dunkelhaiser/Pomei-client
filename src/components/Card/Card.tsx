@@ -7,8 +7,8 @@ import ContextMenu from "../ContextMenu/ContextMenu";
 import useToggle from "../../hooks/useToggle/useToggle";
 
 interface Props {
-    title: string;
-    content: string;
+    title?: string;
+    content?: string;
     date: string;
     textLimit?: number;
 }
@@ -25,7 +25,7 @@ const Card: React.FC<Props> = ({ title, content, date, textLimit }) => {
     return (
         <div onClick={() => navigate("/")} role="button" tabIndex={0} className={`${CardStyles.card} ${expanded ? CardStyles.active : ""}`}>
             <div className={CardStyles.heading}>
-                <h3>{title}</h3>
+                <h3>{title || "Untitled"}</h3>
                 <FontAwesomeIcon
                     icon={faEllipsis}
                     className={`${CardStyles.options} ${expanded ? CardStyles.active : ""}`}
@@ -44,9 +44,11 @@ const Card: React.FC<Props> = ({ title, content, date, textLimit }) => {
                     ]}
                 />
             </div>
-            <p>{truncate(content, textLimit || 400)}</p>
+            <p>{content && truncate(content, textLimit || 400)}</p>
 
-            <span className={CardStyles.date}>{date}</span>
+            <span className={CardStyles.date}>
+                {new Date(date).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
+            </span>
         </div>
     );
 };

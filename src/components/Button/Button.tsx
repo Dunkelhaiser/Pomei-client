@@ -5,14 +5,16 @@ interface Props {
     color?: "primary" | "danger" | "neutral";
     icon?: JSX.Element;
     fontSize?: number;
-    type?: "normal" | "outline" | "text";
-    onClick: () => void;
+    type?: "button" | "submit" | "reset";
+    styleType?: "normal" | "outline" | "text";
+    onClick?: () => void;
 }
 
-const Button: React.FC<Props> = ({ label, color = "primary", fontSize = 1.2, type = "normal", icon, onClick }) => {
+const Button: React.FC<Props> = ({ label, color = "primary", fontSize = 1.2, type = "button", styleType = "normal", icon, onClick }) => {
     return (
         <button
-            className={`${ButtonStyles.button} ${ButtonStyles[color]} ${ButtonStyles[type]}`}
+            type={type}
+            className={`${ButtonStyles.button} ${ButtonStyles[color]} ${ButtonStyles[styleType]}`}
             onClick={onClick}
             style={{ fontSize: `${fontSize}rem` }}
         >

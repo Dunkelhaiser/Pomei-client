@@ -19,7 +19,7 @@ const Welcome = () => {
                 <Button
                     label="Skip"
                     color="neutral"
-                    type="text"
+                    styleType="text"
                     onClick={() => {
                         navigate("/home");
                         setVisited();

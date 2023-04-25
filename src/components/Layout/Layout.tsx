@@ -3,7 +3,7 @@ import LayoutStyles from "./Layout.module.scss";
 interface Props {
     title?: string;
     controls?: JSX.Element;
-    type?: "grid" | "masonry" | "centered";
+    type?: "grid" | "masonry" | "centered" | "default";
     className?: string;
     children: React.ReactNode;
 }
