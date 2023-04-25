@@ -32,6 +32,23 @@
     --color-active: var(--danger-dark);
 }
 
+.neutral {
+    --color: var(--text);
+    --color-hover: var(--text);
+    --color-active: var(--text);
+
+    opacity: 0.65;
+
+    &:hover,
+    &:focus-visible {
+        opacity: 0.55;
+    }
+
+    &:active {
+        opacity: 0.75;
+    }
+}
+
 .normal {
     color: var(--foreground);
     background-color: var(--color);
@@ -65,6 +82,7 @@
 }
 
 .text {
+    padding: 0.75em 0;
     font-weight: 700;
     color: var(--color);
     background-color: transparent;

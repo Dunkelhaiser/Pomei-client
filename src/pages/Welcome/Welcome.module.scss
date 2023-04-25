@@ -1,0 +1,24 @@
+@use "../../scss/abstract/mixins" as *;
+
+.welcome {
+    @include flex($align: center, $gap: 1rem);
+
+    max-width: 75%;
+    text-align: center;
+
+    .content {
+        font-size: 1.2rem;
+        opacity: 0.75;
+    }
+
+    .title {
+        font-size: 3rem;
+    }
+
+    .buttons {
+        @include flex($direction: row, $justify: space-around, $align: center, $gap: 1rem);
+
+        width: 100%;
+        margin-top: 1rem;
+    }
+}

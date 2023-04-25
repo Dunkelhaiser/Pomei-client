@@ -5,6 +5,7 @@ import Folders from "./pages/Folders/Folders";
 import Home from "./pages/Home/Home";
 import Notes from "./pages/Notes/Notes";
 import NotFound from "./pages/NotFound/NotFound";
+import Welcome from "./pages/Welcome/Welcome";
 import Wrapper from "./pages/Wrapper/Wrapper";
 import "./scss/styles.scss";
 
@@ -21,6 +22,8 @@ const router = createBrowserRouter(
             <Route path="bin" element={<Bin />} />
             <Route path="home" element={<Navigate to="/" />} />
             <Route path="index" element={<Navigate to="/" />} />
+            <Route path="welcome" element={<Welcome />} />
+
             <Route path="*" element={<NotFound />} />
         </Route>
     )

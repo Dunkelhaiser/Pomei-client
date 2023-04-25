@@ -2,7 +2,7 @@ import ButtonStyles from "./Button.module.scss";
 
 interface Props {
     label: string;
-    color?: "primary" | "danger";
+    color?: "primary" | "danger" | "neutral";
     icon?: JSX.Element;
     fontSize?: number;
     type?: "normal" | "outline" | "text";
