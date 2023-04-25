@@ -10,5 +10,10 @@ export default defineConfig({
         globals: true,
         environment: "jsdom",
         setupFiles: ["./src/setupTest.ts"],
+        css: {
+            modules: {
+                classNameStrategy: "non-scoped",
+            },
+        },
     },
 });
