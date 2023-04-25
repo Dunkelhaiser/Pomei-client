@@ -13,7 +13,7 @@ const Bin = () => {
                     label="Delete All"
                     color="danger"
                     fontSize={1}
-                    type="text"
+                    styleType="text"
                     icon={<FontAwesomeIcon icon={faTrash} />}
                     onClick={() => console.log("Deleted")}
                 />

@@ -25,38 +25,6 @@ const Home = () => {
                     <Card key={uuid()} title={note.title} content={note.content} date={note.date} textLimit={100} />
                 ))}
                 {notes.length < 1 && <p>No notes found.</p>}
-                {/* <Card
-                    title="Apps"
-                    content="Bitwarden Bitdefender PCloud/IceDrive/Google One/OneDrive"
-                    date="28th April, 2023"
-                    textLimit={100}
-                />
-                <Card
-                    title="Quotes"
-                    content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit necessitatibus veniam vero, voluptatem sint eum
-                recusandae eligendi minima quia earum porro eos doloribus minus ipsam, iste voluptas accusantium laudantium similique."
-                    date="28th April, 2023"
-                    textLimit={100}
-                />
-                <Card
-                    title="AHAHAHA"
-                    content="ihjfahfksahfoiaslkhfskahihjfahfksahfoiaslkhfskahfasokbc asfhasfnjkbas vkcasb cjiaskbv askjmfbv sakjvmb asvkj,vb sakjv,abs vkjm,as baskjvm asklafsnafs ,fsankjf,msafsanfasjkfas fkjasmf askjmf askf,mas fkjas,f askf,mm askf,an fkjas,n fkas,fn a dasnbdjaskb adskb fikj asbfkj afj.fasokbc asfhasfnjkbas vkcasb cjiaskbv askjmfbv sakjvmb asvkj,vb sakjv,abs vkjm,as baskjvm asklafsnafs ,fsankjf,msafsanfasjkfas fkjasmf askjmf askf,mas fkjas,f askf,mm askf,an fkjas,n fkas,fn a dasnbdjaskb adskb fikj asbfkj afj.s."
-                    date="28th April, 2023"
-                    textLimit={100}
-                />
-                <Card title="Ideas" content="WHERE ARE MY IDEAS" date="28th April, 2023" textLimit={100} />
-                <Card
-                    title="Apps"
-                    content="Bitwarden Bitdefender PCloud/IceDrive/Google One/OneDrive"
-                    date="28th April, 2023"
-                    textLimit={100}
-                />
-                <Card
-                    title="Apps"
-                    content="Bitwarden Bitdefender PCloud/IceDrive/Google One/OneDrive"
-                    date="28th April, 2023"
-                    textLimit={100}
-                /> */}
             </section>
             {user.loggedIn && (
                 <>
