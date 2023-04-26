@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -30,7 +30,12 @@ const Note = () => {
         setValue("content", note?.content);
     }, []);
 
+    const firstUpdate = useRef(true);
     useEffect(() => {
+        if (firstUpdate.current) {
+            firstUpdate.current = false;
+            return;
+        }
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         watch((value) => updateLocalNote({ ...value, id: getLocalNote(params.id!).id, date: getLocalNote(params.id!).date }));
     }, [watch]);

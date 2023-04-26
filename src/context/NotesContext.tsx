@@ -45,8 +45,12 @@ const NotesContextProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     };
 
     const updateLocalNote = (note: Note) => {
-        setNotes(notes.map((n) => (n.id === note.id ? note : n)));
-        localStorage.setItem("notes", JSON.stringify(notes.map((n) => (n.id === note.id ? note : n))));
+        const updatedNote = {
+            ...note,
+            modifyDate: String(new Date()),
+        };
+        setNotes(notes.map((n) => (n.id === note.id ? updatedNote : n)));
+        localStorage.setItem("notes", JSON.stringify(notes.map((n) => (n.id === note.id ? updatedNote : n))));
     };
 
     const copyLocalNote = (id: string) => {
