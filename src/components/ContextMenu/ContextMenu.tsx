@@ -12,10 +12,6 @@ interface Props {
 
 const ContextMenu: React.FC<Props> = ({ classRef, options, outsideClick, isVisible }) => {
     const menuRef = useRef<HTMLDivElement>(null);
-    const handleClick = (e: React.MouseEvent<HTMLSpanElement>, callback: () => void) => {
-        e.stopPropagation();
-        callback();
-    };
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -35,6 +31,7 @@ const ContextMenu: React.FC<Props> = ({ classRef, options, outsideClick, isVisib
         <AnimatePresence>
             {isVisible && (
                 <motion.div
+                    onClick={(e) => e.stopPropagation()}
                     ref={menuRef}
                     className={`${ContextMenuStyles.context_menu} ${classRef}`}
                     initial={{ opacity: 0 }}
@@ -45,7 +42,7 @@ const ContextMenu: React.FC<Props> = ({ classRef, options, outsideClick, isVisib
                     <ul>
                         {options?.map((option) => (
                             <li key={uuid()}>
-                                <span onClick={(e) => handleClick(e, option.onClick)} tabIndex={0} role="button">
+                                <span onClick={option.onClick} tabIndex={0} role="button">
                                     {option.label}
                                 </span>
                             </li>

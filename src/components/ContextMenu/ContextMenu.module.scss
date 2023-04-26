@@ -29,5 +29,10 @@
         &:not(:last-child) {
             margin-bottom: 0.75em;
         }
+
+        span {
+            display: inline-block;
+            width: 100%;
+        }
     }
 }
