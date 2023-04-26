@@ -51,12 +51,7 @@ const NotesContextProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     const copyLocalNote = (id: string) => {
         const note = getLocalNote(id);
-        const newNote = {
-            ...note,
-            id: uuid(),
-        };
-        setNotes([newNote, ...notes]);
-        localStorage.setItem("notes", JSON.stringify([newNote, ...notes]));
+        createLocalNote(note);
     };
 
     const values = useMemo(
