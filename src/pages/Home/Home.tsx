@@ -14,6 +14,9 @@ const Home = () => {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
     const { notes } = useContext(NotesContext);
+    const sortedNotes = [...notes].sort(
+        (a, b) => new Date(b.modificationDate || b.date).getTime() - new Date(a.modificationDate || a.date).getTime()
+    );
     return (
         <Layout title="Home">
             <div className={HomeStyles.heading}>
@@ -21,8 +24,15 @@ const Home = () => {
                 <FontAwesomeIcon icon={faPlus} className={HomeStyles.add_icon} onClick={() => navigate("/create_note")} />
             </div>
             <section className={HomeStyles.layout}>
-                {notes.map((note) => (
-                    <Card key={uuid()} id={note.id} title={note.title} content={note.content} date={note.date} textLimit={100} />
+                {sortedNotes.map((note) => (
+                    <Card
+                        key={uuid()}
+                        id={note.id}
+                        title={note.title}
+                        content={note.content}
+                        date={note.modificationDate || note.date}
+                        textLimit={100}
+                    />
                 ))}
                 {notes.length < 1 && <p>No notes found.</p>}
             </section>
