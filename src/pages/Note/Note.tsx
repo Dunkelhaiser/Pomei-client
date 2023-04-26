@@ -23,6 +23,9 @@ const Note = () => {
             throw Error("Note not found");
         }
         const note = getLocalNote(params.id);
+        if (!note) {
+            throw Error("Note not found");
+        }
         setValue("title", note?.title);
         setValue("content", note?.content);
     }, []);

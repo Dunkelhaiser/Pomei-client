@@ -17,7 +17,7 @@ const router = createBrowserRouter(
         <Route path="/" element={<Wrapper />}>
             <Route index element={<Home />} />
             <Route path="notes" element={<Notes />} />
-            <Route path="note/:id" element={<Note />} />
+            <Route path="note/:id" element={<Note />} errorElement={<NotFound />} />
             <Route path="create_note" element={<CreateNote />} />
             <Route element={<ProtectedRoutes />}>
                 <Route path="folders">
