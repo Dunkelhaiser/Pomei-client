@@ -32,10 +32,10 @@ const Note = () => {
 
     const firstUpdate = useRef(true);
     useEffect(() => {
-        if (firstUpdate.current) {
-            firstUpdate.current = false;
-            return;
-        }
+        // if (firstUpdate.current) {
+        //     firstUpdate.current = false;
+        //     return;
+        // }
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         watch((value) => updateLocalNote({ ...value, id: getLocalNote(params.id!).id, date: getLocalNote(params.id!).date }));
     }, [watch]);
