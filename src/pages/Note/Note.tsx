@@ -48,7 +48,7 @@ const Note = () => {
                     fontSize={2.5}
                     fontWeight={700}
                     placeholder="Title"
-                    value={getValues("title") || ""}
+                    value={getValues("title")}
                     styleType="text"
                     register={register}
                 />
@@ -66,7 +66,7 @@ const Note = () => {
                     }}
                 />
             </section>
-            <Textarea name="content" rows={15} value={getValues("content") || ""} placeholder="Enter your note..." register={register} />
+            <Textarea name="content" rows={15} value={getValues("content")} placeholder="Enter your note..." register={register} />
         </Layout>
     );
 };
