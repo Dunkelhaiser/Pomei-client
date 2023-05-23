@@ -8,6 +8,8 @@ import Home from "./pages/Home/Home";
 import Note from "./pages/Note/Note";
 import Notes from "./pages/Notes/Notes";
 import NotFound from "./pages/NotFound/NotFound";
+import SignIn from "./pages/SignIn/SignIn";
+import SignUp from "./pages/SignUp/SignUp";
 import Welcome from "./pages/Welcome/Welcome";
 import Wrapper from "./pages/Wrapper/Wrapper";
 import "./scss/styles.scss";
@@ -26,9 +28,12 @@ const router = createBrowserRouter(
                 </Route>
                 <Route path="archive" element={<Archive />} />
                 <Route path="bin" element={<Bin />} />
+                <Route path="settings" element={<Home />} />
             </Route>
             <Route path="home" element={<Navigate to="/" />} />
             <Route path="index" element={<Navigate to="/" />} />
+            <Route path="sign_in" element={<SignIn />} />
+            <Route path="sign_up" element={<SignUp />} />
             <Route path="welcome" element={<Welcome />} />
 
             <Route path="*" element={<NotFound />} />

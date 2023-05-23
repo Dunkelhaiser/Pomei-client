@@ -1,13 +1,35 @@
-.line {
-    padding: 0.1em 0.5em;
+@use "../../scss/abstract/mixins" as *;
 
-    font-size: 1.5rem;
+.wrapper {
+    position: relative;
+    width: 100%;
+}
+
+span.error {
+    position: absolute;
+    top: 2.5rem;
+    left: 0.5em;
+
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--danger);
+}
+
+.line {
+    padding: 0.5em;
+
     font-weight: 500;
 
+    opacity: 0.9;
     background-color: transparent;
     border: none;
     border-bottom: 0.0625rem solid var(--text);
     outline: none;
+
+    &::placeholder {
+        color: var(--text);
+        opacity: 0.5;
+    }
 }
 
 .normal {
@@ -26,4 +48,11 @@
     background-color: transparent;
     border: none;
     outline: none;
+}
+
+.nromal,
+.line {
+    &.error {
+        border-color: var(--danger-dark);
+    }
 }

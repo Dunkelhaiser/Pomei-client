@@ -7,8 +7,8 @@ import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import Layout from "../../components/Layout/Layout";
 import Textarea from "../../components/Textarea/Textarea";
-import Form from "../../components/Form/Form";
 import { NoteForm } from "../../models/Note";
+import Styles from "./CreateNote.module.scss";
 
 const CreateNote = () => {
     const navigate = useNavigate();
@@ -23,11 +23,11 @@ const CreateNote = () => {
 
     return (
         <Layout title="Create Note">
-            <Form onSubmit={handleSubmit(createNoteHandler)}>
+            <form onSubmit={handleSubmit(createNoteHandler)} className={Styles.form}>
                 <Input name="title" placeholder="Title" styleType="text" register={register} />
                 <Textarea name="content" rows={15} placeholder="Enter your note..." register={register} />
                 <Button label="Create" type="submit" />
-            </Form>
+            </form>
         </Layout>
     );
 };

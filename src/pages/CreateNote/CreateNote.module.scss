@@ -1,0 +1,20 @@
+@use "../../scss/abstract/mixins" as *;
+@use "../../scss/abstract/screen-queries" as *;
+
+.form {
+    @include flex($gap: 1rem);
+
+    width: 100%;
+
+    button {
+        margin-top: 1rem;
+    }
+
+    @media ($phone) {
+        & > button,
+        & > input,
+        & > textarea {
+            width: 100%;
+        }
+    }
+}
