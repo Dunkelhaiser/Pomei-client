@@ -1,10 +1,11 @@
+import Layout from "../../components/Layout/Layout";
 import Loader from "../../components/Loader/Loader";
 
 const Loading = () => {
     return (
-        <section className="centered">
+        <Layout type="centered">
             <Loader />
-        </section>
+        </Layout>
     );
 };
 export default Loading;
