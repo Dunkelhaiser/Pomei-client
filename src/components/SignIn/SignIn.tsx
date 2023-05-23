@@ -6,7 +6,6 @@ import Button from "../Button/Button";
 import Form, { InputSection } from "../Form/Form";
 import Input from "../Input/Input";
 import PasswordField from "../PasswordField/PasswordField";
-import Styles from "./SignIn.module.scss";
 
 interface SignInForm {
     username: string;
@@ -35,20 +34,20 @@ const SignIn: React.FC = () => {
         <Form title="Sign In" onSubmit={handleSubmit(signIn)}>
             <InputSection>
                 <Input placeholder="Username/Email" styleType="line" register={register} name="username" errors={errors.username} />
-                <div className={Styles.password_section}>
-                    <PasswordField
-                        placeholder="Password"
-                        type="password"
-                        styleType="line"
-                        register={register}
-                        name="password"
-                        errors={errors.password}
-                    />
-                    <Link to="/password_reset">Forgot Password</Link>
-                </div>
+                <PasswordField
+                    placeholder="Password"
+                    type="password"
+                    styleType="line"
+                    register={register}
+                    name="password"
+                    errors={errors.password}
+                />
             </InputSection>
             <Button label="Sign In" type="submit" />
             <Link to="/sign_up">Don&apos;t have an account? Sign up now!</Link>
+            <Link to="/password_reset" style={{ fontSize: "0.9rem" }}>
+                Forgot Password
+            </Link>
         </Form>
     );
 };

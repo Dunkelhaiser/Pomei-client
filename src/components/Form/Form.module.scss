@@ -57,7 +57,7 @@
 }
 
 .input_section {
-    @include flex($gap: 1.5rem);
+    @include flex($gap: 1rem);
 
     margin-bottom: 0.75rem;
 }

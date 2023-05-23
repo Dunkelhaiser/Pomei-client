@@ -1,14 +1,16 @@
 @use "../../scss/abstract/mixins" as *;
 
 .wrapper {
+    @include flex($gap: 0.5rem);
+
     position: relative;
     width: 100%;
 }
 
 span.error {
-    position: absolute;
-    top: 2.5rem;
-    left: 0.5em;
+    // position: absolute;
+    // top: 2.5rem;
+    // left: 0.5em;
 
     font-size: 0.85rem;
     font-weight: 500;
