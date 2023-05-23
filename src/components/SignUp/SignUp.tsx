@@ -19,7 +19,7 @@ const SignUp: React.FC = () => {
             username: zod
                 .string()
                 .min(6, { message: "Username must be at least 6 characters long" })
-                .max(36, { message: "Username must be at maximum 36 characters long" }),
+                .max(20, { message: "Username must be at maximum 20 characters long" }),
             email: zod.string().email(),
             password: zod
                 .string()
