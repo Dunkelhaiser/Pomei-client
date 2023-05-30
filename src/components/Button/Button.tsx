@@ -1,4 +1,4 @@
-import ButtonStyles from "./Button.module.scss";
+import Styles from "./Button.module.scss";
 
 interface Props {
     label: string;
@@ -14,7 +14,7 @@ const Button: React.FC<Props> = ({ label, color = "primary", fontSize = 1.2, typ
     return (
         <button
             type={type}
-            className={`${ButtonStyles.button} ${ButtonStyles[color]} ${ButtonStyles[styleType]}`}
+            className={`${Styles.button} ${Styles[color]} ${Styles[styleType]}`}
             onClick={onClick}
             style={{ fontSize: `${fontSize}rem` }}
         >

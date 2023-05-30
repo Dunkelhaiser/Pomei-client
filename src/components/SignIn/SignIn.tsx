@@ -1,32 +1,28 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
-import { ZodType, z as zod } from "zod";
+import { z as zod } from "zod";
 import Button from "../Button/Button";
 import Form, { InputSection } from "../Form/Form";
 import Input from "../Input/Input";
 import PasswordField from "../PasswordField/PasswordField";
 
-interface SignInForm {
-    username: string;
-    password: string;
-}
-
 const SignIn: React.FC = () => {
-    const schema: ZodType<SignInForm> = zod.object({
-        username: zod.string().min(1, { message: "Enter your username or email" }),
-        password: zod.string().min(1, { message: "Enter your password" }),
+    const schema = zod.object({
+        username: zod.string().nonempty({ message: "Enter your username or email" }),
+        password: zod.string().nonempty({ message: "Enter your password" }),
     });
+
+    type SignInForm = zod.infer<typeof schema>;
+
     const {
         register,
         handleSubmit,
         reset,
-        getValues,
         formState: { errors },
     } = useForm<SignInForm>({ resolver: zodResolver(schema), mode: "onBlur" });
 
-    const signIn = () => {
-        const userData = { username: getValues("username"), password: getValues("password") };
+    const signIn = (userData: SignInForm) => {
         console.log(userData);
         reset();
     };

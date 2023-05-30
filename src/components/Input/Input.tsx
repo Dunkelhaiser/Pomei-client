@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { FieldError, UseFormRegister } from "react-hook-form";
-import InputStyles from "./Input.module.scss";
+import Styles from "./Input.module.scss";
 
 interface Props {
     name?: string;
@@ -29,16 +29,16 @@ const Input: React.FC<Props> = ({
     const isRegistered = register !== undefined && name !== undefined;
 
     return (
-        <div className={InputStyles.wrapper}>
+        <div className={Styles.wrapper}>
             <input
                 style={{ fontSize: `${fontSize}rem`, fontWeight }}
                 type={type}
                 value={value}
                 placeholder={placeholder}
                 {...(isRegistered ? register(name) : null)}
-                className={`${InputStyles.input} ${InputStyles[styleType]} ${errors ? InputStyles.error : ""}`}
+                className={`${Styles.input} ${Styles[styleType]} ${errors ? Styles.error : ""}`}
             />
-            {errors && <span className={InputStyles.error}>{errors.message}</span>}
+            {errors && <span className={Styles.error}>{errors.message}</span>}
         </div>
     );
 };

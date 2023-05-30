@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { v4 as uuid } from "uuid";
-import ContextMenuStyles from "./ContextMenu.module.scss";
+import Styles from "./ContextMenu.module.scss";
 
 interface Props {
     classRef: string;
@@ -33,7 +33,7 @@ const ContextMenu: React.FC<Props> = ({ classRef, options, outsideClick, isVisib
                 <motion.div
                     onClick={(e) => e.stopPropagation()}
                     ref={menuRef}
-                    className={`${ContextMenuStyles.context_menu} ${classRef}`}
+                    className={`${Styles.context_menu} ${classRef}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}

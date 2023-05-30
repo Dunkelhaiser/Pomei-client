@@ -1,20 +1,13 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ZodType, z as zod } from "zod";
+import { z as zod } from "zod";
 import { Link } from "react-router-dom";
 import Button from "../Button/Button";
 import Form, { InputSection } from "../Form/Form";
 import Input from "../Input/Input";
 
-interface SignUpForm {
-    username: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-}
-
 const SignUp: React.FC = () => {
-    const schema: ZodType<SignUpForm> = zod
+    const schema = zod
         .object({
             username: zod
                 .string()
@@ -25,27 +18,23 @@ const SignUp: React.FC = () => {
                 .string()
                 .min(6, { message: "Password must be at least 6 characters long" })
                 .max(36, { message: "Password must be at maximum 36 characters long" }),
-            confirmPassword: zod.string().min(1, { message: "Confirm your password" }),
+            confirmPassword: zod.string().nonempty({ message: "Confirm your password" }),
         })
         .refine((schemaData) => schemaData.password === schemaData.confirmPassword, {
             message: "Passwords must match",
             path: ["confirmPassword"],
         });
+
+    type SignUpForm = zod.infer<typeof schema>;
+
     const {
         register,
         handleSubmit,
         reset,
-        getValues,
         formState: { errors },
     } = useForm<SignUpForm>({ resolver: zodResolver(schema), mode: "onBlur" });
 
-    const signUp = () => {
-        const userData = {
-            username: getValues("username"),
-            email: getValues("email"),
-            password: getValues("password"),
-            confirmPassword: getValues("confirmPassword"),
-        };
+    const signUp = (userData: SignUpForm) => {
         console.log(userData);
         reset();
     };

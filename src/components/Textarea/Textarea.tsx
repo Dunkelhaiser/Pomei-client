@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { UseFormRegister } from "react-hook-form";
-import TextareaStyles from "./Textarea.module.scss";
+import Styles from "./Textarea.module.scss";
 
 interface Props {
     name?: string;
@@ -19,7 +19,7 @@ const Textarea: React.FC<Props> = ({ placeholder, value, rows = 5, register, nam
             value={value}
             placeholder={placeholder}
             {...(isRegistered ? register(name) : null)}
-            className={TextareaStyles.textarea}
+            className={Styles.textarea}
         />
     );
 };

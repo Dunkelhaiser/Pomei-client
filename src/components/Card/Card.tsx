@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { truncate } from "../../utils/truncate/truncate";
-import CardStyles from "./Card.module.scss";
+import Styles from "./Card.module.scss";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import useToggle from "../../hooks/useToggle/useToggle";
 import { UserContext } from "../../context/UserContext";
@@ -33,18 +33,18 @@ const Card: React.FC<Props> = ({ title, content, date, textLimit, id }) => {
             onClick={() => navigate(`/note/${id}`)}
             role="button"
             tabIndex={0}
-            className={`${CardStyles.card} ${expanded ? CardStyles.active : ""}`}
+            className={`${Styles.card} ${expanded ? Styles.active : ""}`}
         >
-            <div className={CardStyles.heading}>
+            <div className={Styles.heading}>
                 <h3>{title || "Untitled"}</h3>
                 <FontAwesomeIcon
                     icon={faEllipsis}
-                    className={`${CardStyles.options} ${expanded ? CardStyles.active : ""}`}
+                    className={`${Styles.options} ${expanded ? Styles.active : ""}`}
                     role="button"
                     onClick={expand}
                 />
                 <ContextMenu
-                    classRef={CardStyles.context_menu}
+                    classRef={Styles.context_menu}
                     isVisible={expanded}
                     outsideClick={() => setTimeout(() => setExpanded(false), 150)}
                     options={
@@ -64,7 +64,7 @@ const Card: React.FC<Props> = ({ title, content, date, textLimit, id }) => {
             </div>
             <p>{content && truncate(content, textLimit || 400)}</p>
 
-            <span className={CardStyles.date}>
+            <span className={Styles.date}>
                 {new Date(date).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
             </span>
         </div>

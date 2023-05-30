@@ -25,18 +25,9 @@ const PasswordField: React.FC<Props> = ({ name, placeholder, value, fontSize, fo
         setShowPsd(!showPsd);
     };
 
-    const eyeOpened = showPsd && (
+    const eyeIcon = (
         <FontAwesomeIcon
-            icon={faEye}
-            className={Styles.eye}
-            onClick={togglePsw}
-            tabIndex={0}
-            onKeyDown={(e) => handleFocus(e, togglePsw)}
-        />
-    );
-    const eyeClosed = !showPsd && (
-        <FontAwesomeIcon
-            icon={faEyeSlash}
+            icon={showPsd ? faEye : faEyeSlash}
             className={Styles.eye}
             onClick={togglePsw}
             tabIndex={0}
@@ -56,7 +47,7 @@ const PasswordField: React.FC<Props> = ({ name, placeholder, value, fontSize, fo
                 register={register}
                 errors={errors}
             />
-            {showPsd ? eyeOpened : eyeClosed}
+            {eyeIcon}
         </div>
     );
 };
