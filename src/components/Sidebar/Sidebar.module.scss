@@ -1,22 +1,29 @@
 @use "../../scss/abstract/mixins" as *;
 @use "../../scss/abstract/screen-queries" as *;
 
+.container,
 .sidebar {
-    @include flex($gap: 3rem);
-
     position: fixed;
+    z-index: 9999;
     top: 0;
     bottom: 0;
     left: 0;
+}
+
+.container,
+nav,
+li {
+    width: 100%;
+}
+
+.sidebar {
+    @include flex($gap: 3rem);
 
     height: 100%;
     padding: 3.25rem 1.5rem 3rem 3.25rem;
-
     background-color: var(--primary);
 
     li {
-        width: 100%;
-
         svg {
             font-size: 1.25rem;
         }
@@ -74,30 +81,10 @@
                 padding: 0.75rem;
             }
         }
-        @media ($phone) {
-            width: auto;
-        }
     }
 
     @media ($tablet) {
         padding: 3rem 1.5rem 2rem;
-    }
-
-    @media ($phone) {
-        @include flex($direction: row, $gap: 0);
-
-        z-index: 9999;
-        top: auto;
-        right: 0;
-        bottom: 0;
-        left: 0;
-
-        height: auto;
-        padding: 1rem 1.5rem;
-
-        & > *:not(.phone_nav) {
-            display: none;
-        }
     }
 }
 
@@ -120,18 +107,11 @@
     &:last-child {
         margin-top: auto;
     }
-
-    @media ($phone) {
-        @include flex($direction: row, $justify: space-between);
-
-        width: 100%;
-    }
 }
 
-.phone_nav {
-    display: none;
-    width: 100%;
-    @media ($phone) {
-        display: flex;
-    }
+.hamburger {
+    position: absolute;
+    z-index: 100;
+    top: 2.25rem;
+    right: 1.5rem;
 }

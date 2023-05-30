@@ -15,9 +15,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, NavLink } from "react-router-dom";
 import { useContext } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useMediaQuery } from "react-responsive";
 import Styles from "./Sidebar.module.scss";
 import Logo from "../../images/Logo.svg";
 import { UserContext } from "../../context/UserContext";
+import Overlay from "../Overlay/Overlay";
+import useToggle from "../../hooks/useToggle/useToggle";
+import Hamburger from "../Hamburger/Hamburger";
 
 interface MenuItem {
     to: string;
@@ -26,7 +31,7 @@ interface MenuItem {
     disabled?: boolean;
 }
 
-const Sidebar: React.FC = () => {
+const Menu: React.FC = () => {
     const { user } = useContext(UserContext);
 
     const menuItems: MenuItem[] = [
@@ -59,7 +64,6 @@ const Sidebar: React.FC = () => {
             disabled: !user.loggedIn,
         },
     ];
-
     return (
         <aside className={Styles.sidebar}>
             <Link to="/" className={Styles.logo}>
@@ -77,46 +81,6 @@ const Sidebar: React.FC = () => {
                             </NavLink>
                         </li>
                     ))}
-                    {/* <li>
-                        <NavLink to="/" end className={(navData) => (navData.isActive ? Styles.active : "")}>
-                            <FontAwesomeIcon icon={faHome} /> Home
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/notes" className={(navData) => (navData.isActive ? Styles.active : "")}>
-                            <FontAwesomeIcon icon={faNoteSticky} /> Notes
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/folders"
-                            className={
-                                user.loggedIn ? (navData) => `${navData.isActive ? Styles.active : ""}` : Styles.disabled
-                            }
-                        >
-                            <FontAwesomeIcon icon={faFolder} /> Folders
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/archive"
-                            className={
-                                user.loggedIn ? (navData) => `${navData.isActive ? Styles.active : ""}` : Styles.disabled
-                            }
-                        >
-                            <FontAwesomeIcon icon={faBoxArchive} /> Archive
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/bin"
-                            className={
-                                user.loggedIn ? (navData) => `${navData.isActive ? Styles.active : ""}` : Styles.disabled
-                            }
-                        >
-                            <FontAwesomeIcon icon={faTrash} /> Bin
-                        </NavLink>
-                    </li> */}
                 </ul>
             </nav>
             <ul className={Styles.navigation}>
@@ -134,58 +98,35 @@ const Sidebar: React.FC = () => {
                     </NavLink>
                 </li>
             </ul>
-            <nav className={Styles.phone_nav}>
-                <ul className={Styles.navigation}>
-                    <li>
-                        <NavLink to="/" end className={(navData) => (navData.isActive ? Styles.active : "")}>
-                            <FontAwesomeIcon icon={faHome} />
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/notes" className={(navData) => (navData.isActive ? Styles.active : "")}>
-                            <FontAwesomeIcon icon={faNoteSticky} />
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/folders"
-                            className={user.loggedIn ? (navData) => `${navData.isActive ? Styles.active : ""}` : Styles.disabled}
-                        >
-                            <FontAwesomeIcon icon={faFolder} />
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/archive"
-                            className={user.loggedIn ? (navData) => `${navData.isActive ? Styles.active : ""}` : Styles.disabled}
-                        >
-                            <FontAwesomeIcon icon={faBoxArchive} />
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/bin"
-                            className={user.loggedIn ? (navData) => `${navData.isActive ? Styles.active : ""}` : Styles.disabled}
-                        >
-                            <FontAwesomeIcon icon={faTrash} aria-label="Sign In" />
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/settings"
-                            className={user.loggedIn ? (navData) => `${navData.isActive ? Styles.active : ""}` : Styles.disabled}
-                        >
-                            <FontAwesomeIcon icon={faGear} aria-label="Sign In" />
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/sign_in" className={(navData) => (navData.isActive ? Styles.active : "")}>
-                            <FontAwesomeIcon icon={faRightToBracket} aria-label="Sign In" />
-                        </NavLink>
-                    </li>
-                </ul>
-            </nav>
         </aside>
+    );
+};
+
+const Sidebar: React.FC = () => {
+    const [opened, setOpened] = useToggle(false);
+    const isPhone = useMediaQuery({ query: "(max-width: 600px)" });
+
+    return isPhone ? (
+        <>
+            <Hamburger onClick={() => setOpened()} expanded={opened} className={Styles.hamburger} />
+            <AnimatePresence>
+                {opened ? (
+                    <Overlay onClick={() => setOpened(false)}>
+                        <motion.div
+                            className={Styles.container}
+                            initial={{ transform: "translateX(-100%)" }}
+                            animate={{ transform: "translateX(0)" }}
+                            exit={{ transform: "translateX(-100%)" }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <Menu />
+                        </motion.div>
+                    </Overlay>
+                ) : null}
+            </AnimatePresence>
+        </>
+    ) : (
+        <Menu />
     );
 };
 export default Sidebar;
