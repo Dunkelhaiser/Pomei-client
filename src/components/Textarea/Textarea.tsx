@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useEffect } from "react";
 import { UseFormRegister } from "react-hook-form";
 import Styles from "./Textarea.module.scss";
 
@@ -11,12 +12,27 @@ interface Props {
     register?: UseFormRegister<any>;
 }
 
-const Textarea: React.FC<Props> = ({ placeholder, value, rows = 5, register, name }) => {
+const Textarea: React.FC<Props> = ({ placeholder, value, rows, register, name }) => {
     const isRegistered = register !== undefined && name !== undefined;
+
+    const resize = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.currentTarget) {
+            e.currentTarget.style.height = "auto";
+            e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
+        }
+    };
+
+    useEffect(() => {
+        resize({
+            currentTarget: document.querySelector(`.${Styles.textarea}`) as HTMLTextAreaElement,
+        } as React.KeyboardEvent<HTMLTextAreaElement>);
+    }, []);
+
     return (
         <textarea
             rows={rows}
             value={value}
+            onKeyUp={resize}
             placeholder={placeholder}
             {...(isRegistered ? register(name) : null)}
             className={Styles.textarea}

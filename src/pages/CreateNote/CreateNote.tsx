@@ -25,7 +25,7 @@ const CreateNote = () => {
         <Layout title="Create Note">
             <form onSubmit={handleSubmit(createNoteHandler)} className={Styles.form}>
                 <Input name="title" placeholder="Title" styleType="text" register={register} />
-                <Textarea name="content" rows={15} placeholder="Enter your note..." register={register} />
+                <Textarea name="content" placeholder="Enter your note..." register={register} />
                 <Button label="Create" type="submit" />
             </form>
         </Layout>

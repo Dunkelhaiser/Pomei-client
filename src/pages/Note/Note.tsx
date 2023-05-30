@@ -15,7 +15,7 @@ import NoteStyles from "./Note.module.scss";
 const Note = () => {
     const params = useParams();
     const navigate = useNavigate();
-    const { register, setValue, getValues, watch } = useForm<NoteForm>();
+    const { register, setValue, watch } = useForm<NoteForm>();
     const { getLocalNote, updateLocalNote, deleteLocalNote } = useContext(NotesContext);
 
     useEffect(() => {
@@ -43,15 +43,7 @@ const Note = () => {
     return (
         <Layout>
             <section className={NoteStyles.header}>
-                <Input
-                    name="title"
-                    fontSize={2.5}
-                    fontWeight={700}
-                    placeholder="Title"
-                    value={getValues("title")}
-                    styleType="text"
-                    register={register}
-                />
+                <Input name="title" fontSize={2.5} fontWeight={700} placeholder="Title" styleType="text" register={register} />
                 <Button
                     label="Delete"
                     color="danger"
@@ -66,7 +58,7 @@ const Note = () => {
                     }}
                 />
             </section>
-            <Textarea name="content" rows={15} value={getValues("content")} placeholder="Enter your note..." register={register} />
+            <Textarea name="content" placeholder="Enter your note..." register={register} />
         </Layout>
     );
 };
