@@ -31,7 +31,11 @@ interface MenuItem {
     disabled?: boolean;
 }
 
-const Menu: React.FC = () => {
+interface MenuProps {
+    close?: () => void;
+}
+
+const Menu: React.FC<MenuProps> = ({ close }) => {
     const { user } = useContext(UserContext);
 
     const menuItems: MenuItem[] = [
@@ -74,6 +78,7 @@ const Menu: React.FC = () => {
                     {menuItems.map((item) => (
                         <li key={item.to}>
                             <NavLink
+                                onClick={close}
                                 to={item.to}
                                 className={!item.disabled ? (navData) => `${navData.isActive ? Styles.active : ""}` : Styles.disabled}
                             >
@@ -86,6 +91,7 @@ const Menu: React.FC = () => {
             <ul className={Styles.navigation}>
                 <li>
                     <NavLink
+                        onClick={close}
                         to="/settings"
                         className={user.loggedIn ? (navData) => `${navData.isActive ? Styles.active : ""}` : Styles.disabled}
                     >
@@ -93,7 +99,7 @@ const Menu: React.FC = () => {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/sign_in" className={(navData) => (navData.isActive ? Styles.active : "")}>
+                    <NavLink to="/sign_in" onClick={close} className={(navData) => (navData.isActive ? Styles.active : "")}>
                         <FontAwesomeIcon icon={faRightToBracket} aria-label="Sign In" /> Sign In
                     </NavLink>
                 </li>
@@ -119,7 +125,7 @@ const Sidebar: React.FC = () => {
                             exit={{ transform: "translateX(-100%)" }}
                             transition={{ duration: 0.3 }}
                         >
-                            <Menu />
+                            <Menu close={() => setOpened(false)} />
                         </motion.div>
                     </Overlay>
                 ) : null}
