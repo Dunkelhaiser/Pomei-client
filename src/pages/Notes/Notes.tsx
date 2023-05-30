@@ -11,20 +11,22 @@ const Notes = () => {
     const navigate = useNavigate();
     const { notes } = useContext(NotesContext);
     return (
-        <Layout title="Notes" type="masonry">
+        <>
             <FloatingIcon icon={faPlus} onClick={() => navigate("/create_note")} />
-            {notes.map((note) => (
-                <Card
-                    key={note.id}
-                    id={note.id}
-                    title={note.title}
-                    content={note.content}
-                    date={note.modificationDate || note.date}
-                    textLimit={400}
-                />
-            ))}
-            {notes.length < 1 && <Text text="No notes found." type="p" />}
-        </Layout>
+            <Layout title="Notes" type="masonry">
+                {notes.map((note) => (
+                    <Card
+                        key={note.id}
+                        id={note.id}
+                        title={note.title}
+                        content={note.content}
+                        date={note.modificationDate || note.date}
+                        textLimit={400}
+                    />
+                ))}
+                {notes.length < 1 && <Text text="No notes found." type="p" />}
+            </Layout>
+        </>
     );
 };
 export default Notes;

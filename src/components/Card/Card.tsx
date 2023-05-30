@@ -8,6 +8,7 @@ import ContextMenu from "../ContextMenu/ContextMenu";
 import useToggle from "../../hooks/useToggle/useToggle";
 import { UserContext } from "../../context/UserContext";
 import { NotesContext } from "../../context/NotesContext";
+import { handleFocus } from "../../utils/handleFocus/handleFocus";
 
 interface Props {
     title?: string;
@@ -33,6 +34,7 @@ const Card: React.FC<Props> = ({ title, content, date, textLimit, id }) => {
             onClick={() => navigate(`/note/${id}`)}
             role="button"
             tabIndex={0}
+            onKeyDown={(e) => handleFocus(e, () => navigate(`/note/${id}`))}
             className={`${Styles.card} ${expanded ? Styles.active : ""}`}
         >
             <div className={Styles.heading}>
