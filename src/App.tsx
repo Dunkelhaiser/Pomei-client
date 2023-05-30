@@ -1,18 +1,20 @@
+import { lazy } from "react";
 import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
 import ProtectedRoutes from "./context/ProtectedRoutes";
-import Archive from "./pages/Archive/Archive";
-import Bin from "./pages/Bin/Bin";
-import CreateNote from "./pages/CreateNote/CreateNote";
-import Folders from "./pages/Folders/Folders";
 import Home from "./pages/Home/Home";
-import Note from "./pages/Note/Note";
-import Notes from "./pages/Notes/Notes";
-import NotFound from "./pages/NotFound/NotFound";
-import SignIn from "./pages/SignIn/SignIn";
-import SignUp from "./pages/SignUp/SignUp";
-import Welcome from "./pages/Welcome/Welcome";
 import Wrapper from "./pages/Wrapper/Wrapper";
 import "./scss/styles.scss";
+
+const Archive = lazy(() => import("./pages/Archive/Archive"));
+const Bin = lazy(() => import("./pages/Bin/Bin"));
+const CreateNote = lazy(() => import("./pages/CreateNote/CreateNote"));
+const Folders = lazy(() => import("./pages/Folders/Folders"));
+const Note = lazy(() => import("./pages/Note/Note"));
+const Notes = lazy(() => import("./pages/Notes/Notes"));
+const NotFound = lazy(() => import("./pages/NotFound/NotFound"));
+const SignUp = lazy(() => import("./pages/SignUp/SignUp"));
+const SignIn = lazy(() => import("./pages/SignIn/SignIn"));
+const Welcome = lazy(() => import("./pages/Welcome/Welcome"));
 
 const router = createBrowserRouter(
     createRoutesFromElements(
