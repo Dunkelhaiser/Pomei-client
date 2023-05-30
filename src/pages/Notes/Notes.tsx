@@ -1,17 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Card from "../../components/Card/Card";
 import Layout from "../../components/Layout/Layout";
 import { NotesContext } from "../../context/NotesContext";
 import Text from "../../components/Text/Text";
+import FloatingIcon from "../../components/FloatingIcon/FloatingIcon";
 
 const Notes = () => {
     const navigate = useNavigate();
     const { notes } = useContext(NotesContext);
     return (
-        <Layout title="Notes" controls={<FontAwesomeIcon icon={faPlus} onClick={() => navigate("/create_note")} />} type="masonry">
+        <Layout title="Notes" type="masonry">
+            <FloatingIcon icon={faPlus} onClick={() => navigate("/create_note")} />
             {notes.map((note) => (
                 <Card
                     key={note.id}

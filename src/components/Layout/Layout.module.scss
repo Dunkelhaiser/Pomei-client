@@ -10,7 +10,7 @@
 
     margin-bottom: 1.75rem;
 
-    svg {
+    & > svg {
         cursor: pointer;
         font-size: 1.5rem;
         transition: var(--hover);

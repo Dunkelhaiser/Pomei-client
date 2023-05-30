@@ -1,11 +1,12 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Folder from "../../components/Folder/Folder";
 import Layout from "../../components/Layout/Layout";
+import FloatingIcon from "../../components/FloatingIcon/FloatingIcon";
 
 const Folders = () => {
     return (
-        <Layout title="Folders" controls={<FontAwesomeIcon icon={faPlus} />} type="grid">
+        <Layout title="Folders" type="grid">
+            <FloatingIcon icon={faPlus} />
             <Folder title="My Folder" />
             <Folder title="Homework" color="purple" />
             <Folder title="Secret" color="green" />
