@@ -12,10 +12,15 @@ interface Props {
 }
 
 const Textarea: React.FC<Props> = ({ placeholder, value, rows = 5, register, name }) => {
-    return register !== undefined && name !== undefined ? (
-        <textarea rows={rows} value={value} placeholder={placeholder} {...register(name)} className={TextareaStyles.textarea} />
-    ) : (
-        <textarea rows={rows} value={value} placeholder={placeholder} className={TextareaStyles.textarea} />
+    const isRegistered = register !== undefined && name !== undefined;
+    return (
+        <textarea
+            rows={rows}
+            value={value}
+            placeholder={placeholder}
+            {...(isRegistered ? register(name) : null)}
+            className={TextareaStyles.textarea}
+        />
     );
 };
 export default Textarea;

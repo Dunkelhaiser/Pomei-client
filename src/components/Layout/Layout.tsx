@@ -17,7 +17,7 @@ const Layout: React.FC<Props> = ({ title, controls, type, className, children })
                     {controls && controls}
                 </div>
             )}
-            <section className={`${LayoutStyles.layout} ${className} ${type ? LayoutStyles[type] : null}`}>{children}</section>
+            <section className={`${className} ${type ? LayoutStyles[type] : null}`}>{children}</section>
         </>
     );
 };

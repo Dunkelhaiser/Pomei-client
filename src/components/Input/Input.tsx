@@ -26,29 +26,21 @@ const Input: React.FC<Props> = ({
     register,
     errors,
 }) => {
-    return register !== undefined && name !== undefined ? (
+    const isRegistered = register !== undefined && name !== undefined;
+
+    return (
         <div className={InputStyles.wrapper}>
             <input
                 style={{ fontSize: `${fontSize}rem`, fontWeight }}
                 type={type}
                 value={value}
                 placeholder={placeholder}
-                {...register(name)}
-                className={`${InputStyles.input} ${InputStyles[styleType]} ${errors ? InputStyles.error : ""}`}
-            />
-            {errors && <span className={InputStyles.error}>{errors.message}</span>}
-        </div>
-    ) : (
-        <div className={InputStyles.wrapper}>
-            <input
-                type={type}
-                style={{ fontSize: `${fontSize}rem`, fontWeight }}
-                value={value}
-                placeholder={placeholder}
+                {...(isRegistered ? register(name) : null)}
                 className={`${InputStyles.input} ${InputStyles[styleType]} ${errors ? InputStyles.error : ""}`}
             />
             {errors && <span className={InputStyles.error}>{errors.message}</span>}
         </div>
     );
 };
+
 export default Input;
