@@ -1,4 +1,8 @@
+@use "../../scss/base/shared" as *;
+
 .context_menu {
+    @extend .container;
+
     cursor: default;
 
     min-width: 92px;
@@ -6,9 +10,7 @@
 
     font-size: 0.9rem;
 
-    background-color: var(--white);
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 5px rgba(149 157 165 / 35%);
+    box-shadow: var(--hard-shadow);
 
     ul {
         list-style: none;

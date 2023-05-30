@@ -1,10 +1,9 @@
-@use "../../scss/abstract/mixins" as *;
 @import "../Card/Card.module";
 
 .folder {
     @extend .card;
-    @include flex($align: center, $gap: 0.75rem);
 
+    align-items: center;
     text-align: center;
 
     svg {

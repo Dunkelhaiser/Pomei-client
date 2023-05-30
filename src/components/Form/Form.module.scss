@@ -1,15 +1,12 @@
+@use "../../scss/base/shared" as *;
 @use "../../scss/abstract/mixins" as *;
 @use "../../scss/abstract/screen-queries" as *;
 
 .form {
+    @extend .container;
     @include flex($gap: 1.75rem, $align: stretch);
 
     padding: 2.75rem 5rem;
-
-    background-color: var(--white);
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 5px var(--light-shadow);
-
     transition: var(--hover);
 
     h1 {

@@ -1,7 +1,9 @@
+@use "../../scss/base/shared" as *;
 @use "../../scss/abstract/mixins" as *;
 @use "../../scss/abstract/screen-queries" as *;
 
 .card {
+    @extend .container;
     @include flex($gap: 0.75rem);
 
     cursor: pointer;
@@ -10,10 +12,6 @@
     top: 0;
 
     padding: 1.25rem;
-
-    background-color: var(--white);
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 5px var(--light-shadow);
 
     transition: var(--hover);
 
@@ -28,7 +26,7 @@
     &:focus-visible,
     &.active {
         top: -2px;
-        box-shadow: 0 4px 5px var(--light-shadow);
+        box-shadow: 0 4px 5px rgba(149 157 165 / 5%);
 
         .options {
             visibility: visible;
