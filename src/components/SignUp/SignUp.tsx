@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Button from "../Button/Button";
 import Form, { InputSection } from "../Form/Form";
 import Input from "../Input/Input";
+import PasswordField from "../PasswordField/PasswordField";
 
 type ConflictError = {
     username: string;
@@ -96,7 +97,7 @@ const SignUp: React.FC = () => {
                     errors={errors.email || error?.email}
                     onKeyUp={checkAvailability}
                 />
-                <Input
+                <PasswordField
                     placeholder="Password"
                     type="password"
                     styleType="line"
@@ -104,7 +105,7 @@ const SignUp: React.FC = () => {
                     name="password"
                     errors={errors.password}
                 />
-                <Input
+                <PasswordField
                     placeholder="Confirm Password"
                     type="password"
                     styleType="line"
