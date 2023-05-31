@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { debounce } from "debounce";
 import { FieldError, UseFormRegister } from "react-hook-form";
 import Styles from "./Input.module.scss";
 
@@ -12,7 +13,9 @@ interface Props {
     type?: "text" | "email" | "password" | "color" | "date" | "file" | "number" | "radio" | "range" | "tel";
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     register?: UseFormRegister<any>;
-    errors?: FieldError | undefined;
+    errors?: FieldError | string | undefined;
+    onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+    delay?: number;
 }
 
 const Input: React.FC<Props> = ({
@@ -25,8 +28,13 @@ const Input: React.FC<Props> = ({
     styleType = "normal",
     register,
     errors,
+    onKeyUp,
+    delay = 500,
 }) => {
     const isRegistered = register !== undefined && name !== undefined;
+
+    const errorMessage =
+        errors && typeof errors === "object" && "message" in errors ? errors.message : typeof errors === "string" ? errors : undefined;
 
     return (
         <div className={Styles.wrapper}>
@@ -37,8 +45,9 @@ const Input: React.FC<Props> = ({
                 placeholder={placeholder}
                 {...(isRegistered ? register(name) : null)}
                 className={`${Styles.input} ${Styles[styleType]} ${errors ? Styles.error : ""}`}
+                onKeyUp={onKeyUp ? debounce(onKeyUp, delay) : undefined}
             />
-            {errors && <span className={Styles.error}>{errors.message}</span>}
+            {errorMessage && <span className={Styles.error}>{errorMessage}</span>}
         </div>
     );
 };
