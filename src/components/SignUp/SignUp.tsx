@@ -43,7 +43,7 @@ const SignUp: React.FC = () => {
     } = useForm<SignUpForm>({ resolver: zodResolver(schema), mode: "onBlur" });
 
     const signUp = async (userData: SignUpForm) => {
-        const res = await fetch("http://localhost:4000/auth/sign_up", {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/sign_up`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const SignUp: React.FC = () => {
     };
 
     const checkAvailability = async () => {
-        const res = await fetch(`http://localhost:4000/auth/sign_up_check`, {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/sign_up_check`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
