@@ -60,7 +60,9 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const res = await client.post("sign_in", data);
             console.log(res);
         } catch (err) {
-            throw Error((err as AxiosError).response?.data.error);
+            if (axios.isAxiosError(err)) {
+                throw Error(err.response?.data.error);
+            }
         }
     };
 

@@ -13,7 +13,7 @@ interface Props {
     type?: "text" | "email" | "password" | "color" | "date" | "file" | "number" | "radio" | "range" | "tel";
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     register?: UseFormRegister<any>;
-    errors?: FieldError | string | undefined;
+    errors?: FieldError | string | undefined | null;
     onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
     delay?: number;
 }

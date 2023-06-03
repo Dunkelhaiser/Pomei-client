@@ -29,7 +29,7 @@ const SignIn: React.FC = () => {
         try {
             signIn(data);
         } catch (err) {
-            // setError(err.message);
+            setError((err as Error).message);
         }
     };
 
@@ -43,7 +43,7 @@ const SignIn: React.FC = () => {
                     styleType="line"
                     register={register}
                     name="password"
-                    errors={errors.password}
+                    errors={errors.password || error}
                 />
             </InputSection>
             <Button label="Sign In" type="submit" />
