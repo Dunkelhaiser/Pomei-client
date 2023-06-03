@@ -46,6 +46,7 @@ const Input: React.FC<Props> = ({
                 {...(isRegistered ? register(name) : null)}
                 className={`${Styles.input} ${Styles[styleType]} ${errors ? Styles.error : ""}`}
                 onKeyUp={onKeyUp ? debounce(onKeyUp, delay) : undefined}
+                aria-invalid={errors ? "true" : "false"}
             />
             {errorMessage && <span className={Styles.error}>{errorMessage}</span>}
         </div>
