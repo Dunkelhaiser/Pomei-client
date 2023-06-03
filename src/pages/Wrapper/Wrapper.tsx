@@ -8,13 +8,13 @@ import Welcome from "../Welcome/Welcome";
 import WrapperStyles from "./Wrapper.module.scss";
 
 const Wrapper = () => {
-    const { user } = useContext(UserContext);
+    const { isLoggedIn } = useContext(UserContext);
     const { visitedBefore } = useContext(VisitedContext);
     return (
         <>
             <Sidebar />
             <main className={WrapperStyles.wrapper}>
-                <Suspense fallback={<Loading />}>{!visitedBefore && !user.loggedIn ? <Welcome /> : <Outlet />}</Suspense>
+                <Suspense fallback={<Loading />}>{!visitedBefore && !isLoggedIn ? <Welcome /> : <Outlet />}</Suspense>
             </main>
         </>
     );

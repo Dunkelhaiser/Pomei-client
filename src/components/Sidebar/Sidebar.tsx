@@ -36,7 +36,7 @@ interface MenuProps {
 }
 
 const Menu: React.FC<MenuProps> = ({ close }) => {
-    const { user } = useContext(UserContext);
+    const { isLoggedIn } = useContext(UserContext);
 
     const menuItems: MenuItem[] = [
         {
@@ -53,19 +53,19 @@ const Menu: React.FC<MenuProps> = ({ close }) => {
             to: "/folders",
             icon: faFolder,
             label: "Folders",
-            disabled: !user.loggedIn,
+            disabled: !isLoggedIn,
         },
         {
             to: "/archive",
             icon: faBoxArchive,
             label: "Archive",
-            disabled: !user.loggedIn,
+            disabled: !isLoggedIn,
         },
         {
             to: "/bin",
             icon: faTrash,
             label: "Bin",
-            disabled: !user.loggedIn,
+            disabled: !isLoggedIn,
         },
     ];
     return (
@@ -93,7 +93,7 @@ const Menu: React.FC<MenuProps> = ({ close }) => {
                     <NavLink
                         onClick={close}
                         to="/settings"
-                        className={user.loggedIn ? (navData) => `${navData.isActive ? Styles.active : ""}` : Styles.disabled}
+                        className={isLoggedIn ? (navData) => `${navData.isActive ? Styles.active : ""}` : Styles.disabled}
                     >
                         <FontAwesomeIcon icon={faGear} /> Settings
                     </NavLink>

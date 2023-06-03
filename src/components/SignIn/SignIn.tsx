@@ -1,3 +1,4 @@
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
@@ -6,10 +7,13 @@ import Button from "../Button/Button";
 import Form, { InputSection } from "../Form/Form";
 import Input from "../Input/Input";
 import PasswordField from "../PasswordField/PasswordField";
+import { UserContext } from "../../context/UserContext";
 
 const SignIn: React.FC = () => {
+    const { signIn } = useContext(UserContext);
+    const [error, setError] = useState<string | null>(null);
     const schema = zod.object({
-        username: zod.string().nonempty({ message: "Enter your username or email" }),
+        login: zod.string().nonempty({ message: "Enter your username or email" }),
         password: zod.string().nonempty({ message: "Enter your password" }),
     });
 
@@ -18,18 +22,21 @@ const SignIn: React.FC = () => {
     const {
         register,
         handleSubmit,
-        reset,
         formState: { errors },
     } = useForm<SignInForm>({ resolver: zodResolver(schema), mode: "onBlur" });
 
-    const signIn = (userData: SignInForm) => {
-        console.log(userData);
-        reset();
+    const handleSignIn = (data: SignInForm) => {
+        try {
+            signIn(data);
+        } catch (err) {
+            // setError(err.message);
+        }
     };
+
     return (
-        <Form title="Sign In" onSubmit={handleSubmit(signIn)}>
+        <Form title="Sign In" onSubmit={handleSubmit(handleSignIn)}>
             <InputSection>
-                <Input placeholder="Username/Email" styleType="line" register={register} name="username" errors={errors.username} />
+                <Input placeholder="Username/Email" styleType="line" register={register} name="login" errors={errors.login} />
                 <PasswordField
                     placeholder="Password"
                     type="password"
