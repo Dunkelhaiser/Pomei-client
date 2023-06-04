@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { z as zod } from "zod";
 import Button from "../Button/Button";
 import Form, { InputSection } from "../Form/Form";
@@ -10,6 +10,9 @@ import PasswordField from "../PasswordField/PasswordField";
 import { UserContext } from "../../context/UserContext";
 
 const SignIn: React.FC = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
     const { signIn } = useContext(UserContext);
     const [error, setError] = useState<string | null>(null);
     const schema = zod.object({
@@ -25,9 +28,10 @@ const SignIn: React.FC = () => {
         formState: { errors },
     } = useForm<SignInForm>({ resolver: zodResolver(schema), mode: "onBlur" });
 
-    const handleSignIn = (data: SignInForm) => {
+    const handleSignIn = async (data: SignInForm) => {
         try {
-            signIn(data);
+            await signIn(data);
+            navigate(from, { replace: true });
         } catch (err) {
             setError((err as Error).message);
         }
