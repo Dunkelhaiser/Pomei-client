@@ -34,8 +34,10 @@ const router = createBrowserRouter(
             </Route>
             <Route path="home" element={<Navigate to="/" />} />
             <Route path="index" element={<Navigate to="/" />} />
-            <Route path="sign_in" element={<SignIn />} />
-            <Route path="sign_up" element={<SignUp />} />
+            <Route element={<ProtectedRoutes reverse />}>
+                <Route path="sign_in" element={<SignIn />} />
+                <Route path="sign_up" element={<SignUp />} />
+            </Route>
             <Route path="welcome" element={<Welcome />} />
 
             <Route path="*" element={<NotFound />} />

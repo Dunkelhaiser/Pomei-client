@@ -12,7 +12,7 @@ import Text from "../../components/Text/Text";
 
 const Home = () => {
     const navigate = useNavigate();
-    const { isLoggedIn } = useContext(UserContext);
+    const { isAuthorized } = useContext(UserContext);
     const { notes } = useContext(NotesContext);
     const sortedNotes = [...notes].sort(
         (a, b) => new Date(b.modificationDate || b.date).getTime() - new Date(a.modificationDate || a.date).getTime()
@@ -36,7 +36,7 @@ const Home = () => {
                 ))}
                 {notes.length < 1 && <Text text="No notes found." type="p" />}
             </section>
-            {isLoggedIn && (
+            {isAuthorized && (
                 <>
                     <div className={HomeStyles.heading}>
                         <h2>Latest Folders</h2>

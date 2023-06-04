@@ -22,21 +22,23 @@ type UserContextType = {
     user: User | null;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
     signIn: (data: SignInForm) => void;
-    isLoggedIn: boolean;
+    signOut: () => void;
+    isAuthorized: boolean;
 };
 
 const iUserContextState = {
     user: null,
     setUser: () => {},
     signIn: () => {},
-    isLoggedIn: false,
+    signOut: () => {},
+    isAuthorized: false,
 };
 
 export const UserContext = createContext<UserContextType>(iUserContextState);
 
 const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
-    const isLoggedIn = useMemo(() => !!(user?.id && user?.email && user.username && user.accessToken), [user]);
+    const isAuthorized = useMemo(() => !!(user?.id && user?.email && user.username && user.accessToken), [user]);
 
     const client = axios.create({
         baseURL: `${import.meta.env.VITE_BACKEND_URL}/auth/`,
@@ -121,11 +123,21 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const signOut = async () => {
+        try {
+            await client.get("sign_out", { withCredentials: true });
+            setUser(null);
+        } catch (err) {
+            setUser(null);
+        }
+    };
+
     const values = useMemo(
         () => ({
             user,
-            isLoggedIn,
+            isAuthorized,
             signIn,
+            signOut,
             setUser,
         }),
         [user]

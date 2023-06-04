@@ -19,7 +19,7 @@ interface Props {
 }
 
 const Card: React.FC<Props> = ({ title, content, date, textLimit, id }) => {
-    const { isLoggedIn } = useContext(UserContext);
+    const { isAuthorized } = useContext(UserContext);
     const { deleteLocalNote, copyLocalNote } = useContext(NotesContext);
     const [expanded, setExpanded] = useToggle();
     const navigate = useNavigate();
@@ -50,7 +50,7 @@ const Card: React.FC<Props> = ({ title, content, date, textLimit, id }) => {
                     isVisible={expanded}
                     outsideClick={() => setTimeout(() => setExpanded(false), 150)}
                     options={
-                        isLoggedIn
+                        isAuthorized
                             ? [
                                   { label: "Pin", onClick: () => {} },
                                   { label: "Copy", onClick: () => {} },

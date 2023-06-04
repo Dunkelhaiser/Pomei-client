@@ -23,6 +23,7 @@ import { UserContext } from "../../context/UserContext";
 import Overlay from "../Overlay/Overlay";
 import useToggle from "../../hooks/useToggle/useToggle";
 import Hamburger from "../Hamburger/Hamburger";
+import Button from "../Button/Button";
 
 interface MenuItem {
     to: string;
@@ -36,7 +37,7 @@ interface MenuProps {
 }
 
 const Menu: React.FC<MenuProps> = ({ close }) => {
-    const { isLoggedIn } = useContext(UserContext);
+    const { isAuthorized, signOut, user } = useContext(UserContext);
 
     const menuItems: MenuItem[] = [
         {
@@ -53,19 +54,19 @@ const Menu: React.FC<MenuProps> = ({ close }) => {
             to: "/folders",
             icon: faFolder,
             label: "Folders",
-            disabled: !isLoggedIn,
+            disabled: !isAuthorized,
         },
         {
             to: "/archive",
             icon: faBoxArchive,
             label: "Archive",
-            disabled: !isLoggedIn,
+            disabled: !isAuthorized,
         },
         {
             to: "/bin",
             icon: faTrash,
             label: "Bin",
-            disabled: !isLoggedIn,
+            disabled: !isAuthorized,
         },
     ];
     return (
@@ -93,15 +94,24 @@ const Menu: React.FC<MenuProps> = ({ close }) => {
                     <NavLink
                         onClick={close}
                         to="/settings"
-                        className={isLoggedIn ? (navData) => `${navData.isActive ? Styles.active : ""}` : Styles.disabled}
+                        className={isAuthorized ? (navData) => `${navData.isActive ? Styles.active : ""}` : Styles.disabled}
                     >
                         <FontAwesomeIcon icon={faGear} /> Settings
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/sign_in" onClick={close} className={(navData) => (navData.isActive ? Styles.active : "")}>
-                        <FontAwesomeIcon icon={faRightToBracket} aria-label="Sign In" /> Sign In
-                    </NavLink>
+                    {isAuthorized ? (
+                        <>
+                            <NavLink to="account" onClick={close} className={(navData) => (navData.isActive ? Styles.active : "")}>
+                                {user?.username}
+                            </NavLink>
+                            <Button label="Sign Out" onClick={signOut} />
+                        </>
+                    ) : (
+                        <NavLink to="/sign_in" onClick={close} className={(navData) => (navData.isActive ? Styles.active : "")}>
+                            <FontAwesomeIcon icon={faRightToBracket} aria-label="Sign In" /> Sign In
+                        </NavLink>
+                    )}
                 </li>
             </ul>
         </aside>
