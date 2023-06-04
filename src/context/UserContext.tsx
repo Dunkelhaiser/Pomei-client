@@ -137,7 +137,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
             await client.post("sign_up", data);
         } catch (err) {
             if (axios.isAxiosError(err)) {
-                throw Error(err.response?.data.error);
+                throw err.response?.data.error;
             }
         }
     };

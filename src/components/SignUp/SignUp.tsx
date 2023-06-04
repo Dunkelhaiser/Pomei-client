@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z as zod } from "zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
 import Form, { InputSection } from "../Form/Form";
 import Input from "../Input/Input";
 import PasswordField from "../PasswordField/PasswordField";
+import { UserContext } from "../../context/UserContext";
 
 type ConflictError = {
     username: string;
@@ -14,18 +15,18 @@ type ConflictError = {
 };
 
 const SignUp: React.FC = () => {
+    const navigate = useNavigate();
+    const { signUp } = useContext(UserContext);
     const [error, setError] = useState<ConflictError | null>(null);
     const schema = zod
         .object({
             username: zod
                 .string()
-                .nonempty({ message: "Enter your username" })
                 .min(6, { message: "Username must be at least 6 characters long" })
                 .max(20, { message: "Username must be at maximum 20 characters long" }),
-            email: zod.string().nonempty({ message: "Enter your email" }).email(),
+            email: zod.string().email(),
             password: zod
                 .string()
-                .nonempty({ message: "Enter your password" })
                 .min(6, { message: "Password must be at least 6 characters long" })
                 .max(36, { message: "Password must be at maximum 36 characters long" }),
             confirmPassword: zod.string().nonempty({ message: "Confirm your password" }),
@@ -40,26 +41,16 @@ const SignUp: React.FC = () => {
     const {
         register,
         handleSubmit,
-        reset,
         getValues,
         formState: { errors },
     } = useForm<SignUpForm>({ resolver: zodResolver(schema), mode: "onBlur" });
 
-    const signUp = async (userData: SignUpForm) => {
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/sign_up`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userData),
-        });
-        const data = await res.json();
-
-        if (res.ok) {
-            setError(null);
-            reset();
-        } else {
-            setError(data.error);
+    const handleSignUp = async (userData: SignUpForm) => {
+        try {
+            await signUp(userData);
+            navigate("/sign_in");
+        } catch (err) {
+            setError(err as ConflictError);
         }
     };
 
@@ -80,7 +71,7 @@ const SignUp: React.FC = () => {
     };
 
     return (
-        <Form title="Sign Up" onSubmit={handleSubmit(signUp)}>
+        <Form title="Sign Up" onSubmit={handleSubmit(handleSignUp)}>
             <InputSection>
                 <Input
                     placeholder="Username"
