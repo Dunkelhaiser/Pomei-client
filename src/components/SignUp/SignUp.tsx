@@ -18,15 +18,21 @@ const SignUp: React.FC = () => {
     const navigate = useNavigate();
     const { signUp } = useContext(UserContext);
     const [error, setError] = useState<ConflictError | null>(null);
+
+    const usernameRegex = /^(?!.*\.\.)(?!.*\.$)[\w_]+$/;
+
     const schema = zod
         .object({
             username: zod
                 .string()
+                .nonempty({ message: "Enter your username" })
+                .regex(usernameRegex, { message: "Username can only contain letters, numbers and underscores" })
                 .min(6, { message: "Username must be at least 6 characters long" })
                 .max(20, { message: "Username must be at maximum 20 characters long" }),
-            email: zod.string().email(),
+            email: zod.string().nonempty({ message: "Enter your email" }).email(),
             password: zod
                 .string()
+                .nonempty({ message: "Enter your password" })
                 .min(6, { message: "Password must be at least 6 characters long" })
                 .max(36, { message: "Password must be at maximum 36 characters long" }),
             confirmPassword: zod.string().nonempty({ message: "Confirm your password" }),
