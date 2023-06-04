@@ -38,7 +38,7 @@ interface MenuProps {
 }
 
 const Menu: React.FC<MenuProps> = ({ close }) => {
-    const { isAuthorized, signOut, user } = useContext(UserContext);
+    const { isAuthorized, signOut, user, terminateAllSessions } = useContext(UserContext);
 
     const menuItems: MenuItem[] = [
         {
@@ -108,6 +108,7 @@ const Menu: React.FC<MenuProps> = ({ close }) => {
                                 {user?.username}
                             </NavLink>
                             <Button label="Sign Out" onClick={signOut} />
+                            <Button label="Terminate" onClick={terminateAllSessions} />
                         </>
                     ) : (
                         <NavLink to="/sign_in" onClick={close} className={(navData) => (navData.isActive ? Styles.active : "")}>

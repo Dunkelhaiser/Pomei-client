@@ -31,6 +31,7 @@ type UserContextType = {
     signUp: (data: SignUpForm) => void;
     signIn: (data: SignInForm) => void;
     signOut: () => void;
+    terminateAllSessions: () => void;
     isAuthorized: boolean;
 };
 
@@ -40,6 +41,7 @@ const iUserContextState = {
     signUp: () => {},
     signIn: () => {},
     signOut: () => {},
+    terminateAllSessions: () => {},
     isAuthorized: false,
 };
 
@@ -162,6 +164,15 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const terminateAllSessions = async () => {
+        try {
+            await axiosAuth.get("terminate_all_sessions");
+            setUser(null);
+        } catch (err) {
+            setUser(null);
+        }
+    };
+
     const values = useMemo(
         () => ({
             user,
@@ -169,6 +180,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
             signUp,
             signIn,
             signOut,
+            terminateAllSessions,
             setUser,
         }),
         [user]
