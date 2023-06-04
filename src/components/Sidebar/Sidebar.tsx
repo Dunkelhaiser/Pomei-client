@@ -12,6 +12,7 @@ import {
     faBoxArchive,
     faTrash,
     IconDefinition,
+    faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, NavLink } from "react-router-dom";
 import { useContext } from "react";
@@ -103,6 +104,7 @@ const Menu: React.FC<MenuProps> = ({ close }) => {
                     {isAuthorized ? (
                         <>
                             <NavLink to="account" onClick={close} className={(navData) => (navData.isActive ? Styles.active : "")}>
+                                <FontAwesomeIcon icon={faUser} />
                                 {user?.username}
                             </NavLink>
                             <Button label="Sign Out" onClick={signOut} />

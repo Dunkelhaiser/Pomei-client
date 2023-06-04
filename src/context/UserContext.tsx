@@ -6,6 +6,13 @@ interface SignInForm {
     password: string;
 }
 
+type SignUpForm = {
+    username: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+};
+
 interface User {
     id: string;
     username: string;
@@ -21,6 +28,7 @@ interface User {
 type UserContextType = {
     user: User | null;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
+    signUp: (data: SignUpForm) => void;
     signIn: (data: SignInForm) => void;
     signOut: () => void;
     isAuthorized: boolean;
@@ -29,6 +37,7 @@ type UserContextType = {
 const iUserContextState = {
     user: null,
     setUser: () => {},
+    signUp: () => {},
     signIn: () => {},
     signOut: () => {},
     isAuthorized: false,
@@ -64,6 +73,17 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
             return null;
         }
     };
+
+    useEffect(() => {
+        const verifyRefreshToken = async () => {
+            try {
+                await handleRefreshToken();
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        if (!user?.accessToken) verifyRefreshToken();
+    }, []);
 
     useEffect(() => {
         const requestInterceptor = axiosAuth.interceptors.request.use(
@@ -112,6 +132,16 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (user?.accessToken) fetchUser();
     }, [user?.accessToken]);
 
+    const signUp = async (data: SignUpForm) => {
+        try {
+            await client.post("sign_up", data);
+        } catch (err) {
+            if (axios.isAxiosError(err)) {
+                throw Error(err.response?.data.error);
+            }
+        }
+    };
+
     const signIn = async (data: SignInForm) => {
         try {
             const res = await client.post("sign_in", data, { withCredentials: true });
@@ -136,6 +166,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
         () => ({
             user,
             isAuthorized,
+            signUp,
             signIn,
             signOut,
             setUser,
