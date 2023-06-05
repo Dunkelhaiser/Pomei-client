@@ -48,7 +48,8 @@
         width: 90%;
         padding: 2.75rem 2.5rem;
 
-        input {
+        input,
+        div:has(input) {
             width: 100%;
         }
     }

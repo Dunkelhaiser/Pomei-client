@@ -1,11 +1,12 @@
 import { Suspense, useContext } from "react";
+import { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { UserContext } from "../../context/UserContext";
 import { VisitedContext } from "../../context/VisitedContext";
 import Loading from "../Loading/Loading";
 import Welcome from "../Welcome/Welcome";
-import WrapperStyles from "./Wrapper.module.scss";
+import Styles from "./Wrapper.module.scss";
 
 const Wrapper = () => {
     const { isAuthorized } = useContext(UserContext);
@@ -13,7 +14,10 @@ const Wrapper = () => {
     return (
         <>
             <Sidebar />
-            <main className={WrapperStyles.wrapper}>
+            <main className={Styles.wrapper}>
+                <div className={Styles.toast_container}>
+                    <Toaster />
+                </div>
                 <Suspense fallback={<Loading />}>{!visitedBefore && !isAuthorized ? <Welcome /> : <Outlet />}</Suspense>
             </main>
         </>
