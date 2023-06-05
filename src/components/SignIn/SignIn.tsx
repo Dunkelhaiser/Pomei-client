@@ -52,7 +52,7 @@ const SignIn: React.FC = () => {
             </InputSection>
             <Button label="Sign In" type="submit" />
             <Link to="/sign_up">Don&apos;t have an account? Sign up now!</Link>
-            <Link to="/password_reset" style={{ fontSize: "0.9rem" }}>
+            <Link to="/reset_password" style={{ fontSize: "0.9rem" }}>
                 Forgot Password
             </Link>
         </Form>

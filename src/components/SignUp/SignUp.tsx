@@ -29,7 +29,7 @@ const SignUp: React.FC = () => {
                 .regex(usernameRegex, { message: "Username can only contain letters, numbers and underscores" })
                 .min(6, { message: "Username must be at least 6 characters long" })
                 .max(20, { message: "Username must be at maximum 20 characters long" }),
-            email: zod.string().nonempty({ message: "Enter your email" }).email(),
+            email: zod.string().nonempty({ message: "Enter your email" }).email({ message: "Enter a valid email" }),
             password: zod
                 .string()
                 .nonempty({ message: "Enter your password" })

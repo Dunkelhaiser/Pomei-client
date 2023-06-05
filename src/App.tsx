@@ -16,6 +16,8 @@ const SignUp = lazy(() => import("./pages/SignUp/SignUp"));
 const SignIn = lazy(() => import("./pages/SignIn/SignIn"));
 const Welcome = lazy(() => import("./pages/Welcome/Welcome"));
 const Verification = lazy(() => import("./pages/Verification/Verification"));
+const PasswordReset = lazy(() => import("./pages/PasswordReset/PasswordReset"));
+const NewPassword = lazy(() => import("./pages/NewPassword/NewPassword"));
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -38,6 +40,8 @@ const router = createBrowserRouter(
             <Route element={<ProtectedRoutes reverse />}>
                 <Route path="sign_in" element={<SignIn />} />
                 <Route path="sign_up" element={<SignUp />} />
+                <Route path="reset_password" element={<PasswordReset />} />
+                <Route path="reset_password/:token" element={<NewPassword />} />
                 <Route path="verify/:token" element={<Verification />} />
             </Route>
             <Route path="welcome" element={<Welcome />} />
