@@ -1,0 +1,8 @@
+@use "../../scss/abstract/screen-queries" as *;
+
+.title {
+    margin-bottom: 1rem;
+    font-size: 3rem;
+    text-align: center;
+    text-transform: capitalize;
+}
