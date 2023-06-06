@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import toast from "react-hot-toast";
-import client from "../../api/axios";
+import { axiosBase } from "../../api/axios";
 import Layout from "../../components/Layout/Layout";
 import Button from "../../components/Button/Button";
 import Form, { InputSection } from "../../components/Form/Form";
@@ -26,7 +26,7 @@ const PasswordReset = () => {
 
     const resetPasswordRequest = async (data: PasswordResetForm) => {
         try {
-            await client.post("reset_password_request", data);
+            await axiosBase.post("auth/reset_password_request", data);
             toast.success("Password reset link sent");
             reset();
         } catch (err) {

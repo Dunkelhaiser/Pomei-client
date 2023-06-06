@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import Form, { InputSection } from "../../components/Form/Form";
 import Layout from "../../components/Layout/Layout";
-import client from "../../api/axios";
+import { axiosBase } from "../../api/axios";
 import Button from "../../components/Button/Button";
 import PasswordField from "../../components/PasswordField/PasswordField";
 
@@ -38,7 +38,7 @@ const NewPassword = () => {
 
     const resetPassword = async (data: PasswordResetForm) => {
         try {
-            await client.post(`reset_password/${params.token}`, data);
+            await axiosBase.post(`auth/reset_password/${params.token}`, data);
             navigate("/sign_in");
         } catch (err) {
             if (axios.isAxiosError(err)) {
@@ -50,7 +50,7 @@ const NewPassword = () => {
     useEffect(() => {
         const checkLinkValidity = async () => {
             try {
-                await client.post(`reset_password_check/${params.token}`);
+                await axiosBase.post(`auth/reset_password_check/${params.token}`);
             } catch (err) {
                 if (axios.isAxiosError(err)) {
                     if (err.response?.data.message === "Invalid reset password token") {

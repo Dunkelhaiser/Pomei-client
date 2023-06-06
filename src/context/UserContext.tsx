@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { createContext, useEffect, useMemo, useState } from "react";
+import { axiosBase } from "../api/axios";
 
 interface SignInForm {
     login: string;
@@ -51,10 +52,6 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [user, setUser] = useState<User | null>(null);
     const isAuthorized = useMemo(() => !!(user?.id && user?.email && user.username && user.accessToken), [user]);
 
-    const client = axios.create({
-        baseURL: `${import.meta.env.VITE_BACKEND_URL}/auth/`,
-    });
-
     const axiosAuth = axios.create({
         baseURL: `${import.meta.env.VITE_BACKEND_URL}/auth/`,
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${user?.accessToken}` },
@@ -63,7 +60,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const handleRefreshToken = async () => {
         try {
-            const { data } = await client.get("refresh_token", { withCredentials: true });
+            const { data } = await axiosBase.get("auth/refresh_token", { withCredentials: true });
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             setUser((prev) => ({ ...prev, accessToken: data.accessToken }));
@@ -136,7 +133,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const signUp = async (data: SignUpForm) => {
         try {
-            await client.post("sign_up", data);
+            await axiosBase.post("auth/sign_up", data);
         } catch (err) {
             if (axios.isAxiosError(err)) {
                 throw err.response?.data.error;
@@ -146,7 +143,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const signIn = async (data: SignInForm) => {
         try {
-            const res = await client.post("sign_in", data, { withCredentials: true });
+            const res = await axiosBase.post("auth/sign_in", data, { withCredentials: true });
             setUser(res.data);
         } catch (err) {
             if (axios.isAxiosError(err)) {
@@ -157,7 +154,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const signOut = async () => {
         try {
-            await client.get("sign_out", { withCredentials: true });
+            await axiosBase.get("auth/sign_out", { withCredentials: true });
             setUser(null);
         } catch (err) {
             setUser(null);
