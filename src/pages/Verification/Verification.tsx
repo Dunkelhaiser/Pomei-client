@@ -31,8 +31,9 @@ const Verification = () => {
         <Layout type="centered">
             <h2 className={Styles.title}>{response}</h2>
             {response === "Account verified successfully" && <Button label="Sign In" onClick={() => navigate("/sign_in")} />}
-            {response === "Verification has expired" ||
-                (response === "Invalid verification token" && <Button label="Sign Up" onClick={() => navigate("/sign_up")} />)}
+            {(response === "Verification has expired" || response === "Invalid verification token") && (
+                <Button label="Sign Up" onClick={() => navigate("/sign_up")} />
+            )}
         </Layout>
     );
 };
