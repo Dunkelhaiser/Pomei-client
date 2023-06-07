@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import client from "../../api/axios";
+import { axiosBase } from "../../api/axios";
 import Button from "../../components/Button/Button";
 import Layout from "../../components/Layout/Layout";
 import Styles from "./Verification.module.scss";
@@ -14,7 +14,7 @@ const Verification = () => {
     useEffect(() => {
         const verify = async () => {
             try {
-                const { data } = await client.get(`verify_user/${params.token}`);
+                const { data } = await axiosBase.get(`verify_user/${params.token}`);
                 setResponse(data.message);
             } catch (err) {
                 if (axios.isAxiosError(err)) {
