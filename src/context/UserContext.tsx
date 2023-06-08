@@ -66,9 +66,6 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setUser((prev) => ({ ...prev, accessToken: data.accessToken }));
             return data.accessToken;
         } catch (err) {
-            if (axios.isAxiosError(err)) {
-                console.log(err.response?.data.error);
-            }
             return null;
         }
     };
@@ -77,9 +74,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const verifyRefreshToken = async () => {
             try {
                 await handleRefreshToken();
-            } catch (err) {
-                console.log(err);
-            }
+            } catch (err) {}
         };
         if (!user?.accessToken) verifyRefreshToken();
     }, []);
@@ -124,9 +119,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     signal: controller.signal,
                 });
                 setUser((prev) => ({ ...prev, ...data.user }));
-            } catch (err) {
-                console.log(err);
-            }
+            } catch (err) {}
         };
         if (user?.accessToken) fetchUser();
     }, [user?.accessToken]);
@@ -147,7 +140,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setUser(res.data);
         } catch (err) {
             if (axios.isAxiosError(err)) {
-                throw Error(err.response?.data.error);
+                throw Error(err.response?.data.error || err.message);
             }
         }
     };
