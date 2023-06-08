@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { z as zod } from "zod";
 import toast from "react-hot-toast";
 import Button from "../../components/Button/Button";
 import Form, { InputSection } from "../../components/Form/Form";
@@ -10,18 +9,13 @@ import Input from "../../components/Input/Input";
 import PasswordField from "../../components/PasswordField/PasswordField";
 import { UserContext } from "../../context/UserContext";
 import Layout from "../../components/Layout/Layout";
+import { SignInForm, schema } from "../../models/SignIn";
 
 const SignIn = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
     const { signIn } = useContext(UserContext);
-    const schema = zod.object({
-        login: zod.string().nonempty({ message: "Enter your username or email" }),
-        password: zod.string().nonempty({ message: "Enter your password" }),
-    });
-
-    type SignInForm = zod.infer<typeof schema>;
 
     const {
         register,

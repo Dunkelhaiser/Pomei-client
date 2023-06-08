@@ -1,30 +1,9 @@
 import axios from "axios";
 import React, { createContext, useEffect, useMemo, useState } from "react";
 import { axiosBase } from "../api/axios";
-
-interface SignInForm {
-    login: string;
-    password: string;
-}
-
-type SignUpForm = {
-    username: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-};
-
-interface User {
-    id: string;
-    username: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    age: number;
-    createdAt: string;
-    updatedAt: string;
-    accessToken: string;
-}
+import { SignInForm } from "../models/SignIn";
+import { SignUpForm } from "../models/SignUp";
+import { AuthUser as User } from "../models/User";
 
 type UserContextType = {
     user: User | null;

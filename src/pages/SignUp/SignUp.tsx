@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z as zod } from "zod";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Button from "../../components/Button/Button";
@@ -10,6 +9,7 @@ import Input from "../../components/Input/Input";
 import PasswordField from "../../components/PasswordField/PasswordField";
 import { UserContext } from "../../context/UserContext";
 import Layout from "../../components/Layout/Layout";
+import { SignUpForm, schema } from "../../models/SignUp";
 
 type ConflictError = {
     username: string;
@@ -20,31 +20,6 @@ const SignUp = () => {
     const navigate = useNavigate();
     const { signUp } = useContext(UserContext);
     const [error, setError] = useState<ConflictError | null>(null);
-
-    const usernameRegex = /^(?!.*\.\.)(?!.*\.$)[\w_]+$/;
-
-    const schema = zod
-        .object({
-            username: zod
-                .string()
-                .nonempty({ message: "Enter your username" })
-                .regex(usernameRegex, { message: "Username can only contain letters, numbers and underscores" })
-                .min(6, { message: "Username must be at least 6 characters long" })
-                .max(20, { message: "Username must be at maximum 20 characters long" }),
-            email: zod.string().nonempty({ message: "Enter your email" }).email({ message: "Enter a valid email" }),
-            password: zod
-                .string()
-                .nonempty({ message: "Enter your password" })
-                .min(6, { message: "Password must be at least 6 characters long" })
-                .max(36, { message: "Password must be at maximum 36 characters long" }),
-            confirmPassword: zod.string().nonempty({ message: "Confirm your password" }),
-        })
-        .refine((schemaData) => schemaData.password === schemaData.confirmPassword, {
-            message: "Passwords must match",
-            path: ["confirmPassword"],
-        });
-
-    type SignUpForm = zod.infer<typeof schema>;
 
     const {
         register,
