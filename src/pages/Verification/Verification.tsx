@@ -14,7 +14,7 @@ const Verification = () => {
     useEffect(() => {
         const verify = async () => {
             try {
-                const { data } = await axiosBase.get(`verify_user/${params.token}`);
+                const { data } = await axiosBase.get(`auth/verify_user/${params.token}`);
                 setResponse(data.message);
             } catch (err) {
                 if (axios.isAxiosError(err)) {
@@ -22,6 +22,7 @@ const Verification = () => {
                 } else {
                     setResponse("Something went wrong");
                 }
+                console.log(err);
             }
         };
         verify();

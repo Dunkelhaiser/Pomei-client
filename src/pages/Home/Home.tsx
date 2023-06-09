@@ -15,7 +15,7 @@ const Home = () => {
     const { isAuthorized } = useContext(UserContext);
     const { notes } = useContext(NotesContext);
     const sortedNotes = [...notes].sort(
-        (a, b) => new Date(b.modificationDate || b.date).getTime() - new Date(a.modificationDate || a.date).getTime()
+        (a, b) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime()
     );
     return (
         <Layout title="Home">
@@ -30,7 +30,7 @@ const Home = () => {
                         id={note.id}
                         title={note.title}
                         content={note.content}
-                        date={note.modificationDate || note.date}
+                        date={note.updatedAt || note.createdAt}
                         textLimit={100}
                     />
                 ))}

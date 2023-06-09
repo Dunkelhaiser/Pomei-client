@@ -1,6 +1,8 @@
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 import { v4 as uuid } from "uuid";
 import { NoteForm, Note } from "../models/Note";
+import { UserContext } from "./UserContext";
 
 interface NotesContextType {
     notes: Note[];
@@ -9,6 +11,7 @@ interface NotesContextType {
     getLocalNote: (id: string) => Note;
     updateLocalNote: (note: Note) => void;
     copyLocalNote: (id: string) => void;
+    loadNotes: () => void;
 }
 
 const iNotesContextState = {
@@ -18,17 +21,19 @@ const iNotesContextState = {
     getLocalNote: () => [] as unknown as Note,
     updateLocalNote: () => {},
     copyLocalNote: () => {},
+    loadNotes: () => {},
 };
 
 export const NotesContext = createContext<NotesContextType>(iNotesContextState);
 
 const NotesContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const { axiosAuth, isAuthorized } = useContext(UserContext);
     const [notes, setNotes] = useState<Note[]>(JSON.parse(localStorage.getItem("notes") || "[]"));
 
     const createLocalNote = (note: NoteForm) => {
         const newNote = {
             ...note,
-            date: String(new Date()),
+            createdAt: String(new Date()),
             id: uuid(),
         };
         setNotes([newNote, ...notes]);
@@ -47,7 +52,7 @@ const NotesContextProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const updateLocalNote = (note: Note) => {
         const updatedNote = {
             ...note,
-            modificationDate: String(new Date()),
+            updatedAt: String(new Date()),
         };
         setNotes(notes.map((n) => (n.id === note.id ? updatedNote : n)));
         localStorage.setItem("notes", JSON.stringify(notes.map((n) => (n.id === note.id ? updatedNote : n))));
@@ -58,6 +63,22 @@ const NotesContextProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         createLocalNote(note);
     };
 
+    const loadNotes = async () => {
+        try {
+            const { data } = await axiosAuth.get("/notes");
+            setNotes(data.notes);
+            console.log(data.notes);
+        } catch (err) {
+            toast.error("Failed to load notes");
+        }
+    };
+
+    useEffect(() => {
+        if (isAuthorized) {
+            loadNotes();
+        }
+    }, [isAuthorized]);
+
     const values = useMemo(
         () => ({
             notes,
@@ -66,6 +87,7 @@ const NotesContextProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             getLocalNote,
             updateLocalNote,
             copyLocalNote,
+            loadNotes,
         }),
         [notes]
     );

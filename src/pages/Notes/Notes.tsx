@@ -14,13 +14,13 @@ const Notes = () => {
         <>
             <FloatingIcon icon={faPlus} onClick={() => navigate("/create_note")} />
             <Layout title="Notes" type="masonry">
-                {notes.map((note) => (
+                {notes?.map((note) => (
                     <Card
                         key={note.id}
                         id={note.id}
                         title={note.title}
                         content={note.content}
-                        date={note.modificationDate || note.date}
+                        date={note.updatedAt || note.createdAt}
                         textLimit={400}
                     />
                 ))}

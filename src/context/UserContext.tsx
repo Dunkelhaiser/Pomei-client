@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import React, { createContext, useEffect, useMemo, useState } from "react";
 import { axiosBase } from "../api/axios";
 import { SignInForm } from "../models/SignIn";
@@ -13,6 +13,7 @@ type UserContextType = {
     signOut: () => void;
     terminateAllSessions: () => void;
     isAuthorized: boolean;
+    axiosAuth: AxiosInstance;
 };
 
 const iUserContextState = {
@@ -23,6 +24,7 @@ const iUserContextState = {
     signOut: () => {},
     terminateAllSessions: () => {},
     isAuthorized: false,
+    axiosAuth: axiosBase,
 };
 
 export const UserContext = createContext<UserContextType>(iUserContextState);
@@ -32,7 +34,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const isAuthorized = useMemo(() => !!(user?.id && user?.email && user.username && user.accessToken), [user]);
 
     const axiosAuth = axios.create({
-        baseURL: `${import.meta.env.VITE_BACKEND_URL}/auth/`,
+        baseURL: `${import.meta.env.VITE_BACKEND_URL}/`,
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${user?.accessToken}` },
         withCredentials: true,
     });
@@ -94,7 +96,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const controller = new AbortController();
         const fetchUser = async () => {
             try {
-                const { data } = await axiosAuth.get("get_auth_user", {
+                const { data } = await axiosAuth.get("auth/get_auth_user", {
                     signal: controller.signal,
                 });
                 setUser((prev) => ({ ...prev, ...data.user }));
@@ -135,7 +137,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const terminateAllSessions = async () => {
         try {
-            await axiosAuth.get("terminate_all_sessions");
+            await axiosAuth.get("auth/terminate_all_sessions");
             setUser(null);
         } catch (err) {
             setUser(null);
@@ -151,6 +153,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
             signOut,
             terminateAllSessions,
             setUser,
+            axiosAuth,
         }),
         [user]
     );
