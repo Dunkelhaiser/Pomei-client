@@ -36,12 +36,16 @@
 }
 
 .heading {
-    @include flex($direction: row, $justify: space-between, $align: center);
+    @include flex($direction: row, $justify: space-between);
 
     width: 100%;
 
     h3 {
         font-size: 1.2rem;
+    }
+
+    svg {
+        margin-bottom: 0.15rem;
     }
 
     /* stylelint-disable-next-line no-descending-specificity */
