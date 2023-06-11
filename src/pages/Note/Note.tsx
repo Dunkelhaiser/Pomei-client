@@ -28,6 +28,11 @@ const Note = () => {
         }
         setValue("title", note?.title);
         setValue("content", note?.content);
+        document.title = `Pomei | ${note?.title || "Untitled"}`;
+
+        return () => {
+            document.title = "Pomei";
+        };
     }, []);
 
     // const firstUpdate = useRef(true);
@@ -37,7 +42,7 @@ const Note = () => {
         //     return;
         // }
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        watch((value) => updateLocalNote({ ...value, id: getLocalNote(params.id!).id, date: getLocalNote(params.id!).date }));
+        watch((value) => updateLocalNote({ ...value, id: getLocalNote(params.id!).id, createdAt: getLocalNote(params.id!).createdAt }));
     }, [watch]);
 
     return (
