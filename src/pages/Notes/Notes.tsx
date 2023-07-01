@@ -15,14 +15,7 @@ const Notes = () => {
             <FloatingIcon icon={faPlus} onClick={() => navigate("/create_note")} />
             <Layout title="Notes" type="masonry">
                 {notes?.map((note) => (
-                    <Card
-                        key={note.id}
-                        id={note.id}
-                        title={note.title}
-                        content={note.content}
-                        date={note.updatedAt || note.createdAt}
-                        textLimit={400}
-                    />
+                    <Card key={note.id} id={note.id} title={note.title} content={note.content} date={note.updatedAt || note.createdAt} />
                 ))}
                 {notes.length < 1 && <Text text="No notes found." type="p" />}
             </Layout>

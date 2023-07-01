@@ -16,10 +16,17 @@
     transition: var(--hover);
 
     p {
+        overflow: hidden;
+        display: -webkit-box;
+
         margin-bottom: 0.15rem;
+
         font-size: 0.9rem;
         white-space: pre-line;
+
         opacity: 0.65;
+
+        -webkit-box-orient: vertical;
     }
 
     &:hover,

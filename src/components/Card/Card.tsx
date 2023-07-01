@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
-import { truncate } from "../../utils/truncate/truncate";
 import Styles from "./Card.module.scss";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import useToggle from "../../hooks/useToggle/useToggle";
@@ -15,10 +14,10 @@ interface Props {
     content?: string;
     date: string;
     id: string;
-    textLimit?: number;
+    rowLimit?: number | "none";
 }
 
-const Card: React.FC<Props> = ({ title, content, date, textLimit, id }) => {
+const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id }) => {
     const { isAuthorized } = useContext(UserContext);
     const { deleteLocalNote, copyLocalNote } = useContext(NotesContext);
     const [expanded, setExpanded] = useToggle();
@@ -64,7 +63,7 @@ const Card: React.FC<Props> = ({ title, content, date, textLimit, id }) => {
                     }
                 />
             </div>
-            <p>{content && truncate(content, textLimit || 400)}</p>
+            <p style={{ WebkitLineClamp: rowLimit }}>{content}</p>
 
             <span className={Styles.date}>
                 {new Date(date).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}

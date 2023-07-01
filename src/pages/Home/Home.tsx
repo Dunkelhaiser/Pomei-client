@@ -31,7 +31,7 @@ const Home = () => {
                         title={note.title}
                         content={note.content}
                         date={note.updatedAt || note.createdAt}
-                        textLimit={100}
+                        rowLimit={6}
                     />
                 ))}
                 {notes.length < 1 && <Text text="No notes found." type="p" />}
