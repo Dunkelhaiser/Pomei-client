@@ -1,41 +1,51 @@
-import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import toast from "react-hot-toast";
 import Button from "../../components/Button/Button";
 import Form, { InputSection } from "../../components/Form/Form";
 import Input from "../../components/Input/Input";
 import PasswordField from "../../components/PasswordField/PasswordField";
-import { UserContext } from "../../context/UserContext";
 import Layout from "../../components/Layout/Layout";
 import { SignUpForm, schema } from "../../models/SignUp";
-
-type ConflictError = {
-    username: string;
-    email: string;
-};
+import { signUp } from "../../api/authApi";
 
 const SignUp = () => {
     const navigate = useNavigate();
-    const { signUp } = useContext(UserContext);
-    const [error, setError] = useState<ConflictError | null>(null);
 
     const {
         register,
         handleSubmit,
         getValues,
-        formState: { errors },
+        setError,
+        clearErrors,
+        formState: { errors, isValid },
     } = useForm<SignUpForm>({ resolver: zodResolver(schema), mode: "onBlur" });
 
-    const handleSignUp = async (userData: SignUpForm) => {
-        try {
-            await signUp(userData);
+    const { mutate, isLoading } = useMutation({
+        mutationFn: (data: SignUpForm) => {
+            return toast.promise(signUp(data), {
+                loading: "Signing up...",
+                success: "Account created successfully",
+                error: "Something went wrong",
+            });
+        },
+        onSuccess() {
             navigate("/sign_in");
-            toast.success("Account created successfully");
-        } catch (err) {
-            setError(err as ConflictError);
-        }
+        },
+        onError(err) {
+            if (axios.isAxiosError(err)) {
+                if (err.response?.data.error.username)
+                    setError("username", { type: "validate", message: err.response?.data.error.username });
+                if (err.response?.data.error.email) setError("email", { type: "validate", message: err.response?.data.error.email });
+            } else toast.error("Something went wrong");
+        },
+    });
+
+    const handleSignUp = (userData: SignUpForm) => {
+        mutate(userData);
     };
 
     const checkAvailability = async () => {
@@ -48,9 +58,11 @@ const SignUp = () => {
         });
         const data = await res.json();
         if (res.ok) {
-            setError(null);
+            clearErrors("username");
+            clearErrors("email");
         } else {
-            setError(data.error);
+            if (data.error.username) setError("username", { type: "validate", message: data.error.username });
+            if (data.error.email) setError("email", { type: "validate", message: data.error.email });
         }
     };
     return (
@@ -62,7 +74,7 @@ const SignUp = () => {
                         styleType="line"
                         register={register}
                         name="username"
-                        errors={errors.username || error?.username}
+                        errors={errors.username}
                         onKeyUp={checkAvailability}
                     />
                     <Input
@@ -71,7 +83,7 @@ const SignUp = () => {
                         styleType="line"
                         register={register}
                         name="email"
-                        errors={errors.email || error?.email}
+                        errors={errors.email}
                         onKeyUp={checkAvailability}
                     />
                     <PasswordField
@@ -91,7 +103,7 @@ const SignUp = () => {
                         errors={errors.confirmPassword}
                     />
                 </InputSection>
-                <Button label="Sign Up" type="submit" />
+                <Button label="Sign Up" type="submit" disabled={isLoading || !isValid || !!errors.username || !!errors.email} />
                 <Link to="/sign_in">Already have an account? Sign in now!</Link>
             </Form>
         </Layout>

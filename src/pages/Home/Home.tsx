@@ -2,6 +2,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import Card from "../../components/Card/Card";
 import Folder from "../../components/Folder/Folder";
 import Layout from "../../components/Layout/Layout";
@@ -12,7 +13,11 @@ import Text from "../../components/Text/Text";
 
 const Home = () => {
     const navigate = useNavigate();
-    const { isAuthorized } = useContext(UserContext);
+    const { isAuthorized, axiosAuth } = useContext(UserContext);
+    const notesQuery = useQuery({
+        queryKey: ["notes"],
+        queryFn: () => axiosAuth.get("/notes"),
+    });
     const { notes } = useContext(NotesContext);
     const sortedNotes = [...notes].sort(
         (a, b) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime()

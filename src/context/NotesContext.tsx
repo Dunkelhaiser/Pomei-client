@@ -67,7 +67,6 @@ const NotesContextProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         try {
             const { data } = await axiosAuth.get("/notes");
             setNotes(data.notes);
-            console.log(data.notes);
         } catch (err) {
             toast.error("Failed to load notes");
         }
