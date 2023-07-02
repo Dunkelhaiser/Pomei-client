@@ -10,7 +10,7 @@ import Input from "../../components/Input/Input";
 import PasswordField from "../../components/PasswordField/PasswordField";
 import Layout from "../../components/Layout/Layout";
 import { SignUpForm, schema } from "../../models/SignUp";
-import { signUp } from "../../api/authApi";
+import { checkAvailability, signUp } from "../../api/authApi";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -44,30 +44,24 @@ const SignUp = () => {
         },
     });
 
-    const handleSignUp = (userData: SignUpForm) => {
-        mutate(userData);
-    };
-
-    const checkAvailability = async () => {
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/sign_up_check`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username: getValues("username"), email: getValues("email") }),
-        });
-        const data = await res.json();
-        if (res.ok) {
+    const { mutate: checkAvailabilityHandler } = useMutation({
+        mutationFn: () => checkAvailability(getValues("username"), getValues("email")),
+        onSuccess() {
             clearErrors("username");
             clearErrors("email");
-        } else {
-            if (data.error.username) setError("username", { type: "validate", message: data.error.username });
-            if (data.error.email) setError("email", { type: "validate", message: data.error.email });
-        }
-    };
+        },
+        onError(err) {
+            if (axios.isAxiosError(err)) {
+                if (err.response?.data.error.username)
+                    setError("username", { type: "validate", message: err.response?.data.error.username });
+                if (err.response?.data.error.email) setError("email", { type: "validate", message: err.response?.data.error.email });
+            }
+        },
+    });
+
     return (
         <Layout type="centered">
-            <Form title="Sign Up" onSubmit={handleSubmit(handleSignUp)}>
+            <Form title="Sign Up" onSubmit={handleSubmit((data) => mutate(data))}>
                 <InputSection>
                     <Input
                         placeholder="Username"
@@ -75,7 +69,7 @@ const SignUp = () => {
                         register={register}
                         name="username"
                         errors={errors.username}
-                        onKeyUp={checkAvailability}
+                        onKeyUp={() => checkAvailabilityHandler()}
                     />
                     <Input
                         placeholder="Email"
@@ -84,7 +78,7 @@ const SignUp = () => {
                         register={register}
                         name="email"
                         errors={errors.email}
-                        onKeyUp={checkAvailability}
+                        onKeyUp={() => checkAvailabilityHandler()}
                     />
                     <PasswordField
                         placeholder="Password"

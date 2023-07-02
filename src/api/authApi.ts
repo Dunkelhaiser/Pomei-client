@@ -2,11 +2,6 @@ import axios from "axios";
 import { SignUpForm } from "../models/SignUp";
 import { SignInForm } from "../models/SignIn";
 
-const basicApi = axios.create({
-    baseURL: `${import.meta.env.VITE_BACKEND_URL}/`,
-    withCredentials: true,
-});
-
 const authApi = axios.create({
     baseURL: `${import.meta.env.VITE_BACKEND_URL}/`,
     withCredentials: true,
@@ -23,9 +18,8 @@ authApi.interceptors.response.use(
     (response) => response,
     async (err) => {
         const originalRequest = err.config;
-        const errMessage = err.response.data.error as string;
         // eslint-disable-next-line no-underscore-dangle
-        if (errMessage.includes("Unauthorized") && !originalRequest._retry) {
+        if (err.response?.status === 401 && !originalRequest._retry) {
             // eslint-disable-next-line no-underscore-dangle
             originalRequest._retry = true;
             await refreshAccessTokenFn();
@@ -36,7 +30,7 @@ authApi.interceptors.response.use(
 );
 
 export const signUp = async (data: SignUpForm) => {
-    const res = await basicApi.post("auth/sign_up", data);
+    const res = await authApi.post("auth/sign_up", data);
     return res.data;
 };
 
@@ -57,5 +51,10 @@ export const terminateAllSessions = async () => {
 
 export const fetchUser = async () => {
     const res = await authApi.get("auth/get_auth_user");
+    return res.data;
+};
+
+export const checkAvailability = async (username: string, email: string) => {
+    const res = await authApi.post("auth/sign_up_check", { username, email });
     return res.data;
 };
