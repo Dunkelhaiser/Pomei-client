@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Button from "../../components/Button/Button";
@@ -23,11 +23,14 @@ const SignIn = () => {
         formState: { errors, isValid },
     } = useForm<SignInForm>({ resolver: zodResolver(schema), mode: "onBlur" });
 
+    const queryClient = useQueryClient();
+
     const { mutate, isLoading } = useMutation({
         mutationFn: (data: SignInForm) => signIn(data),
         onSuccess() {
             navigate(from, { replace: true });
             toast.success("Signed in successfully");
+            queryClient.refetchQueries();
         },
         onError(err) {
             if (axios.isAxiosError(err)) {

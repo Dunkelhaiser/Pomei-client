@@ -18,11 +18,13 @@ authApi.interceptors.response.use(
     (response) => response,
     async (err) => {
         const originalRequest = err.config;
+
         // eslint-disable-next-line no-underscore-dangle
-        if (err.response?.data.statusText === "Unauthorized" && !originalRequest._retry) {
+        if (err.response?.data.error === "Invalid token" && !originalRequest._retry) {
             // eslint-disable-next-line no-underscore-dangle
             originalRequest._retry = true;
-            await refreshAccessTokenFn();
+            const newAccessToken = await refreshAccessTokenFn();
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken.accessToken}`;
             return authApi(originalRequest);
         }
         return Promise.reject(err);

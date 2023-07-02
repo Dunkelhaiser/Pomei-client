@@ -13,11 +13,11 @@ import Text from "../../components/Text/Text";
 
 const Home = () => {
     const navigate = useNavigate();
-    const { isAuthorized, axiosAuth } = useContext(UserContext);
-    const notesQuery = useQuery({
-        queryKey: ["notes"],
-        queryFn: () => axiosAuth.get("/notes"),
-    });
+    const { isAuthorized } = useContext(UserContext);
+    // const notesQuery = useQuery({
+    //     queryKey: ["notes"],
+    //     queryFn: () => axiosAuth.get("/notes"),
+    // });
     const { notes } = useContext(NotesContext);
     const sortedNotes = [...notes].sort(
         (a, b) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime()
