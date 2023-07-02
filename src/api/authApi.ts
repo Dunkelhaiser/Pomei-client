@@ -19,7 +19,7 @@ authApi.interceptors.response.use(
     async (err) => {
         const originalRequest = err.config;
         // eslint-disable-next-line no-underscore-dangle
-        if (err.response?.status === 401 && !originalRequest._retry) {
+        if (err.response?.data.statusText === "Unauthorized" && !originalRequest._retry) {
             // eslint-disable-next-line no-underscore-dangle
             originalRequest._retry = true;
             await refreshAccessTokenFn();
