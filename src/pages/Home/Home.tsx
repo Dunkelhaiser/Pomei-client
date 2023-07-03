@@ -10,16 +10,22 @@ import { NotesContext } from "../../context/NotesContext";
 import { UserContext } from "../../context/UserContext";
 import HomeStyles from "./Home.module.scss";
 import Text from "../../components/Text/Text";
+import { getNotes } from "../../api/notes";
+import Loader from "../../components/Loader/Loader";
 
 const Home = () => {
     const navigate = useNavigate();
     const { isAuthorized } = useContext(UserContext);
-    // const notesQuery = useQuery({
-    //     queryKey: ["notes"],
-    //     queryFn: () => axiosAuth.get("/notes"),
-    // });
-    const { notes } = useContext(NotesContext);
-    const sortedNotes = [...notes].sort(
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["notes"],
+        queryFn: () => getNotes(),
+        enabled: isAuthorized,
+    });
+    const { notes: notesLocal } = useContext(NotesContext);
+    const sortedNotes = data?.notes.sort(
+        (a, b) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime()
+    );
+    const sortedNotesLocal = notesLocal.sort(
         (a, b) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime()
     );
     return (
@@ -28,19 +34,40 @@ const Home = () => {
                 <h2>Latest Notes</h2>
                 <FontAwesomeIcon icon={faPlus} className={HomeStyles.add_icon} onClick={() => navigate("/create_note")} />
             </div>
-            <section className={HomeStyles.layout}>
-                {sortedNotes.map((note) => (
-                    <Card
-                        key={note.id}
-                        id={note.id}
-                        title={note.title}
-                        content={note.content}
-                        date={note.updatedAt || note.createdAt}
-                        rowLimit={6}
-                    />
-                ))}
-                {notes.length < 1 && <Text text="No notes found." type="p" />}
-            </section>
+            {!isAuthorized && (
+                <section className={HomeStyles.layout}>
+                    {sortedNotesLocal.map((note) => (
+                        <Card
+                            key={note.id}
+                            id={note.id}
+                            title={note.title}
+                            content={note.content}
+                            date={note.updatedAt || note.createdAt}
+                            rowLimit={6}
+                        />
+                    ))}
+                    {sortedNotesLocal.length < 1 && <Text text="No notes found." type="p" />}
+                </section>
+            )}
+
+            {isLoading && isAuthorized && <Loader />}
+            {isError && isAuthorized && <Text text="Something went wrong." type="p" />}
+            {!isLoading && !isError && sortedNotes && (
+                <section className={HomeStyles.layout}>
+                    {sortedNotes?.map((note) => (
+                        <Card
+                            key={note.id}
+                            id={note.id}
+                            title={note.title}
+                            content={note.content}
+                            date={note.updatedAt || note.createdAt}
+                            rowLimit={6}
+                        />
+                    ))}
+                    {sortedNotes.length < 1 && <Text text="No notes found." type="p" />}
+                </section>
+            )}
+
             {isAuthorized && (
                 <>
                     <div className={HomeStyles.heading}>

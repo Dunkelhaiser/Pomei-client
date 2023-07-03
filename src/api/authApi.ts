@@ -2,7 +2,7 @@ import axios from "axios";
 import { SignUpForm } from "../models/SignUp";
 import { SignInForm } from "../models/SignIn";
 
-const authApi = axios.create({
+export const authApi = axios.create({
     baseURL: `${import.meta.env.VITE_BACKEND_URL}/`,
     withCredentials: true,
 });
