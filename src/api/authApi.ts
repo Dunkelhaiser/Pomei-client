@@ -60,3 +60,8 @@ export const checkAvailability = async (username: string, email: string) => {
     const res = await authApi.post("auth/sign_up_check", { username, email });
     return res.data;
 };
+
+export const verifyUser = async (token: string) => {
+    const res = await authApi.get(`auth/verify_user/${token}`);
+    return res.data;
+};
