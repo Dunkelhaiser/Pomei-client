@@ -65,3 +65,24 @@ export const verifyUser = async (token: string) => {
     const res = await authApi.get(`auth/verify_user/${token}`);
     return res.data;
 };
+
+export const resetPasswordRequest = async (data: { email: string }) => {
+    const res = await authApi.post("auth/reset_password_request", data);
+    return res.data;
+};
+
+export const checkPasswordTokenValidity = async (token: string) => {
+    const res = await authApi.post(`auth/reset_password_check/${token}`);
+    return res.data;
+};
+
+export const resetPassword = async (
+    token: string,
+    data: {
+        password: string;
+        confirmPassword: string;
+    }
+) => {
+    const res = await authApi.post(`auth/reset_password/${token}`, data);
+    return res.data;
+};
