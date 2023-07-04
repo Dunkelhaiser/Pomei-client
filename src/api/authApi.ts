@@ -1,6 +1,8 @@
 import axios from "axios";
 import { SignUpForm } from "../models/SignUp";
 import { SignInForm } from "../models/SignIn";
+import { EmailRequestForm } from "../models/EmailRequest";
+import { NewPasswordForm } from "../models/NewPassword";
 
 export const authApi = axios.create({
     baseURL: `${import.meta.env.VITE_BACKEND_URL}/`,
@@ -66,7 +68,7 @@ export const verifyUser = async (token: string) => {
     return res.data;
 };
 
-export const resetPasswordRequest = async (data: { email: string }) => {
+export const resetPasswordRequest = async (data: EmailRequestForm) => {
     const res = await authApi.post("auth/reset_password_request", data);
     return res.data;
 };
@@ -76,13 +78,7 @@ export const checkPasswordTokenValidity = async (token: string) => {
     return res.data;
 };
 
-export const resetPassword = async (
-    token: string,
-    data: {
-        password: string;
-        confirmPassword: string;
-    }
-) => {
+export const resetPassword = async (token: string, data: NewPasswordForm) => {
     const res = await authApi.post(`auth/reset_password/${token}`, data);
     return res.data;
 };

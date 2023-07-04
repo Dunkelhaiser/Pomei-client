@@ -1,5 +1,4 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { z as zod } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -10,31 +9,17 @@ import Button from "../../components/Button/Button";
 import PasswordField from "../../components/PasswordField/PasswordField";
 import { checkPasswordTokenValidity, resetPassword } from "../../api/authApi";
 import { IResError } from "../../api/response";
+import { NewPasswordForm, schema } from "../../models/NewPassword";
 
 const NewPassword = () => {
     const params = useParams();
     const navigate = useNavigate();
-    const schema = zod
-        .object({
-            password: zod
-                .string()
-                .nonempty({ message: "Enter your password" })
-                .min(6, { message: "Password must be at least 6 characters long" })
-                .max(36, { message: "Password must be at maximum 36 characters long" }),
-            confirmPassword: zod.string().nonempty({ message: "Confirm your password" }),
-        })
-        .refine((schemaData) => schemaData.password === schemaData.confirmPassword, {
-            message: "Passwords must match",
-            path: ["confirmPassword"],
-        });
-
-    type PasswordResetForm = zod.infer<typeof schema>;
 
     const {
         register,
         handleSubmit,
         formState: { errors, isValid },
-    } = useForm<PasswordResetForm>({ resolver: zodResolver(schema), mode: "onBlur" });
+    } = useForm<NewPasswordForm>({ resolver: zodResolver(schema), mode: "onBlur" });
 
     useQuery({
         queryKey: ["passwordResetToken", params.token],
@@ -50,7 +35,7 @@ const NewPassword = () => {
     });
 
     const { mutate, isLoading } = useMutation({
-        mutationFn: (data: PasswordResetForm) => resetPassword(`${params.token}`, data),
+        mutationFn: (data: NewPasswordForm) => resetPassword(`${params.token}`, data),
         onSuccess() {
             navigate("/sign_in");
             toast.success("Password reset successfully");

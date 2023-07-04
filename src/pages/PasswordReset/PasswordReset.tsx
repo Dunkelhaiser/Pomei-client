@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { z as zod } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -10,23 +9,18 @@ import Form, { InputSection } from "../../components/Form/Form";
 import Input from "../../components/Input/Input";
 import { IResError } from "../../api/response";
 import { resetPasswordRequest } from "../../api/authApi";
+import { EmailRequestForm, schema } from "../../models/EmailRequest";
 
 const PasswordReset = () => {
-    const schema = zod.object({
-        email: zod.string().nonempty({ message: "Enter your email" }).email({ message: "Enter a valid email" }),
-    });
-
-    type PasswordResetForm = zod.infer<typeof schema>;
-
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors, isValid },
-    } = useForm<PasswordResetForm>({ resolver: zodResolver(schema), mode: "onBlur" });
+    } = useForm<EmailRequestForm>({ resolver: zodResolver(schema), mode: "onBlur" });
 
     const { mutate, isLoading } = useMutation({
-        mutationFn: (data: PasswordResetForm) => resetPasswordRequest(data),
+        mutationFn: (data: EmailRequestForm) => resetPasswordRequest(data),
         onSuccess() {
             toast.success("Password reset link sent");
             reset();
