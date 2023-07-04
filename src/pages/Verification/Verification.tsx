@@ -28,10 +28,10 @@ const Verification = () => {
 
     return (
         <Layout type="centered">
-            <h2 className={Styles.title}>{(error as IError)?.response?.data?.message || data?.message}</h2>
-            {data?.message === "Account verified successfully" && <Button label="Sign In" onClick={() => navigate("/sign_in")} />}
-            {((error as IError)?.response?.data?.message === "Verification has expired" ||
-                (error as IError)?.response?.data?.message === "Invalid verification token") && (
+            <h2 className={Styles.title}>{(error as IError)?.response?.data?.status || data?.status}</h2>
+            {data?.status === "Account verified successfully" && <Button label="Sign In" onClick={() => navigate("/sign_in")} />}
+            {((error as IError)?.response?.data?.status === "Verification has expired" ||
+                (error as IError)?.response?.data?.status === "Invalid verification token") && (
                 <Button label="Sign Up" onClick={() => navigate("/sign_up")} />
             )}
         </Layout>

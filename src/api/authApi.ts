@@ -20,7 +20,7 @@ authApi.interceptors.response.use(
         const originalRequest = err.config;
 
         // eslint-disable-next-line no-underscore-dangle
-        if (err.response?.data.error === "Invalid token" && !originalRequest._retry) {
+        if (err.response?.data.status === "Invalid token" && !originalRequest._retry) {
             // eslint-disable-next-line no-underscore-dangle
             originalRequest._retry = true;
             const newAccessToken = await refreshAccessTokenFn();

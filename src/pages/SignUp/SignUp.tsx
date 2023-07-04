@@ -37,9 +37,9 @@ const SignUp = () => {
         },
         onError(err) {
             if (axios.isAxiosError(err)) {
-                if (err.response?.data.error.username)
-                    setError("username", { type: "validate", message: err.response?.data.error.username });
-                if (err.response?.data.error.email) setError("email", { type: "validate", message: err.response?.data.error.email });
+                if (err.response?.data.status.username)
+                    setError("username", { type: "validate", message: err.response?.data.status.username });
+                if (err.response?.data.status.email) setError("email", { type: "validate", message: err.response?.data.status.email });
             } else toast.error("Something went wrong");
         },
     });
@@ -52,9 +52,9 @@ const SignUp = () => {
         },
         onError(err) {
             if (axios.isAxiosError(err)) {
-                if (err.response?.data.error.username)
-                    setError("username", { type: "validate", message: err.response?.data.error.username });
-                if (err.response?.data.error.email) setError("email", { type: "validate", message: err.response?.data.error.email });
+                if (err.response?.data.status.username)
+                    setError("username", { type: "validate", message: err.response?.data.status.username });
+                if (err.response?.data.status.email) setError("email", { type: "validate", message: err.response?.data.status.email });
             }
         },
     });

@@ -52,7 +52,7 @@ const Home = () => {
 
             {isLoading && isAuthorized && <Loader />}
             {isError && isAuthorized && <Text text="Something went wrong." type="p" />}
-            {!isLoading && !isError && sortedNotes && (
+            {!isLoading && !isError && sortedNotes && isAuthorized && (
                 <section className={HomeStyles.layout}>
                     {sortedNotes?.map((note) => (
                         <Card
