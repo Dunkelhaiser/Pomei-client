@@ -1,5 +1,5 @@
-export interface IError {
-    response?: {
+export interface IResError {
+    response: {
         data: {
             status: string;
         };

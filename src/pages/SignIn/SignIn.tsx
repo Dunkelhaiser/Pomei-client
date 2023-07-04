@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import toast from "react-hot-toast";
 import Button from "../../components/Button/Button";
 import Form, { InputSection } from "../../components/Form/Form";
@@ -11,6 +10,7 @@ import PasswordField from "../../components/PasswordField/PasswordField";
 import Layout from "../../components/Layout/Layout";
 import { SignInForm, schema } from "../../models/SignIn";
 import { signIn } from "../../api/authApi";
+import { IResError } from "../../api/response";
 
 const SignIn = () => {
     const navigate = useNavigate();
@@ -32,10 +32,8 @@ const SignIn = () => {
             toast.success("Signed in successfully");
             queryClient.refetchQueries();
         },
-        onError(err) {
-            if (axios.isAxiosError(err)) {
-                toast.error(err.response?.data.status);
-            }
+        onError(err: IResError) {
+            toast.error(err.response?.data.status);
         },
     });
 

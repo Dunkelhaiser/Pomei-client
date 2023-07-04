@@ -11,6 +11,7 @@ import PasswordField from "../../components/PasswordField/PasswordField";
 import Layout from "../../components/Layout/Layout";
 import { SignUpForm, schema } from "../../models/SignUp";
 import { checkAvailability, signUp } from "../../api/authApi";
+import { IResError } from "../../api/response";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -35,7 +36,7 @@ const SignUp = () => {
         onSuccess() {
             navigate("/sign_in");
         },
-        onError(err) {
+        onError(err: IResError) {
             if (axios.isAxiosError(err)) {
                 if (err.response?.data.status.username)
                     setError("username", { type: "validate", message: err.response?.data.status.username });
