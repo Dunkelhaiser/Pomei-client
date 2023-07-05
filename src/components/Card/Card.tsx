@@ -2,12 +2,15 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import Styles from "./Card.module.scss";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import useToggle from "../../hooks/useToggle/useToggle";
 import { UserContext } from "../../context/UserContext";
 import { NotesContext } from "../../context/NotesContext";
 import { handleFocus } from "../../utils/handleFocus/handleFocus";
+import { archiveNote, duplicateNote, moveToBin, pinNote } from "../../api/notes";
 
 interface Props {
     title?: string;
@@ -27,6 +30,57 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id }) => {
         e.stopPropagation();
         setExpanded();
     };
+
+    const queryClient = useQueryClient();
+
+    const { mutate: duplicateNoteHandler, isLoading: isDuplicatingNote } = useMutation({
+        mutationFn: (noteId: string) => {
+            return toast.promise(duplicateNote(noteId), {
+                loading: "Duplicating note...",
+                success: (res) => res.status,
+                error: (err) => err.response?.data.status,
+            });
+        },
+        onSuccess() {
+            queryClient.refetchQueries();
+        },
+    });
+    const { mutate: moveToBinHandler, isLoading: isMovingToBin } = useMutation({
+        mutationFn: (noteId: string) => {
+            return toast.promise(moveToBin(noteId), {
+                loading: "Moving note to bin...",
+                success: (res) => res.status,
+                error: (err) => err.response?.data.status,
+            });
+        },
+        onSuccess() {
+            queryClient.refetchQueries();
+        },
+    });
+    const { mutate: archiveNoteHandler, isLoading: isArchivingNote } = useMutation({
+        mutationFn: (noteId: string) => {
+            return toast.promise(archiveNote(noteId, "true"), {
+                loading: "Archiving note...",
+                success: (res) => res.status,
+                error: (err) => err.response?.data.status,
+            });
+        },
+        onSuccess() {
+            queryClient.refetchQueries();
+        },
+    });
+    const { mutate: pinNoteHandler, isLoading: isPinningNote } = useMutation({
+        mutationFn: (noteId: string) => {
+            return toast.promise(pinNote(noteId, "true"), {
+                loading: "Pinning note...",
+                success: (res) => res.status,
+                error: (err) => err.response?.data.status,
+            });
+        },
+        onSuccess() {
+            queryClient.refetchQueries();
+        },
+    });
 
     return (
         <div
@@ -51,14 +105,50 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id }) => {
                     options={
                         isAuthorized
                             ? [
-                                  { label: "Pin", onClick: () => {} },
-                                  { label: "Copy", onClick: () => {} },
-                                  { label: "Archive", onClick: () => {} },
-                                  { label: "Delete", onClick: () => {} },
+                                  {
+                                      label: "Pin",
+                                      onClick: () => {
+                                          setExpanded(false);
+                                          return !isPinningNote && pinNoteHandler(id);
+                                      },
+                                  },
+                                  {
+                                      label: "Copy",
+                                      onClick: () => {
+                                          setExpanded(false);
+                                          return !isDuplicatingNote && duplicateNoteHandler(id);
+                                      },
+                                  },
+                                  {
+                                      label: "Archive",
+                                      onClick: () => {
+                                          setExpanded(false);
+                                          return !isArchivingNote && archiveNoteHandler(id);
+                                      },
+                                  },
+                                  {
+                                      label: "Delete",
+                                      onClick: () => {
+                                          setExpanded(false);
+                                          return !isMovingToBin && moveToBinHandler(id);
+                                      },
+                                  },
                               ]
                             : [
-                                  { label: "Copy", onClick: () => copyLocalNote(id) },
-                                  { label: "Delete", onClick: () => deleteLocalNote(id) },
+                                  {
+                                      label: "Copy",
+                                      onClick: () => {
+                                          copyLocalNote(id);
+                                          setExpanded(false);
+                                      },
+                                  },
+                                  {
+                                      label: "Delete",
+                                      onClick: () => {
+                                          deleteLocalNote(id);
+                                          setExpanded(false);
+                                      },
+                                  },
                               ]
                     }
                 />
