@@ -22,5 +22,3 @@ export const schema = zod
         message: "Passwords must match",
         path: ["confirmPassword"],
     });
-
-export type SignUpForm = zod.infer<typeof schema>;

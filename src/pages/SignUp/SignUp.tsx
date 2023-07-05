@@ -9,7 +9,7 @@ import Form, { InputSection } from "../../components/Form/Form";
 import Input from "../../components/Input/Input";
 import PasswordField from "../../components/PasswordField/PasswordField";
 import Layout from "../../components/Layout/Layout";
-import { SignUpForm, schema } from "../../models/SignUp";
+import { SignUpForm, schema } from "../../models/schemas/SignUp";
 import { checkAvailability, signUp } from "../../api/authApi";
 import { IResError } from "../../api/response";
 

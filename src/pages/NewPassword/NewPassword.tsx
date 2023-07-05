@@ -9,7 +9,7 @@ import Button from "../../components/Button/Button";
 import PasswordField from "../../components/PasswordField/PasswordField";
 import { checkPasswordTokenValidity, resetPassword } from "../../api/authApi";
 import { IResError } from "../../api/response";
-import { NewPasswordForm, schema } from "../../models/NewPassword";
+import { NewPasswordForm, schema } from "../../models/schemas/NewPassword";
 
 const NewPassword = () => {
     const params = useParams();

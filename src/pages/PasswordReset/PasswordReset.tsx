@@ -9,7 +9,7 @@ import Form, { InputSection } from "../../components/Form/Form";
 import Input from "../../components/Input/Input";
 import { IResError } from "../../api/response";
 import { resetPasswordRequest } from "../../api/authApi";
-import { EmailRequestForm, schema } from "../../models/EmailRequest";
+import { EmailRequestForm, schema } from "../../models/schemas/EmailRequest";
 
 const PasswordReset = () => {
     const {

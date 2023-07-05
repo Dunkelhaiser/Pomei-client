@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SignUpForm } from "../models/SignUp";
+import { SignUpForm } from "../models/schemas/SignUp";
 import { SignInForm } from "../models/SignIn";
 import { EmailRequestForm } from "../models/EmailRequest";
 import { NewPasswordForm } from "../models/NewPassword";
