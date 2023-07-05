@@ -23,7 +23,7 @@ const Home = () => {
         isError: isErrorNotes,
     } = useQuery({
         queryKey: ["notes"],
-        queryFn: () => getNotes(),
+        queryFn: () => getNotes(1, 6, "desc", "updatedAt"),
         enabled: isAuthorized,
     });
     const {
@@ -32,7 +32,7 @@ const Home = () => {
         isError: isErrorFolders,
     } = useQuery({
         queryKey: ["folders"],
-        queryFn: () => getFolders(),
+        queryFn: () => getFolders(1, 6, "desc", "updatedAt"),
         enabled: isAuthorized,
     });
     const { notes: notesLocal } = useContext(NotesContext);
