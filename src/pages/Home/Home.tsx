@@ -53,6 +53,9 @@ const Home = () => {
                             id={note.id}
                             title={note.title}
                             content={note.content}
+                            isPinned={note.isPinned}
+                            isArchived={note.isArchived}
+                            isDeleted={note.isDeleted}
                             date={note.updatedAt || note.createdAt}
                             rowLimit={6}
                         />
@@ -72,6 +75,9 @@ const Home = () => {
                                         id={note.id}
                                         title={note.title}
                                         content={note.content}
+                                        isPinned={note.isPinned}
+                                        isArchived={note.isArchived}
+                                        isDeleted={note.isDeleted}
                                         date={note.updatedAt || note.createdAt}
                                         rowLimit={6}
                                     />

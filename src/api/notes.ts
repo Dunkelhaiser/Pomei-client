@@ -30,3 +30,13 @@ export const pinNote = async (id: string, pin: "true" | "false"): Promise<{ stat
     const res = await authApi.put(`notes/pin/${id}?isPinned=${pin}`);
     return res.data;
 };
+
+export const restoreNote = async (id: string): Promise<{ status: string; note: Note }> => {
+    const res = await authApi.put(`notes/restore/${id}`);
+    return res.data;
+};
+
+export const deleteNote = async (id: string): Promise<{ status: string; note: Note }> => {
+    const res = await authApi.delete(`notes/delete/${id}`);
+    return res.data;
+};
