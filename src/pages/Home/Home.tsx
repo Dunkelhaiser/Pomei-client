@@ -36,9 +36,6 @@ const Home = () => {
         enabled: isAuthorized,
     });
     const { notes: notesLocal } = useContext(NotesContext);
-    const sortedNotes = notes?.notes.sort(
-        (a, b) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime()
-    );
     const sortedNotesLocal = notesLocal.sort(
         (a, b) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime()
     );
@@ -67,20 +64,23 @@ const Home = () => {
             {isAuthorized && (
                 <>
                     {isLoadingNotes && <Loader />}
-                    {isErrorNotes && <Text text="Something went wrong." type="p" />}
-                    {!isLoadingNotes && !isErrorNotes && sortedNotes && (
+                    {isErrorNotes && <Text text="Failed to load notes." type="p" />}
+                    {!isLoadingNotes && !isErrorNotes && (
                         <section className={HomeStyles.layout}>
-                            {sortedNotes?.map((note) => (
-                                <Card
-                                    key={note.id}
-                                    id={note.id}
-                                    title={note.title}
-                                    content={note.content}
-                                    date={note.updatedAt || note.createdAt}
-                                    rowLimit={6}
-                                />
-                            ))}
-                            {sortedNotes.length < 1 && <Text text="No notes found." type="p" />}
+                            {notes?.notes.length > 0 ? (
+                                notes?.notes?.map((note) => (
+                                    <Card
+                                        key={note.id}
+                                        id={note.id}
+                                        title={note.title}
+                                        content={note.content}
+                                        date={note.updatedAt || note.createdAt}
+                                        rowLimit={6}
+                                    />
+                                ))
+                            ) : (
+                                <Text text="No notes found." type="p" />
+                            )}
                         </section>
                     )}
                 </>
@@ -94,13 +94,16 @@ const Home = () => {
                     </div>
                     <section className={HomeStyles.layout}>
                         {isLoadingFolders && isAuthorized && <Loader />}
-                        {isErrorFolders && isAuthorized && <Text text="Something went wrong." type="p" />}
+                        {isErrorFolders && isAuthorized && <Text text="Failed to load folders." type="p" />}
                         {!isLoadingFolders &&
                             !isErrorFolders &&
-                            folders?.folders?.map((folder) => {
-                                return <Folder key={folder.id} title={folder.title} color={folder.color} />;
-                            })}
-                        {(!folders || folders?.folders?.length < 1) && <Text text="No folders found." type="p" />}
+                            (folders?.folders?.length > 0 ? (
+                                folders?.folders?.map((folder) => {
+                                    return <Folder key={folder.id} title={folder.title} color={folder.color} />;
+                                })
+                            ) : (
+                                <Text text="No folders found." type="p" />
+                            ))}
                     </section>
                 </>
             )}
