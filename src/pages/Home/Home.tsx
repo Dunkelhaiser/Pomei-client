@@ -45,7 +45,7 @@ const Home = () => {
                 <h2>Latest Notes</h2>
                 <FontAwesomeIcon icon={faPlus} className={HomeStyles.add_icon} onClick={() => navigate("/create_note")} />
             </div>
-            {!isAuthorized && (
+            {!isAuthorized ? (
                 <section className={HomeStyles.layout}>
                     {sortedNotesLocal.map((note) => (
                         <Card
@@ -59,9 +59,7 @@ const Home = () => {
                     ))}
                     {sortedNotesLocal.length < 1 && <Text text="No notes found." type="p" />}
                 </section>
-            )}
-
-            {isAuthorized && (
+            ) : (
                 <>
                     {isLoadingNotes && <Loader />}
                     {isErrorNotes && <Text text="Failed to load notes." type="p" />}
@@ -83,11 +81,7 @@ const Home = () => {
                             )}
                         </section>
                     )}
-                </>
-            )}
 
-            {isAuthorized && (
-                <>
                     <div className={HomeStyles.heading}>
                         <h2>Latest Folders</h2>
                         <FontAwesomeIcon icon={faPlus} className={HomeStyles.add_icon} />
