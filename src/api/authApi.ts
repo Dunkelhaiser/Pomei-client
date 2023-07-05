@@ -1,8 +1,8 @@
 import axios from "axios";
 import { SignUpForm } from "../models/schemas/SignUp";
-import { SignInForm } from "../models/SignIn";
-import { EmailRequestForm } from "../models/EmailRequest";
-import { NewPasswordForm } from "../models/NewPassword";
+import { SignInForm } from "../models/schemas/SignIn";
+import { EmailRequestForm } from "../models/schemas/EmailRequest";
+import { NewPasswordForm } from "../models/schemas/NewPassword";
 
 export const authApi = axios.create({
     baseURL: `${import.meta.env.VITE_BACKEND_URL}/`,
