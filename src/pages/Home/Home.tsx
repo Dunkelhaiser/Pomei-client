@@ -12,17 +12,31 @@ import HomeStyles from "./Home.module.scss";
 import Text from "../../components/Text/Text";
 import { getNotes } from "../../api/notes";
 import Loader from "../../components/Loader/Loader";
+import { getFolders } from "../../api/folders";
 
 const Home = () => {
     const navigate = useNavigate();
     const { isAuthorized } = useContext(UserContext);
-    const { data, isLoading, isError } = useQuery({
+    const {
+        data: notes,
+        isLoading: isLoadingNotes,
+        isError: isErrorNotes,
+    } = useQuery({
         queryKey: ["notes"],
         queryFn: () => getNotes(),
         enabled: isAuthorized,
     });
+    const {
+        data: folders,
+        isLoading: isLoadingFolders,
+        isError: isErrorFolders,
+    } = useQuery({
+        queryKey: ["folders"],
+        queryFn: () => getFolders(),
+        enabled: isAuthorized,
+    });
     const { notes: notesLocal } = useContext(NotesContext);
-    const sortedNotes = data?.notes.sort(
+    const sortedNotes = notes?.notes.sort(
         (a, b) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime()
     );
     const sortedNotesLocal = notesLocal.sort(
@@ -50,22 +64,26 @@ const Home = () => {
                 </section>
             )}
 
-            {isLoading && isAuthorized && <Loader />}
-            {isError && isAuthorized && <Text text="Something went wrong." type="p" />}
-            {!isLoading && !isError && sortedNotes && isAuthorized && (
-                <section className={HomeStyles.layout}>
-                    {sortedNotes?.map((note) => (
-                        <Card
-                            key={note.id}
-                            id={note.id}
-                            title={note.title}
-                            content={note.content}
-                            date={note.updatedAt || note.createdAt}
-                            rowLimit={6}
-                        />
-                    ))}
-                    {sortedNotes.length < 1 && <Text text="No notes found." type="p" />}
-                </section>
+            {isAuthorized && (
+                <>
+                    {isLoadingNotes && <Loader />}
+                    {isErrorNotes && <Text text="Something went wrong." type="p" />}
+                    {!isLoadingNotes && !isErrorNotes && sortedNotes && (
+                        <section className={HomeStyles.layout}>
+                            {sortedNotes?.map((note) => (
+                                <Card
+                                    key={note.id}
+                                    id={note.id}
+                                    title={note.title}
+                                    content={note.content}
+                                    date={note.updatedAt || note.createdAt}
+                                    rowLimit={6}
+                                />
+                            ))}
+                            {sortedNotes.length < 1 && <Text text="No notes found." type="p" />}
+                        </section>
+                    )}
+                </>
             )}
 
             {isAuthorized && (
@@ -75,10 +93,14 @@ const Home = () => {
                         <FontAwesomeIcon icon={faPlus} className={HomeStyles.add_icon} />
                     </div>
                     <section className={HomeStyles.layout}>
-                        <Folder title="My Folder" />
-                        <Folder title="Homework" color="purple" />
-                        <Folder title="Secret" color="green" />
-                        <Folder title="Copy" />
+                        {isLoadingFolders && isAuthorized && <Loader />}
+                        {isErrorFolders && isAuthorized && <Text text="Something went wrong." type="p" />}
+                        {!isLoadingFolders &&
+                            !isErrorFolders &&
+                            folders?.folders?.map((folder) => {
+                                return <Folder key={folder.id} title={folder.title} color={folder.color} />;
+                            })}
+                        {(!folders || folders?.folders?.length < 1) && <Text text="No folders found." type="p" />}
                     </section>
                 </>
             )}
