@@ -40,3 +40,18 @@ export const deleteNote = async (id: string): Promise<{ status: string; note: No
     const res = await authApi.delete(`notes/delete/${id}`);
     return res.data;
 };
+
+export const loadBin = async (
+    page?: number,
+    size?: number,
+    order?: "asc" | "desc",
+    orderBy?: string
+): Promise<{ status: string; notes: Note[]; totalNotes: number; totalPages: number }> => {
+    const res = await authApi.get(`notes/bin?page=${page}&size=${size}&order=${order}&orderBy=${orderBy}`);
+    return res.data;
+};
+
+export const emptyBin = async (): Promise<{ status: string }> => {
+    const res = await authApi.delete(`notes/empty_bin`);
+    return res.data;
+};
