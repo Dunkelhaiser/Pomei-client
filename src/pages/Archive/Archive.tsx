@@ -15,7 +15,7 @@ const Archive = () => {
         enabled: isAuthorized,
     });
     return (
-        <Layout title="Archive" type="masonry">
+        <Layout title="Archive" type={isLoading ? "default" : "masonry"}>
             {isLoading && <Loader />}
             {isError && <Text text="Failed to load archive." type="p" />}
             {!isLoading &&
