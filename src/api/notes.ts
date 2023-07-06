@@ -55,3 +55,13 @@ export const emptyBin = async (): Promise<{ status: string }> => {
     const res = await authApi.delete(`notes/empty_bin`);
     return res.data;
 };
+
+export const loadArchive = async (
+    page?: number,
+    size?: number,
+    order?: "asc" | "desc",
+    orderBy?: string
+): Promise<{ status: string; notes: Note[]; totalNotes: number; totalPages: number }> => {
+    const res = await authApi.get(`notes/archive?page=${page}&size=${size}&order=${order}&orderBy=${orderBy}`);
+    return res.data;
+};

@@ -126,6 +126,23 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinn
         },
     ];
 
+    const archivedContextOptions = [
+        {
+            label: "Unarchive",
+            onClick: () => {
+                setExpanded(false);
+                return !isArchivingNote && archiveNoteHandler(id);
+            },
+        },
+        {
+            label: "Delete",
+            onClick: () => {
+                setExpanded(false);
+                return !isMovingToBin && moveToBinHandler(id);
+            },
+        },
+    ];
+
     const authContextOptions = [
         {
             label: isPinned ? "Unpin" : "Pin",
@@ -142,7 +159,7 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinn
             },
         },
         {
-            label: isArchived ? "Unarchive" : "Archive",
+            label: "Archive",
             onClick: () => {
                 setExpanded(false);
                 return !isArchivingNote && archiveNoteHandler(id);
@@ -194,7 +211,15 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinn
                     classRef={Styles.context_menu}
                     isVisible={expanded}
                     outsideClick={() => setTimeout(() => setExpanded(false), 150)}
-                    options={!isAuthorized ? localContextOptions : isDeleted ? deletedContextOptions : authContextOptions}
+                    options={
+                        !isAuthorized
+                            ? localContextOptions
+                            : isDeleted
+                            ? deletedContextOptions
+                            : isArchived
+                            ? archivedContextOptions
+                            : authContextOptions
+                    }
                 />
             </div>
             <p style={{ WebkitLineClamp: rowLimit }}>{content}</p>
