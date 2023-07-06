@@ -64,11 +64,12 @@ const Home = () => {
                 </section>
             ) : (
                 <>
-                    {isLoadingNotes && <Loader />}
-                    {isErrorNotes && <Text text="Failed to load notes." type="p" />}
-                    {!isLoadingNotes && !isErrorNotes && (
-                        <section className={HomeStyles.layout}>
-                            {notes?.notes.length > 0 ? (
+                    <section className={HomeStyles.layout}>
+                        {isLoadingNotes && <Loader />}
+                        {isErrorNotes && <Text text="Failed to load notes." type="p" />}
+                        {!isLoadingNotes &&
+                            !isErrorNotes &&
+                            (notes?.notes.length > 0 ? (
                                 notes?.notes?.map((note) => (
                                     <Card
                                         key={note.id}
@@ -84,9 +85,8 @@ const Home = () => {
                                 ))
                             ) : (
                                 <Text text="No notes found." type="p" />
-                            )}
-                        </section>
-                    )}
+                            ))}
+                    </section>
 
                     <div className={HomeStyles.heading}>
                         <h2>Latest Folders</h2>
