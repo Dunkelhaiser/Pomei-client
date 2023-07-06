@@ -17,7 +17,6 @@ export const loadNote = async (id: string): Promise<{ status: string; note: Note
 };
 
 export const updateNote = async (id: string, note: Pick<Note, "title" | "content">): Promise<{ status: string; note: Note }> => {
-    console.log(note);
     const res = await authApi.put(`notes/${id}`, note);
     return res.data;
 };

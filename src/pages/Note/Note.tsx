@@ -2,8 +2,9 @@ import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { NotesContext } from "../../context/NotesContext";
 import { Note as NoteForm } from "../../models/Note";
 import Input from "../../components/Input/Input";
@@ -12,11 +13,12 @@ import Textarea from "../../components/Textarea/Textarea";
 import Button from "../../components/Button/Button";
 import NoteStyles from "./Note.module.scss";
 import { UserContext } from "../../context/UserContext";
-import { loadNote, updateNote } from "../../api/notes";
+import { loadNote, moveToBin, updateNote } from "../../api/notes";
 import Loader from "../../components/Loader/Loader";
 import Text from "../../components/Text/Text";
 
 const Note = () => {
+    const queryClient = useQueryClient();
     const params = useParams();
     const navigate = useNavigate();
     const { register, setValue, watch } = useForm<NoteForm>();
@@ -34,6 +36,19 @@ const Note = () => {
     });
     const { mutate } = useMutation({
         mutationFn: ({ title, content }: { title: string; content: string }) => updateNote(`${params.id}`, { title, content }),
+    });
+
+    const { mutate: moveToBinHandler, isLoading: isMovingToBin } = useMutation({
+        mutationFn: (noteId: string) => {
+            return toast.promise(moveToBin(noteId), {
+                loading: "Moving note to bin...",
+                success: (res) => res.status,
+                error: (err) => err.response?.data.status,
+            });
+        },
+        onSuccess() {
+            queryClient.refetchQueries();
+        },
     });
 
     useEffect(() => {
@@ -117,10 +132,11 @@ const Note = () => {
                                     icon={<FontAwesomeIcon icon={faTrash} />}
                                     onClick={() => {
                                         if (params.id) {
-                                            deleteLocalNote(params.id);
+                                            moveToBinHandler(params.id);
                                             navigate("/");
                                         }
                                     }}
+                                    disabled={isMovingToBin || isLoading}
                                 />
                             </section>
                             <Textarea name="content" placeholder="Enter your note..." register={register} />
