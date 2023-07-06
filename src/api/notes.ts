@@ -21,6 +21,11 @@ export const updateNote = async (id: string, note: Pick<Note, "title" | "content
     return res.data;
 };
 
+export const createNote = async (note: Pick<Note, "title" | "content">): Promise<{ status: string; note: Note }> => {
+    const res = await authApi.post(`notes`, note);
+    return res.data;
+};
+
 export const duplicateNote = async (id: string): Promise<{ status: string; note: Note }> => {
     const res = await authApi.post(`notes/duplicate/${id}`);
     return res.data;
