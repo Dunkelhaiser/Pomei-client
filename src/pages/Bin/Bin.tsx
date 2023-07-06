@@ -63,7 +63,6 @@ const Bin = () => {
                                 isArchived={note.isArchived}
                                 isDeleted={note.isDeleted}
                                 date={note.updatedAt || note.createdAt}
-                                rowLimit={6}
                             />
                         );
                     })
