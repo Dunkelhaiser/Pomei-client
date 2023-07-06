@@ -15,7 +15,7 @@ const Bin = () => {
     const { isAuthorized } = useContext(UserContext);
     const { data, isLoading, isError } = useQuery({
         queryKey: ["bin"],
-        queryFn: () => loadBin(1, 6, "desc", "updatedAt"),
+        queryFn: () => loadBin(1, 6, "desc", "deletedAt"),
         enabled: isAuthorized,
     });
     const queryClient = useQueryClient();
