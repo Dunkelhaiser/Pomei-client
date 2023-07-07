@@ -12,7 +12,7 @@ interface Props {
 const Folder: React.FC<Props> = ({ id, title, color }) => {
     const navigate = useNavigate();
     return (
-        <div onClick={() => navigate(`/folders/${id}`)} role="button" tabIndex={0} className={Styles.folder}>
+        <div onClick={() => navigate(`/folder/${id}`)} role="button" tabIndex={0} className={Styles.folder}>
             <FontAwesomeIcon icon={faFolder} color={color || "hsl(208deg 25% 45%)"} />
             <h3>{title}</h3>
         </div>
