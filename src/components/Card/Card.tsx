@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsis, faThumbtack } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import Styles from "./Card.module.scss";
@@ -200,7 +200,10 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinn
             className={`${Styles.card} ${expanded ? Styles.active : ""}`}
         >
             <div className={Styles.heading}>
-                <h3>{title || "Untitled"}</h3>
+                <div>
+                    <h3>{title || "Untitled"}</h3>
+                    {isPinned && <FontAwesomeIcon icon={faThumbtack} className={Styles.pin} />}
+                </div>
                 <FontAwesomeIcon
                     icon={faEllipsis}
                     className={`${Styles.options} ${expanded ? Styles.active : ""}`}
