@@ -24,7 +24,7 @@ const Notes = () => {
             <FloatingIcon icon={faPlus} onClick={() => navigate("/create_note")} />
             <Layout title={data?.folder.title || ""} type={isLoading && isAuthorized ? "centered" : "masonry"}>
                 {isLoading && <Loader />}
-                {isError && <Text text="Failed to load notes." type="p" />}
+                {isError && <Text text="Failed to load folder." type="p" />}
                 {!isLoading &&
                     !isError &&
                     (data?.notes?.length > 0 ? (
@@ -43,7 +43,7 @@ const Notes = () => {
                             );
                         })
                     ) : (
-                        <Text text="No notes found." type="p" />
+                        <Text text="Folder is empty." type="p" />
                     ))}
             </Layout>
         </>
