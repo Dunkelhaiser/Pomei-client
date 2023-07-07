@@ -9,6 +9,7 @@ const Archive = lazy(() => import("./pages/Archive/Archive"));
 const Bin = lazy(() => import("./pages/Bin/Bin"));
 const CreateNote = lazy(() => import("./pages/CreateNote/CreateNote"));
 const Folders = lazy(() => import("./pages/Folders/Folders"));
+const Folder = lazy(() => import("./pages/Folder/Folder"));
 const Note = lazy(() => import("./pages/Note/Note"));
 const Notes = lazy(() => import("./pages/Notes/Notes"));
 const NotFound = lazy(() => import("./pages/NotFound/NotFound"));
@@ -29,7 +30,7 @@ const router = createBrowserRouter(
             <Route element={<ProtectedRoutes />}>
                 <Route path="folders">
                     <Route index element={<Folders />} />
-                    <Route path=":folderId" element={<Notes />} />
+                    <Route path=":id" element={<Folder />} />
                 </Route>
                 <Route path="archive" element={<Archive />} />
                 <Route path="bin" element={<Bin />} />

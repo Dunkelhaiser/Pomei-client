@@ -26,7 +26,7 @@ const Folders = () => {
                     !isError &&
                     (data?.folders?.length > 0 ? (
                         data?.folders?.map((folder) => {
-                            return <Folder key={folder.id} title={folder.title} color={folder.color} />;
+                            return <Folder key={folder.id} id={folder.id} title={folder.title} color={folder.color} />;
                         })
                     ) : (
                         <Text text="No notes found." type="p" />

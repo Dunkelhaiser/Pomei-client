@@ -23,7 +23,7 @@ const Notes = () => {
     return (
         <>
             <FloatingIcon icon={faPlus} onClick={() => navigate("/create_note")} />
-            <Layout title="Notes" type={isLoading && isAuthorized ? "default" : "masonry"}>
+            <Layout title="Notes" type={isLoading && isAuthorized ? "centered" : "masonry"}>
                 {!isAuthorized ? (
                     <>
                         {notes?.map((note) => (

@@ -45,7 +45,7 @@ const Bin = () => {
                     onClick={mutate}
                 />
             }
-            type={isLoading ? "default" : "masonry"}
+            type={isLoading ? "centered" : "masonry"}
         >
             {isLoading && <Loader />}
             {isError && <Text text="Failed to load bin." type="p" />}
