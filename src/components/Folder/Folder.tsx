@@ -77,7 +77,7 @@ const Folder: React.FC<Props> = ({ id, title, color, isPinned }) => {
                         },
                     },
                     {
-                        label: "Pin",
+                        label: isPinned ? "Unpin" : "Pin",
                         onClick: () => {
                             setExpanded(false);
                             return !isPinningFolder && pinFolderHandler(id);
