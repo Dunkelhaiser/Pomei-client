@@ -5,6 +5,7 @@ export interface Note {
     isPinned: boolean;
     isArchived: boolean;
     isDeleted: boolean;
+    folderId?: string;
     createdAt: string;
     updatedAt?: string;
 }

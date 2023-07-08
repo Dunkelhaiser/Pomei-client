@@ -1,0 +1,49 @@
+@use "../../scss/abstract/mixins" as *;
+
+.icon {
+    cursor: pointer;
+    margin: auto;
+    font-size: 5rem;
+    transition: var(--hover);
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+.layot {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.folder_item {
+    @include flex($direction: row, $gap: 1rem, $align: center);
+
+    cursor: pointer;
+
+    padding: 0.75rem 1rem;
+
+    font-weight: 500;
+
+    background-color: var(--background);
+    border: none;
+    border-radius: 0.5rem;
+
+    transition: var(--hover);
+
+    &:hover,
+    &:focus-visible {
+        opacity: 0.75;
+    }
+
+    &:active {
+        opacity: 0.85;
+    }
+}
+
+.folders_list {
+    @include flex($gap: 0.5rem, $align: stretch);
+
+    margin-top: 1rem;
+}

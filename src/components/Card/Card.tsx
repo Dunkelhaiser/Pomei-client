@@ -10,7 +10,9 @@ import useToggle from "../../hooks/useToggle/useToggle";
 import { UserContext } from "../../context/UserContext";
 import { NotesContext } from "../../context/NotesContext";
 import { handleFocus } from "../../utils/handleFocus/handleFocus";
-import { archiveNote, deleteNote, duplicateNote, moveToBin, pinNote, restoreNote } from "../../api/notes";
+import { archiveNote, deleteNote, duplicateNote, moveToBin, pinNote, removeFromFolder, restoreNote } from "../../api/notes";
+import useModal from "../../hooks/useModal/useModal";
+import AddToFolder from "../AddToFolder/AddToFolder";
 
 interface Props {
     id: string;
@@ -20,10 +22,11 @@ interface Props {
     isPinned: boolean;
     isArchived?: boolean;
     isDeleted: boolean;
+    folderId?: string;
     rowLimit?: number | "none";
 }
 
-const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinned, isArchived, isDeleted }) => {
+const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinned, isArchived, isDeleted, folderId }) => {
     const { isAuthorized } = useContext(UserContext);
     const { deleteLocalNote, copyLocalNote } = useContext(NotesContext);
     const [expanded, setExpanded] = useToggle();
@@ -34,6 +37,7 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinn
         setExpanded();
     };
 
+    const { isShowing, showModal, modalRef, hideModal } = useModal();
     const queryClient = useQueryClient();
 
     const { mutate: duplicateNoteHandler, isLoading: isDuplicatingNote } = useMutation({
@@ -108,6 +112,18 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinn
             queryClient.refetchQueries();
         },
     });
+    const { mutate: removeFromFolderHandler, isLoading: isRemovingFromFolder } = useMutation({
+        mutationFn: (noteId: string) => {
+            return toast.promise(removeFromFolder(noteId), {
+                loading: "Removing note from folder...",
+                success: (res) => res.status,
+                error: (err) => err.response?.data.status,
+            });
+        },
+        onSuccess() {
+            queryClient.refetchQueries();
+        },
+    });
 
     const deletedContextOptions = [
         {
@@ -152,7 +168,7 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinn
             },
         },
         {
-            label: "Copy",
+            label: "Duplicate",
             onClick: () => {
                 setExpanded(false);
                 return !isDuplicatingNote && duplicateNoteHandler(id);
@@ -166,7 +182,17 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinn
             },
         },
         {
-            label: "Delete",
+            label: folderId ? "Remove from folder" : "Add to folder",
+            onClick: () => {
+                setExpanded(false);
+                if (folderId) {
+                    return !isRemovingFromFolder && removeFromFolderHandler(id);
+                }
+                return showModal();
+            },
+        },
+        {
+            label: "Move to bin",
             onClick: () => {
                 setExpanded(false);
                 return !isMovingToBin && moveToBinHandler(id);
@@ -224,6 +250,7 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinn
                             : authContextOptions
                     }
                 />
+                <AddToFolder show={isShowing} modalRef={modalRef} close={hideModal} noteId={id} />
             </div>
             <p style={{ WebkitLineClamp: rowLimit }}>{content}</p>
 

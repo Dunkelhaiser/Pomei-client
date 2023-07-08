@@ -83,6 +83,7 @@ const Home = () => {
                                         isPinned={note.isPinned}
                                         isArchived={note.isArchived}
                                         isDeleted={note.isDeleted}
+                                        folderId={note.folderId}
                                         date={note.updatedAt || note.createdAt}
                                         rowLimit={6}
                                     />

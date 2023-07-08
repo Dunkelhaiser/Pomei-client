@@ -80,3 +80,13 @@ export const loadArchive = async (
     const res = await authApi.get(`notes/archive?page=${page}&size=${size}&order=${order}&orderBy=${orderBy}`);
     return res.data;
 };
+
+export const addToFolder = async (id: string, folderId: string): Promise<{ status: string; note: Note }> => {
+    const res = await authApi.post(`notes/folder/${id}`, { folderId });
+    return res.data;
+};
+
+export const removeFromFolder = async (id: string): Promise<{ status: string; note: Note }> => {
+    const res = await authApi.delete(`notes/folder/${id}`);
+    return res.data;
+};
