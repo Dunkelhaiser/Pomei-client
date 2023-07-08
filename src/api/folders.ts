@@ -32,3 +32,8 @@ export const pinFolder = async (id: string, pin: "true" | "false"): Promise<{ st
     const res = await authApi.put(`folders/pin/${id}?isPinned=${pin}`);
     return res.data;
 };
+
+export const editFolder = async (id: string, folder: FolderForm): Promise<{ status: string; folder: Folder }> => {
+    const res = await authApi.put(`folders/${id}`, folder);
+    return res.data;
+};

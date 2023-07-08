@@ -7,6 +7,8 @@ import Styles from "./Folder.module.scss";
 import useToggle from "../../hooks/useToggle/useToggle";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import { deleteFolder, pinFolder } from "../../api/folders";
+import useModal from "../../hooks/useModal/useModal";
+import EditFolder from "../EditFolder/EditFolder";
 
 interface Props {
     id: string;
@@ -17,6 +19,7 @@ interface Props {
 
 const Folder: React.FC<Props> = ({ id, title, color, isPinned }) => {
     const [expanded, setExpanded] = useToggle();
+    const { isShowing, showModal, modalRef, hideModal } = useModal();
     const expand = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
         e.stopPropagation();
         setExpanded();
@@ -74,6 +77,7 @@ const Folder: React.FC<Props> = ({ id, title, color, isPinned }) => {
                         label: "Edit",
                         onClick: () => {
                             setExpanded(false);
+                            showModal();
                         },
                     },
                     {
@@ -92,6 +96,7 @@ const Folder: React.FC<Props> = ({ id, title, color, isPinned }) => {
                     },
                 ]}
             />
+            <EditFolder show={isShowing} modalRef={modalRef} close={hideModal} folderId={id} />
             <h3>{title}</h3>
         </div>
     );

@@ -1,0 +1,30 @@
+.icon {
+    cursor: pointer;
+    margin: auto;
+    font-size: 5rem;
+    transition: var(--hover);
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+.layot {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+label {
+    width: fit-content;
+    margin: auto;
+}
+
+input[type="color"] {
+    height: 10px;
+    visibility: hidden;
+}
+
+input {
+    text-align: center;
+}
