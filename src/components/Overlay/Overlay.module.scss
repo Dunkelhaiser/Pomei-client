@@ -1,11 +1,14 @@
+@use "../../scss/abstract/screen-queries" as *;
+
 .overlay {
     position: fixed;
-    z-index: 9999;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    z-index: 99999;
+    inset: 0;
 
     background: rgb(0 0 0 / 35%);
     backdrop-filter: blur(0.1rem);
+
+    @media ($phone) {
+        z-index: 9999;
+    }
 }

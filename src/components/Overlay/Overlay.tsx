@@ -5,9 +5,10 @@ import OverlayStyles from "./Overlay.module.scss";
 interface Props {
     children?: React.ReactNode;
     onClick?: () => void;
+    duration?: number;
 }
 
-const Overlay: React.FC<Props> = ({ children, onClick }) => {
+const Overlay: React.FC<Props> = ({ children, onClick, duration = 0.1 }) => {
     return ReactDOM.createPortal(
         <motion.div
             onClick={onClick}
@@ -15,7 +16,7 @@ const Overlay: React.FC<Props> = ({ children, onClick }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration }}
         >
             {children}
         </motion.div>,

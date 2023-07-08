@@ -13,8 +13,11 @@ import Text from "../../components/Text/Text";
 import { getNotes } from "../../api/notes";
 import Loader from "../../components/Loader/Loader";
 import { getFolders } from "../../api/folders";
+import CreateFolder from "../../components/CreateFolder/CreateFolder";
+import useModal from "../../hooks/useModal/useModal";
 
 const Home = () => {
+    const { isShowing, showModal, modalRef, hideModal } = useModal();
     const navigate = useNavigate();
     const { isAuthorized } = useContext(UserContext);
     const {
@@ -39,6 +42,7 @@ const Home = () => {
     const sortedNotesLocal = notesLocal.sort(
         (a, b) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime()
     );
+
     return (
         <Layout title="Home">
             <div className={HomeStyles.heading}>
@@ -90,7 +94,8 @@ const Home = () => {
 
                     <div className={HomeStyles.heading}>
                         <h2>Latest Folders</h2>
-                        <FontAwesomeIcon icon={faPlus} className={HomeStyles.add_icon} />
+                        <FontAwesomeIcon icon={faPlus} className={HomeStyles.add_icon} onClick={showModal} />
+                        <CreateFolder show={isShowing} modalRef={modalRef} close={hideModal} />
                     </div>
                     <section className={HomeStyles.layout}>
                         {isLoadingFolders && isAuthorized && <Loader />}

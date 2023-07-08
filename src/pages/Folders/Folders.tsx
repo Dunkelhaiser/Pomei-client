@@ -8,8 +8,11 @@ import { getFolders } from "../../api/folders";
 import { UserContext } from "../../context/UserContext";
 import Loader from "../../components/Loader/Loader";
 import Text from "../../components/Text/Text";
+import CreateFolder from "../../components/CreateFolder/CreateFolder";
+import useModal from "../../hooks/useModal/useModal";
 
 const Folders = () => {
+    const { isShowing, showModal, modalRef, hideModal } = useModal();
     const { isAuthorized } = useContext(UserContext);
     const { data, isLoading, isError } = useQuery({
         queryKey: ["folders"],
@@ -18,7 +21,8 @@ const Folders = () => {
     });
     return (
         <>
-            <FloatingIcon icon={faPlus} />
+            <FloatingIcon icon={faPlus} onClick={showModal} />
+            <CreateFolder show={isShowing} modalRef={modalRef} close={hideModal} />
             <Layout title="Folders" type="grid">
                 {isLoading && <Loader />}
                 {isError && <Text text="Failed to load notes." type="p" />}

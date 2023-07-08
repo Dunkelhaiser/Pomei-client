@@ -151,7 +151,7 @@ const Sidebar: React.FC = () => {
             <Hamburger onClick={() => setOpened()} expanded={opened} className={Styles.hamburger} />
             <AnimatePresence>
                 {opened ? (
-                    <Overlay onClick={() => setOpened(false)}>
+                    <Overlay onClick={() => setOpened(false)} duration={0.3}>
                         <motion.div
                             className={Styles.container}
                             initial={{ transform: "translateX(-100%)" }}

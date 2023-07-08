@@ -1,0 +1,20 @@
+@use "../../scss/base/shared" as *;
+@use "../../scss/abstract/mixins" as *;
+@use "../../scss/abstract/screen-queries" as *;
+
+.modal_window {
+    @extend .container;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 1rem 2rem;
+
+    box-shadow: 0 4px 5px rgba(149 157 165 / 5%);
+
+    @media ($phone) {
+        width: 90%;
+    }
+}
