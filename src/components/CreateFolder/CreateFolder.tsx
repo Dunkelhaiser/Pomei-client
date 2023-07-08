@@ -23,7 +23,7 @@ const CreateFolder: React.FC<Props> = ({ show, modalRef, close }) => {
         register,
         handleSubmit,
         watch,
-
+        reset,
         formState: { errors, isValid },
     } = useForm<FolderForm>({ resolver: zodResolver(schema), mode: "onBlur", defaultValues: { color: "#56758F" } });
 
@@ -40,6 +40,7 @@ const CreateFolder: React.FC<Props> = ({ show, modalRef, close }) => {
         onSuccess() {
             queryClient.refetchQueries();
             close();
+            reset();
         },
     });
 
