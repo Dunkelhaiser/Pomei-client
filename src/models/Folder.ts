@@ -2,6 +2,7 @@ export interface Folder {
     id: string;
     title: string;
     color?: string;
+    isPinned: boolean;
     createdAt: string;
     updatedAt?: string;
 }

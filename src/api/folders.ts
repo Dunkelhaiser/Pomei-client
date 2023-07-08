@@ -22,3 +22,13 @@ export const createFolder = async (folder: FolderForm): Promise<{ status: string
     const res = await authApi.post("folders", folder);
     return res.data;
 };
+
+export const deleteFolder = async (id: string): Promise<{ status: string }> => {
+    const res = await authApi.delete(`folders/${id}`);
+    return res.data;
+};
+
+export const pinFolder = async (id: string, pin: "true" | "false"): Promise<{ status: string }> => {
+    const res = await authApi.put(`folders/pin/${id}?isPinned=${pin}`);
+    return res.data;
+};

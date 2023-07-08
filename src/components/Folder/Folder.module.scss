@@ -1,12 +1,67 @@
+@use "../../scss/abstract/mixins" as *;
+@use "../../scss/abstract/screen-queries" as *;
 @import "../Card/Card.module";
 
 .folder {
     @extend .card;
 
     align-items: center;
-    text-align: center;
 
-    svg {
+    .folder_icon {
         font-size: 5rem;
     }
+
+    &:hover,
+    &:focus-visible,
+    &.active {
+        .options {
+            visibility: visible;
+            opacity: 0.5;
+        }
+    }
+
+    /* stylelint-disable-next-line no-descending-specificity */
+    .options {
+        cursor: pointer;
+
+        position: absolute;
+        right: 1.25rem;
+
+        font-size: 1.2rem;
+
+        visibility: hidden;
+        opacity: 0;
+
+        transition: var(--hover);
+
+        &:hover,
+        &:focus-visible {
+            opacity: 0.75;
+        }
+
+        &:active,
+        &.active {
+            opacity: 0.9;
+        }
+
+        @media ($tablet) {
+            visibility: visible;
+            opacity: 0.5;
+        }
+    }
+}
+
+.icon {
+    position: relative;
+}
+
+.pin {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    font-size: 1.5rem;
+
+    opacity: 0.5;
 }
