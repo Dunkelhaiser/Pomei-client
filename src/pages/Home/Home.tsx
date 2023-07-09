@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useMediaQuery } from "react-responsive";
 import Card from "../../components/Card/Card";
 import Folder from "../../components/Folder/Folder";
 import Layout from "../../components/Layout/Layout";
@@ -20,13 +21,16 @@ const Home = () => {
     const { isShowing, showModal, modalRef, hideModal } = useModal();
     const navigate = useNavigate();
     const { isAuthorized } = useContext(UserContext);
+    const isLarge = useMediaQuery({ query: "(min-width: 1201px)" });
+    const fetchNumber = isLarge ? 5 : 6;
+
     const {
         data: notes,
         isLoading: isLoadingNotes,
         isError: isErrorNotes,
     } = useQuery({
-        queryKey: ["notes"],
-        queryFn: () => getNotes(1, 6, "desc", "updatedAt"),
+        queryKey: ["notes_recent", fetchNumber],
+        queryFn: () => getNotes(1, fetchNumber, "desc", "updatedAt"),
         enabled: isAuthorized,
     });
     const {
@@ -34,8 +38,8 @@ const Home = () => {
         isLoading: isLoadingFolders,
         isError: isErrorFolders,
     } = useQuery({
-        queryKey: ["folders"],
-        queryFn: () => getFolders(1, 6, "desc", "updatedAt"),
+        queryKey: ["folders_recent", fetchNumber],
+        queryFn: () => getFolders(1, fetchNumber, "desc", "updatedAt"),
         enabled: isAuthorized,
     });
     const { notes: notesLocal } = useContext(NotesContext);
