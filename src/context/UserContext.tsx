@@ -18,7 +18,7 @@ const iUserContextState = {
 export const UserContext = createContext<UserContextType>(iUserContextState);
 
 const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User | null>(JSON.parse(localStorage.getItem("user") || "null"));
     const isAuthorized = useMemo(() => !!(user?.id && user?.email && user.username), [user]);
 
     useQuery({
@@ -26,6 +26,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
         queryFn: () => fetchUser(),
         onSuccess(userData) {
             setUser(userData.user);
+            localStorage.setItem("user", JSON.stringify(userData.user));
         },
     });
 

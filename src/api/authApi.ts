@@ -29,6 +29,7 @@ authApi.interceptors.response.use(
             originalRequest.headers.Authorization = `Bearer ${newAccessToken.accessToken}`;
             return authApi(originalRequest);
         }
+        localStorage.removeItem("user");
         return Promise.reject(err);
     }
 );
