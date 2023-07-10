@@ -5,6 +5,7 @@ import Home from "./pages/Home/Home";
 import Wrapper from "./pages/Wrapper/Wrapper";
 import "./scss/styles.scss";
 import Account from "./pages/Account/Account";
+import Settings from "./pages/Settings/Settings";
 
 const Archive = lazy(() => import("./pages/Archive/Archive"));
 const Bin = lazy(() => import("./pages/Bin/Bin"));
@@ -33,7 +34,7 @@ const router = createBrowserRouter(
                 <Route path="folder/:id" element={<Folder />} />
                 <Route path="archive" element={<Archive />} />
                 <Route path="bin" element={<Bin />} />
-                <Route path="settings" element={<Home />} />
+                <Route path="settings" element={<Settings />} />
                 <Route path="account" element={<Account />} />
             </Route>
             <Route path="home" element={<Navigate to="/" />} />
