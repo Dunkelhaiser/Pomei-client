@@ -4,6 +4,7 @@ import ProtectedRoutes from "./context/ProtectedRoutes";
 import Home from "./pages/Home/Home";
 import Wrapper from "./pages/Wrapper/Wrapper";
 import "./scss/styles.scss";
+import Account from "./pages/Account/Account";
 
 const Archive = lazy(() => import("./pages/Archive/Archive"));
 const Bin = lazy(() => import("./pages/Bin/Bin"));
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
                 <Route path="archive" element={<Archive />} />
                 <Route path="bin" element={<Bin />} />
                 <Route path="settings" element={<Home />} />
+                <Route path="account" element={<Account />} />
             </Route>
             <Route path="home" element={<Navigate to="/" />} />
             <Route path="index" element={<Navigate to="/" />} />

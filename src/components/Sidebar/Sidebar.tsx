@@ -18,16 +18,12 @@ import { Link, NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-hot-toast";
 import Styles from "./Sidebar.module.scss";
 import Logo from "../../images/Logo.svg";
 import { UserContext } from "../../context/UserContext";
 import Overlay from "../Overlay/Overlay";
 import useToggle from "../../hooks/useToggle/useToggle";
 import Hamburger from "../Hamburger/Hamburger";
-import Button from "../Button/Button";
-import { signOut, terminateAllSessions } from "../../api/authApi";
 
 interface MenuItem {
     to: string;
@@ -41,25 +37,7 @@ interface MenuProps {
 }
 
 const Menu: React.FC<MenuProps> = ({ close }) => {
-    const { isAuthorized, user, setUser } = useContext(UserContext);
-    const queryClient = useQueryClient();
-
-    const { mutate: signOutHandler } = useMutation({
-        mutationFn: () => signOut(),
-        onSuccess() {
-            toast.success("Signed out successfully");
-            queryClient.refetchQueries();
-            setUser(null);
-        },
-    });
-    const { mutate: terminateAllSessionsHandler } = useMutation({
-        mutationFn: () => terminateAllSessions(),
-        onSuccess() {
-            toast.success("Terminated all sessions successfully");
-            queryClient.refetchQueries();
-            setUser(null);
-        },
-    });
+    const { isAuthorized, user } = useContext(UserContext);
 
     const menuItems: MenuItem[] = [
         {
@@ -123,14 +101,10 @@ const Menu: React.FC<MenuProps> = ({ close }) => {
                 </li>
                 <li>
                     {isAuthorized ? (
-                        <>
-                            <NavLink to="account" onClick={close} className={(navData) => (navData.isActive ? Styles.active : "")}>
-                                <FontAwesomeIcon icon={faUser} />
-                                {user?.username}
-                            </NavLink>
-                            <Button label="Sign Out" onClick={signOutHandler} />
-                            <Button label="Terminate" onClick={terminateAllSessionsHandler} />
-                        </>
+                        <NavLink to="account" onClick={close} className={(navData) => (navData.isActive ? Styles.active : "")}>
+                            <FontAwesomeIcon icon={faUser} />
+                            {user?.username}
+                        </NavLink>
                     ) : (
                         <NavLink to="/sign_in" onClick={close} className={(navData) => (navData.isActive ? Styles.active : "")}>
                             <FontAwesomeIcon icon={faRightToBracket} aria-label="Sign In" /> Sign In
