@@ -13,18 +13,18 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
 
-label {
-    width: fit-content;
-    margin: auto;
-}
+    label {
+        width: fit-content;
+        margin: auto;
+    }
 
-input[type="color"] {
-    height: 10px;
-    visibility: hidden;
-}
+    input[type="color"] {
+        height: 10px;
+        visibility: hidden;
+    }
 
-input {
-    text-align: center;
+    input {
+        text-align: center;
+    }
 }
