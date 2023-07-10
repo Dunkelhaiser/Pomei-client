@@ -180,7 +180,6 @@ const Note = () => {
                             {noteData.note.isDeleted ? (
                                 <p>{noteData.note.content}</p>
                             ) : (
-                                // <Textarea name="content" placeholder="Enter your note..." register={register} />
                                 <Textarea name="content" placeholder="Enter your note..." register={register} />
                             )}
                         </>
