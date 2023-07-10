@@ -16,6 +16,7 @@ import { UserContext } from "../../context/UserContext";
 import { loadNote, moveToBin, updateNote } from "../../api/notes";
 import Loader from "../../components/Loader/Loader";
 import Text from "../../components/Text/Text";
+import { IResError } from "../../api/response";
 
 const Note = () => {
     const queryClient = useQueryClient();
@@ -37,6 +38,9 @@ const Note = () => {
     });
     const { mutate } = useMutation({
         mutationFn: ({ title, content }: { title: string; content: string }) => updateNote(`${params.id}`, { title, content }),
+        onError(err: IResError) {
+            toast.error(err.response?.data.status);
+        },
     });
 
     const { mutate: moveToBinHandler, isLoading: isMovingToBin } = useMutation({
