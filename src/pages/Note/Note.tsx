@@ -24,6 +24,7 @@ const Note = () => {
     const { register, setValue, watch } = useForm<NoteForm>();
     const { getLocalNote, updateLocalNote, deleteLocalNote } = useContext(NotesContext);
     const { isAuthorized } = useContext(UserContext);
+
     const { isLoading, isError } = useQuery({
         queryKey: ["note", params.id],
         queryFn: () => loadNote(`${params.id}`),
@@ -70,22 +71,21 @@ const Note = () => {
         };
     }, []);
 
-    // const firstUpdate = useRef(true);
     useEffect(() => {
-        // if (firstUpdate.current) {
-        //     firstUpdate.current = false;
-        //     return;
-        // }
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         if (!isAuthorized) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             watch((value) => updateLocalNote({ ...value, id: getLocalNote(params.id).id, createdAt: getLocalNote(params.id).createdAt }));
         }
+
         if (isAuthorized) {
-            watch((value) => mutate({ title: value.title || "", content: value.content || "" }));
+            watch((value) => {
+                if (isLoading || isError || !value.title || !value.content) return;
+                mutate({ title: value.title || "", content: value.content || "" });
+                console.log("CLOCKED");
+            });
         }
-    }, [watch]);
+    }, [watch, isLoading, isError]);
 
     return (
         <Layout type={isLoading && isAuthorized ? "centered" : null}>
