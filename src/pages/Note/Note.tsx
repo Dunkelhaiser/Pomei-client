@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faTrashArrowUp } from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -13,7 +13,7 @@ import Textarea from "../../components/Textarea/Textarea";
 import Button from "../../components/Button/Button";
 import NoteStyles from "./Note.module.scss";
 import { UserContext } from "../../context/UserContext";
-import { loadNote, moveToBin, updateNote } from "../../api/notes";
+import { loadNote, moveToBin, restoreNote, updateNote } from "../../api/notes";
 import Loader from "../../components/Loader/Loader";
 import Text from "../../components/Text/Text";
 import { IResError } from "../../api/response";
@@ -26,7 +26,11 @@ const Note = () => {
     const { getLocalNote, updateLocalNote, deleteLocalNote } = useContext(NotesContext);
     const { isAuthorized } = useContext(UserContext);
 
-    const { isLoading, isError } = useQuery({
+    const {
+        isLoading,
+        isError,
+        data: noteData,
+    } = useQuery({
         queryKey: ["note", params.id],
         queryFn: () => loadNote(`${params.id}`),
         enabled: isAuthorized,
@@ -47,6 +51,19 @@ const Note = () => {
         mutationFn: (noteId: string) => {
             return toast.promise(moveToBin(noteId), {
                 loading: "Moving note to bin...",
+                success: (res) => res.status,
+                error: (err) => err.response?.data.status,
+            });
+        },
+        onSuccess() {
+            queryClient.refetchQueries();
+        },
+    });
+
+    const { mutate: restoreNoteHandler, isLoading: isRestoringNote } = useMutation({
+        mutationFn: (noteId: string) => {
+            return toast.promise(restoreNote(noteId), {
+                loading: "Restoring note...",
                 success: (res) => res.status,
                 error: (err) => err.response?.data.status,
             });
@@ -82,11 +99,10 @@ const Note = () => {
             watch((value) => updateLocalNote({ ...value, id: getLocalNote(params.id).id, createdAt: getLocalNote(params.id).createdAt }));
         }
 
-        if (isAuthorized) {
+        if (isAuthorized && !noteData?.note.isDeleted) {
             watch((value) => {
                 if (isLoading || isError || !value.title || !value.content) return;
                 mutate({ title: value.title || "", content: value.content || "" });
-                console.log("CLOCKED");
             });
         }
     }, [watch, isLoading, isError]);
@@ -128,22 +144,45 @@ const Note = () => {
                                     styleType="text"
                                     register={register}
                                 />
-                                <Button
-                                    label="Delete"
-                                    color="danger"
-                                    fontSize={1}
-                                    styleType="text"
-                                    icon={<FontAwesomeIcon icon={faTrash} />}
-                                    onClick={() => {
-                                        if (params.id) {
-                                            moveToBinHandler(params.id);
-                                            navigate("/");
-                                        }
-                                    }}
-                                    disabled={isMovingToBin || isLoading}
-                                />
+                                {noteData.note.isDeleted ? (
+                                    <Button
+                                        label="Restore"
+                                        color="primary"
+                                        fontSize={1}
+                                        styleType="text"
+                                        icon={<FontAwesomeIcon icon={faTrashArrowUp} />}
+                                        onClick={() => {
+                                            if (params.id) {
+                                                restoreNoteHandler(params.id);
+                                                navigate("/");
+                                            }
+                                        }}
+                                        disabled={isRestoringNote || isLoading}
+                                    />
+                                ) : (
+                                    <Button
+                                        label="Delete"
+                                        color="danger"
+                                        fontSize={1}
+                                        styleType="text"
+                                        icon={<FontAwesomeIcon icon={faTrash} />}
+                                        onClick={() => {
+                                            if (params.id) {
+                                                moveToBinHandler(params.id);
+                                                navigate("/");
+                                            }
+                                        }}
+                                        disabled={isMovingToBin || isLoading}
+                                    />
+                                )}
                             </section>
-                            <Textarea name="content" placeholder="Enter your note..." register={register} />
+
+                            {noteData.note.isDeleted ? (
+                                <p>{noteData.note.content}</p>
+                            ) : (
+                                // <Textarea name="content" placeholder="Enter your note..." register={register} />
+                                <Textarea name="content" placeholder="Enter your note..." register={register} />
+                            )}
                         </>
                     )}
                 </>
