@@ -1,7 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useQuery } from "@tanstack/react-query";
+import { useInView } from "react-intersection-observer";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import Card from "../../components/Card/Card";
 import Layout from "../../components/Layout/Layout";
 import Text from "../../components/Text/Text";
@@ -14,21 +15,55 @@ const Notes = () => {
     const params = useParams();
     const navigate = useNavigate();
     const { isAuthorized } = useContext(UserContext);
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ["folder", params.id],
-        queryFn: () => loadFolder(`${params.id}`),
+    const { data, isLoading, isError, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
+        queryKey: ["notes", params.id],
+        queryFn: ({ pageParam = 1 }) => loadFolder(`${params.id}`, pageParam, 7, "desc", "updatedAt"),
+        getNextPageParam: (lastPage, allPages) => {
+            if (allPages.length < lastPage.totalPages) {
+                return allPages.length + 1;
+            }
+            return null;
+        },
         enabled: isAuthorized,
     });
+
+    const lastFolderRef = useRef<HTMLDivElement>(null);
+    const { ref, entry } = useInView({
+        root: lastFolderRef.current,
+        threshold: 1,
+    });
+
+    useEffect(() => {
+        if (entry?.isIntersecting && hasNextPage) fetchNextPage();
+    }, [entry]);
+
+    const notesList = data?.pages.flatMap((page) => page.notes);
+    const folderData = data?.pages.flatMap((page) => page.folder);
+
     return (
         <>
             <FloatingIcon icon={faPlus} onClick={() => navigate("/create_note")} />
-            <Layout title={data?.folder.title || ""} type={isLoading && isAuthorized ? "centered" : "masonry"}>
-                {isLoading && <Loader />}
+            <Layout title={(folderData && folderData[0].title) || ""} type={isLoading && isAuthorized ? "centered" : "masonry"}>
                 {isError && <Text text="Failed to load folder." type="p" />}
                 {!isLoading &&
                     !isError &&
-                    (data?.notes?.length > 0 ? (
-                        data?.notes?.map((note) => {
+                    (notesList && notesList?.length > 0 ? (
+                        notesList?.map((note, i) => {
+                            if (i === notesList.length - 1) {
+                                return (
+                                    <Card
+                                        key={note.id}
+                                        id={note.id}
+                                        title={note.title}
+                                        content={note.content}
+                                        isPinned={note.isPinned}
+                                        isArchived={note.isArchived}
+                                        isDeleted={note.isDeleted}
+                                        date={note.updatedAt || note.createdAt}
+                                        ref={ref}
+                                    />
+                                );
+                            }
                             return (
                                 <Card
                                     key={note.id}
@@ -38,7 +73,6 @@ const Notes = () => {
                                     isPinned={note.isPinned}
                                     isArchived={note.isArchived}
                                     isDeleted={note.isDeleted}
-                                    folderId={note.folderId}
                                     date={note.updatedAt || note.createdAt}
                                 />
                             );
@@ -46,6 +80,7 @@ const Notes = () => {
                     ) : (
                         <Text text="Folder is empty." type="p" />
                     ))}
+                {isLoading || (isFetchingNextPage && <Loader />)}
             </Layout>
         </>
     );

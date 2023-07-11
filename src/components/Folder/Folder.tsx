@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faFolder, faThumbtack } from "@fortawesome/free-solid-svg-icons";
@@ -18,7 +19,9 @@ interface Props {
     isPinned: boolean;
 }
 
-const Folder: React.FC<Props> = ({ id, title, color, isPinned }) => {
+type Ref = HTMLDivElement;
+
+const Folder = forwardRef<Ref, Props>(({ id, title, color, isPinned }, ref) => {
     const [expanded, setExpanded] = useToggle();
     const { isShowing, showModal, modalRef, hideModal } = useModal();
     const { isShowing: isConfirming, showModal: showConfirmation, modalRef: confirmationRef, hideModal: hideConfirmation } = useModal();
@@ -59,6 +62,7 @@ const Folder: React.FC<Props> = ({ id, title, color, isPinned }) => {
             role="button"
             tabIndex={0}
             className={`${Styles.folder} ${expanded ? Styles.active : ""}`}
+            ref={ref}
         >
             <div className={Styles.icon}>
                 <FontAwesomeIcon icon={faFolder} color={color || "hsl(208deg 25% 45%)"} className={Styles.folder_icon} />
@@ -112,5 +116,6 @@ const Folder: React.FC<Props> = ({ id, title, color, isPinned }) => {
             <h3>{title}</h3>
         </div>
     );
-};
+});
+Folder.displayName = "Folder";
 export default Folder;

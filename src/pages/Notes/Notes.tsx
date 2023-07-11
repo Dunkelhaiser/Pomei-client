@@ -1,7 +1,8 @@
+import { useInView } from "react-intersection-observer";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import Card from "../../components/Card/Card";
 import Layout from "../../components/Layout/Layout";
 import { NotesContext } from "../../context/NotesContext";
@@ -15,11 +16,30 @@ const Notes = () => {
     const navigate = useNavigate();
     const { notes } = useContext(NotesContext);
     const { isAuthorized } = useContext(UserContext);
-    const { data, isLoading, isError } = useQuery({
+    const { data, isLoading, isError, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
         queryKey: ["notes"],
-        queryFn: () => getNotes(1, 15, "desc", "updatedAt"),
+        queryFn: ({ pageParam = 1 }) => getNotes(pageParam, 7, "desc", "updatedAt"),
+        getNextPageParam: (lastPage, allPages) => {
+            if (allPages.length < lastPage.totalPages) {
+                return allPages.length + 1;
+            }
+            return null;
+        },
         enabled: isAuthorized,
     });
+
+    const lastFolderRef = useRef<HTMLDivElement>(null);
+    const { ref, entry } = useInView({
+        root: lastFolderRef.current,
+        threshold: 1,
+    });
+
+    useEffect(() => {
+        if (entry?.isIntersecting && hasNextPage) fetchNextPage();
+    }, [entry]);
+
+    const notesList = data?.pages.flatMap((page) => page.notes);
+
     return (
         <>
             <FloatingIcon icon={faPlus} onClick={() => navigate("/create_note")} />
@@ -42,12 +62,26 @@ const Notes = () => {
                 </Layout>
             ) : (
                 <Layout title="Notes" type={isLoading && isAuthorized ? "centered" : "masonry"}>
-                    {isLoading && <Loader />}
                     {isError && <Text text="Failed to load notes." type="p" />}
                     {!isLoading &&
                         !isError &&
-                        (data?.notes?.length > 0 ? (
-                            data?.notes?.map((note) => {
+                        (notesList && notesList.length > 0 ? (
+                            notesList?.map((note, i) => {
+                                if (i === notesList.length - 1) {
+                                    return (
+                                        <Card
+                                            key={note.id}
+                                            id={note.id}
+                                            title={note.title}
+                                            content={note.content}
+                                            isPinned={note.isPinned}
+                                            isArchived={note.isArchived}
+                                            isDeleted={note.isDeleted}
+                                            date={note.updatedAt || note.createdAt}
+                                            ref={ref}
+                                        />
+                                    );
+                                }
                                 return (
                                     <Card
                                         key={note.id}
@@ -64,6 +98,7 @@ const Notes = () => {
                         ) : (
                             <Text text="No notes found." type="p" />
                         ))}
+                    {isLoading || (isFetchingNextPage && <Loader />)}
                 </Layout>
             )}
         </>

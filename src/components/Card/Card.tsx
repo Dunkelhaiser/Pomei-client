@@ -1,4 +1,4 @@
-import { lazy, useContext } from "react";
+import { forwardRef, lazy, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faThumbtack } from "@fortawesome/free-solid-svg-icons";
@@ -28,7 +28,9 @@ interface Props {
     rowLimit?: number | "none";
 }
 
-const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinned, isArchived, isDeleted, folderId }) => {
+type Ref = HTMLDivElement;
+
+const Card = forwardRef<Ref, Props>(({ title, content, date, rowLimit = 25, id, isPinned, isArchived, isDeleted, folderId }, ref) => {
     const { isAuthorized } = useContext(UserContext);
     const { deleteLocalNote, copyLocalNote } = useContext(NotesContext);
     const [expanded, setExpanded] = useToggle();
@@ -227,6 +229,7 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinn
             tabIndex={0}
             onKeyDown={(e) => handleFocus(e, () => navigate(`/note/${id}`))}
             className={`${Styles.card} ${expanded ? Styles.active : ""}`}
+            ref={ref}
         >
             <div className={Styles.heading}>
                 <div>
@@ -274,5 +277,6 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinn
             </span>
         </div>
     );
-};
+});
+Card.displayName = "Note";
 export default Card;

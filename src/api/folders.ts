@@ -13,8 +13,14 @@ export const getFolders = async (
     return res.data;
 };
 
-export const loadFolder = async (id: string): Promise<{ status: string; notes: Note[]; folder: Folder }> => {
-    const res = await authApi.get(`folders/${id}/notes`);
+export const loadFolder = async (
+    id: string,
+    page?: number,
+    size?: number,
+    order?: "asc" | "desc",
+    orderBy?: string
+): Promise<{ status: string; notes: Note[]; folder: Folder; totalNotes: number; totalPages: number }> => {
+    const res = await authApi.get(`folders/${id}/notes?page=${page}&size=${size}&order=${order}&orderBy=${orderBy}`);
     return res.data;
 };
 
