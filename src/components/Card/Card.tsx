@@ -14,6 +14,7 @@ import { archiveNote, deleteNote, duplicateNote, moveToBin, pinNote, removeFromF
 import useModal from "../../hooks/useModal/useModal";
 
 const AddToFolder = lazy(() => import("../AddToFolder/AddToFolder"));
+const Confirmation = lazy(() => import("../Confirmation/Confirmation"));
 
 interface Props {
     id: string;
@@ -39,6 +40,7 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinn
     };
 
     const { isShowing, showModal, modalRef, hideModal } = useModal();
+    const { isShowing: isConfirming, showModal: showConfirmation, modalRef: confirmationRef, hideModal: hideConfirmation } = useModal();
     const queryClient = useQueryClient();
 
     const { mutate: duplicateNoteHandler, isLoading: isDuplicatingNote } = useMutation({
@@ -138,7 +140,7 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinn
             label: "Delete forever",
             onClick: () => {
                 setExpanded(false);
-                return !isDeletingNote && deleteNoteHandler(id);
+                showConfirmation();
             },
         },
     ];
@@ -251,6 +253,18 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinn
                             : authContextOptions
                     }
                 />
+                {isAuthorized && isDeleted && (
+                    <Confirmation
+                        show={isConfirming}
+                        modalRef={confirmationRef}
+                        close={hideConfirmation}
+                        message="Are you sure you want to delete this note forever?"
+                        onConfirm={() => deleteNoteHandler(id)}
+                        option="Delete Forever"
+                        color="danger"
+                        disabled={isDeletingNote}
+                    />
+                )}
                 {isAuthorized && <AddToFolder show={isShowing} modalRef={modalRef} close={hideModal} noteId={id} />}
             </div>
             <p style={{ WebkitLineClamp: rowLimit }}>{content}</p>

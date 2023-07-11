@@ -9,6 +9,7 @@ import ContextMenu from "../ContextMenu/ContextMenu";
 import { deleteFolder, pinFolder } from "../../api/folders";
 import useModal from "../../hooks/useModal/useModal";
 import EditFolder from "../EditFolder/EditFolder";
+import Confirmation from "../Confirmation/Confirmation";
 
 interface Props {
     id: string;
@@ -20,6 +21,7 @@ interface Props {
 const Folder: React.FC<Props> = ({ id, title, color, isPinned }) => {
     const [expanded, setExpanded] = useToggle();
     const { isShowing, showModal, modalRef, hideModal } = useModal();
+    const { isShowing: isConfirming, showModal: showConfirmation, modalRef: confirmationRef, hideModal: hideConfirmation } = useModal();
     const expand = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
         e.stopPropagation();
         setExpanded();
@@ -91,12 +93,22 @@ const Folder: React.FC<Props> = ({ id, title, color, isPinned }) => {
                         label: "Delete",
                         onClick: () => {
                             setExpanded(false);
-                            return !isDeletingFolder && deleteFolderHandler(id);
+                            showConfirmation();
                         },
                     },
                 ]}
             />
             <EditFolder show={isShowing} modalRef={modalRef} close={hideModal} folderId={id} />
+            <Confirmation
+                show={isConfirming}
+                modalRef={confirmationRef}
+                close={hideConfirmation}
+                message="Are you sure you want to delete this folder?"
+                onConfirm={() => deleteFolderHandler(id)}
+                option="Delete"
+                color="danger"
+                disabled={isDeletingFolder}
+            />
             <h3>{title}</h3>
         </div>
     );

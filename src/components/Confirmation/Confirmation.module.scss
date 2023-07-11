@@ -1,0 +1,7 @@
+@use "../../scss/abstract/mixins" as *;
+
+.buttons {
+    @include flex($direction: row, $justify: space-between, $align: center);
+
+    margin-top: 1rem;
+}

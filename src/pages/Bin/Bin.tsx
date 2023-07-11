@@ -10,8 +10,11 @@ import Layout from "../../components/Layout/Layout";
 import { UserContext } from "../../context/UserContext";
 import { emptyBin, loadBin } from "../../api/notes";
 import Loader from "../../components/Loader/Loader";
+import Confirmation from "../../components/Confirmation/Confirmation";
+import useModal from "../../hooks/useModal/useModal";
 
 const Bin = () => {
+    const { isShowing, showModal, modalRef, hideModal } = useModal();
     const { isAuthorized } = useContext(UserContext);
     const { data, isLoading, isError } = useQuery({
         queryKey: ["bin"],
@@ -42,7 +45,8 @@ const Bin = () => {
                     styleType="text"
                     icon={<FontAwesomeIcon icon={faTrash} />}
                     disabled={isEmptying || isLoading || isError || !data?.notes?.length}
-                    onClick={mutate}
+                    // onClick={mutate}
+                    onClick={showModal}
                 />
             }
             type={isLoading ? "centered" : "masonry"}
@@ -69,6 +73,15 @@ const Bin = () => {
                 ) : (
                     <Text text="Bin is empty." type="p" />
                 ))}
+            <Confirmation
+                show={isShowing}
+                modalRef={modalRef}
+                close={hideModal}
+                message="Are you sure you want to empty the bin?"
+                onConfirm={mutate}
+                option="Empty Bin"
+                color="danger"
+            />
         </Layout>
     );
 };
