@@ -43,30 +43,25 @@
     }
 }
 
-.masonry {
-    display: column;
-    columns: 4;
-
-    & > * {
-        break-inside: avoid;
-        margin-bottom: 1rem;
-    }
-
-    @media ($tablet) {
-        columns: 3;
-    }
-    @media ($tablet-small) {
-        columns: 2;
-    }
-    @media ($phone) {
-        columns: 1;
-    }
-}
-
 .centered {
     @include flex($align: center, $justify: center);
 
     flex-grow: 1;
     width: 100%;
     padding-inline: 1rem;
+}
+
+.masonry {
+    display: flex;
+    width: auto;
+    margin-left: -1rem;
+}
+
+.column {
+    padding-left: 1rem;
+    background-clip: padding-box;
+}
+
+.column > div {
+    margin-bottom: 1rem;
 }

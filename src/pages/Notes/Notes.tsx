@@ -23,51 +23,49 @@ const Notes = () => {
     return (
         <>
             <FloatingIcon icon={faPlus} onClick={() => navigate("/create_note")} />
-            <Layout title="Notes" type={isLoading && isAuthorized ? "centered" : "masonry"}>
-                {!isAuthorized ? (
-                    <>
-                        {notes?.map((note) => (
-                            <Card
-                                key={note.id}
-                                id={note.id}
-                                title={note.title}
-                                content={note.content}
-                                isPinned={note.isPinned}
-                                isArchived={note.isArchived}
-                                isDeleted={note.isDeleted}
-                                folderId={note.folderId}
-                                date={note.updatedAt || note.createdAt}
-                            />
+            {!isAuthorized ? (
+                <Layout title="Notes" type="masonry">
+                    {notes?.map((note) => (
+                        <Card
+                            key={note.id}
+                            id={note.id}
+                            title={note.title}
+                            content={note.content}
+                            isPinned={note.isPinned}
+                            isArchived={note.isArchived}
+                            isDeleted={note.isDeleted}
+                            folderId={note.folderId}
+                            date={note.updatedAt || note.createdAt}
+                        />
+                    ))}
+                    {notes.length < 1 && <Text text="No notes found." type="p" />}
+                </Layout>
+            ) : (
+                <Layout title="Notes" type={isLoading && isAuthorized ? "centered" : "masonry"}>
+                    {isLoading && <Loader />}
+                    {isError && <Text text="Failed to load notes." type="p" />}
+                    {!isLoading &&
+                        !isError &&
+                        (data?.notes?.length > 0 ? (
+                            data?.notes?.map((note) => {
+                                return (
+                                    <Card
+                                        key={note.id}
+                                        id={note.id}
+                                        title={note.title}
+                                        content={note.content}
+                                        isPinned={note.isPinned}
+                                        isArchived={note.isArchived}
+                                        isDeleted={note.isDeleted}
+                                        date={note.updatedAt || note.createdAt}
+                                    />
+                                );
+                            })
+                        ) : (
+                            <Text text="No notes found." type="p" />
                         ))}
-                        {notes.length < 1 && <Text text="No notes found." type="p" />}
-                    </>
-                ) : (
-                    <>
-                        {isLoading && <Loader />}
-                        {isError && <Text text="Failed to load notes." type="p" />}
-                        {!isLoading &&
-                            !isError &&
-                            (data?.notes?.length > 0 ? (
-                                data?.notes?.map((note) => {
-                                    return (
-                                        <Card
-                                            key={note.id}
-                                            id={note.id}
-                                            title={note.title}
-                                            content={note.content}
-                                            isPinned={note.isPinned}
-                                            isArchived={note.isArchived}
-                                            isDeleted={note.isDeleted}
-                                            date={note.updatedAt || note.createdAt}
-                                        />
-                                    );
-                                })
-                            ) : (
-                                <Text text="No notes found." type="p" />
-                            ))}
-                    </>
-                )}
-            </Layout>
+                </Layout>
+            )}
         </>
     );
 };

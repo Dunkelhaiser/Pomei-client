@@ -1,3 +1,4 @@
+import Masonry from "react-masonry-css";
 import Styles from "./Layout.module.scss";
 
 interface Props {
@@ -9,6 +10,13 @@ interface Props {
 }
 
 const Layout: React.FC<Props> = ({ title, controls, type, className, children }) => {
+    const breakpoints = {
+        default: 4,
+        1200: 3,
+        900: 2,
+        600: 1,
+    };
+
     return (
         <>
             {(title || controls) && (
@@ -17,7 +25,13 @@ const Layout: React.FC<Props> = ({ title, controls, type, className, children })
                     {controls && controls}
                 </div>
             )}
-            <section className={`${className} ${type ? Styles[type] : null}`}>{children}</section>
+            {type !== "masonry" ? (
+                <section className={`${className} ${type ? Styles[type] : null}`}>{children}</section>
+            ) : (
+                <Masonry breakpointCols={breakpoints} className={Styles.masonry} columnClassName={Styles.column}>
+                    {children}
+                </Masonry>
+            )}
         </>
     );
 };
