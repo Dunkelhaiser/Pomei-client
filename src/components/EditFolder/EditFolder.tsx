@@ -34,6 +34,7 @@ const EditFolder: React.FC<Props> = ({ show, modalRef, close, folderId }) => {
     useQuery({
         queryKey: ["folder", folderId],
         queryFn: () => loadFolder(folderId),
+        enabled: show,
         onSuccess(data) {
             setValue("title", data.folder.title);
             setValue("color", data.folder.color);
