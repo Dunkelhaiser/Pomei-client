@@ -36,7 +36,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
             isAuthorized,
             setUser,
         }),
-        [user]
+        [user, isAuthorized]
     );
     return <UserContext.Provider value={values}>{children}</UserContext.Provider>;
 };
