@@ -10,7 +10,6 @@ import PasswordField from "../../components/PasswordField/PasswordField";
 import Layout from "../../components/Layout/Layout";
 import { SignInForm, schema } from "../../models/schemas/SignIn";
 import { signIn } from "../../api/authApi";
-import { IResError } from "../../api/response";
 
 const SignIn = () => {
     const navigate = useNavigate();
@@ -26,14 +25,16 @@ const SignIn = () => {
     const queryClient = useQueryClient();
 
     const { mutate, isLoading } = useMutation({
-        mutationFn: (data: SignInForm) => signIn(data),
+        mutationFn: (data: SignInForm) => {
+            return toast.promise(signIn(data), {
+                loading: "Signing in...",
+                success: "Signed in successfully",
+                error: (err) => err.response?.data.status,
+            });
+        },
         onSuccess() {
             navigate(from, { replace: true });
-            toast.success("Signed in successfully");
             queryClient.refetchQueries();
-        },
-        onError(err: IResError) {
-            toast.error(err.response?.data.status);
         },
     });
 
