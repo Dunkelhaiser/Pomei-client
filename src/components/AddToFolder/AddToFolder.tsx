@@ -27,6 +27,7 @@ const AddToFolder: React.FC<Props> = ({ show, modalRef, close, noteId }) => {
     } = useQuery({
         queryKey: ["add_to_folders"],
         queryFn: () => getFolders(1, 15, "desc", "updatedAt"),
+        enabled: show,
         onError() {
             toast.error("Error loading folder");
         },
