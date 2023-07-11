@@ -30,7 +30,7 @@ const Notes = () => {
     const lastFolderRef = useRef<HTMLDivElement>(null);
     const { ref, entry } = useInView({
         root: lastFolderRef.current,
-        threshold: 1,
+        threshold: 0,
     });
 
     useEffect(() => {
