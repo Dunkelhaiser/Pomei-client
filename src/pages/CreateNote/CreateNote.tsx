@@ -24,7 +24,7 @@ const CreateNote = () => {
     const { mutate, isLoading } = useMutation({
         mutationFn: (note: Pick<Note, "title" | "content">) => {
             return toast.promise(createNote(note), {
-                loading: "Emptying bin...",
+                loading: "Creating note...",
                 success: (res) => res.status,
                 error: (err) => err.response?.data.status,
             });
