@@ -26,7 +26,7 @@ const Textarea: React.FC<Props> = ({ placeholder, value, rows, register, name })
         resize({
             currentTarget: document.querySelector(`.${Styles.textarea}`) as HTMLTextAreaElement,
         } as React.KeyboardEvent<HTMLTextAreaElement>);
-    }, []);
+    }, [value]);
 
     return (
         <textarea
