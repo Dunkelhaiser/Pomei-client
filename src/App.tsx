@@ -4,8 +4,6 @@ import ProtectedRoutes from "./context/ProtectedRoutes";
 import Home from "./pages/Home/Home";
 import Wrapper from "./pages/Wrapper/Wrapper";
 import "./scss/styles.scss";
-import Account from "./pages/Account/Account";
-import Settings from "./pages/Settings/Settings";
 
 const Archive = lazy(() => import("./pages/Archive/Archive"));
 const Bin = lazy(() => import("./pages/Bin/Bin"));
@@ -21,6 +19,8 @@ const Welcome = lazy(() => import("./pages/Welcome/Welcome"));
 const Verification = lazy(() => import("./pages/Verification/Verification"));
 const PasswordReset = lazy(() => import("./pages/PasswordReset/PasswordReset"));
 const NewPassword = lazy(() => import("./pages/NewPassword/NewPassword"));
+const Account = lazy(() => import("./pages/Account/Account"));
+const Settings = lazy(() => import("./pages/Settings/Settings"));
 
 const router = createBrowserRouter(
     createRoutesFromElements(

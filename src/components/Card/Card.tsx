@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { lazy, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faThumbtack } from "@fortawesome/free-solid-svg-icons";
@@ -12,7 +12,8 @@ import { NotesContext } from "../../context/NotesContext";
 import { handleFocus } from "../../utils/handleFocus/handleFocus";
 import { archiveNote, deleteNote, duplicateNote, moveToBin, pinNote, removeFromFolder, restoreNote } from "../../api/notes";
 import useModal from "../../hooks/useModal/useModal";
-import AddToFolder from "../AddToFolder/AddToFolder";
+
+const AddToFolder = lazy(() => import("../AddToFolder/AddToFolder"));
 
 interface Props {
     id: string;
@@ -250,7 +251,7 @@ const Card: React.FC<Props> = ({ title, content, date, rowLimit = 25, id, isPinn
                             : authContextOptions
                     }
                 />
-                <AddToFolder show={isShowing} modalRef={modalRef} close={hideModal} noteId={id} />
+                {isAuthorized && <AddToFolder show={isShowing} modalRef={modalRef} close={hideModal} noteId={id} />}
             </div>
             <p style={{ WebkitLineClamp: rowLimit }}>{content}</p>
 
