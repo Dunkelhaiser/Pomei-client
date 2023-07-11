@@ -23,7 +23,7 @@ const Folders = () => {
         <>
             <FloatingIcon icon={faPlus} onClick={showModal} />
             <CreateFolder show={isShowing} modalRef={modalRef} close={hideModal} />
-            <Layout title="Folders" type="grid">
+            <Layout title="Folders" type={isLoading && isAuthorized ? "centered" : "grid"}>
                 {isLoading && <Loader />}
                 {isError && <Text text="Failed to load notes." type="p" />}
                 {!isLoading &&
