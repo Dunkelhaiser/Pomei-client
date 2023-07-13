@@ -13,6 +13,7 @@ import { Note, NoteForm } from "../../models/Note";
 import Styles from "./CreateNote.module.scss";
 import { createNote } from "../../api/notes";
 import { UserContext } from "../../context/UserContext";
+import TextEditor from "../../components/TextEditor/TextEditor";
 
 const CreateNote = () => {
     const { isAuthorized } = useContext(UserContext);
@@ -48,7 +49,8 @@ const CreateNote = () => {
         <Layout title="Create Note">
             <form onSubmit={handleSubmit(createNoteHandler)} className={Styles.form}>
                 <Input name="title" placeholder="Title" styleType="text" register={register} />
-                <Textarea name="content" placeholder="Enter your note..." register={register} />
+                {/* <Textarea name="content" placeholder="Enter your note..." register={register} /> */}
+                <TextEditor />
                 <Button label="Create" type="submit" disabled={isLoading} />
             </form>
         </Layout>
