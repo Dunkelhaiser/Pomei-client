@@ -13,6 +13,7 @@ import Styles from "./CreateNote.module.scss";
 import { createNote } from "../../api/notes";
 import { UserContext } from "../../context/UserContext";
 import TextEditor from "../../components/TextEditor/TextEditor";
+import Textarea from "../../components/Textarea/Textarea";
 
 const CreateNote = () => {
     const { isAuthorized } = useContext(UserContext);
@@ -37,7 +38,7 @@ const CreateNote = () => {
 
     const createNoteHandler = (note: NoteForm) => {
         if (!isAuthorized) {
-            createLocalNote({ ...note, content });
+            createLocalNote({ ...note });
         } else {
             mutate({ ...note, content });
         }
@@ -49,7 +50,11 @@ const CreateNote = () => {
         <Layout title="Create Note">
             <form onSubmit={handleSubmit(createNoteHandler)} className={Styles.form}>
                 <Input name="title" placeholder="Title" styleType="text" register={register} fontSize={1.75} />
-                <TextEditor placeholder="Enter your note..." onChange={setContent} />
+                {isAuthorized ? (
+                    <TextEditor placeholder="Enter your note..." onChange={setContent} />
+                ) : (
+                    <Textarea placeholder="Enter your note..." name="content" register={register} />
+                )}
                 <Button label="Create" type="submit" disabled={isLoading} />
             </form>
         </Layout>

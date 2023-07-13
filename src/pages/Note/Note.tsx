@@ -17,6 +17,7 @@ import Loader from "../../components/Loader/Loader";
 import Text from "../../components/Text/Text";
 import { IResError } from "../../api/response";
 import TextEditor from "../../components/TextEditor/TextEditor";
+import Textarea from "../../components/Textarea/Textarea";
 
 const Note = () => {
     const queryClient = useQueryClient();
@@ -84,7 +85,7 @@ const Note = () => {
                 throw Error("Note not found");
             }
             setValue("title", note?.title);
-            setNoteContent(note?.content || "");
+            setValue("content", note?.content);
 
             document.title = `Pomei | ${note?.title || "Untitled"}`;
         }
@@ -99,20 +100,7 @@ const Note = () => {
             watch((value) => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
-                updateLocalNote({
-                    ...value,
-                    content: noteContent,
-                    id: getLocalNote(`${params.id}`).id,
-                    createdAt: getLocalNote(`${params.id}`).createdAt,
-                });
-            });
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            updateLocalNote({
-                title: getValues("title"),
-                content: noteContent,
-                id: getLocalNote(`${params.id}`).id,
-                createdAt: getLocalNote(`${params.id}`).createdAt,
+                updateLocalNote({ ...value, id: getLocalNote(`${params.id}`).id, createdAt: getLocalNote(`${params.id}`).createdAt });
             });
         }
         if (isAuthorized && !noteData?.note.isDeleted) {
@@ -145,7 +133,7 @@ const Note = () => {
                             }}
                         />
                     </section>
-                    <TextEditor onChange={setNoteContent} content={noteContent} placeholder="Enter your note..." />
+                    <Textarea placeholder="Enter your note..." name="content" register={register} />
                 </>
             ) : (
                 <>

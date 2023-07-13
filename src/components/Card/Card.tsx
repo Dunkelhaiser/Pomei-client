@@ -285,7 +285,11 @@ const Card = forwardRef<Ref, Props>(({ title, content, date, rowLimit = 25, id, 
                 )}
                 {isAuthorized && <AddToFolder show={isShowing} modalRef={modalRef} close={hideModal} noteId={id} />}
             </div>
-            <p style={{ WebkitLineClamp: rowLimit }}>{removeHTMLTags(content || "")}</p>
+            {isAuthorized ? (
+                <p style={{ WebkitLineClamp: rowLimit }}>{removeHTMLTags(content || "")}</p>
+            ) : (
+                <p style={{ WebkitLineClamp: rowLimit }}>{content}</p>
+            )}
 
             <span className={Styles.date}>
                 {new Date(date).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
