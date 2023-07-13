@@ -1,139 +1,124 @@
 import { EditorContent, useEditor } from "@tiptap/react";
+import Underline from "@tiptap/extension-underline";
 import StarterKit from "@tiptap/starter-kit";
+import {
+    faBold,
+    faCode,
+    faHeading,
+    faItalic,
+    faListOl,
+    faListUl,
+    faQuoteLeft,
+    faRotateLeft,
+    faRotateRight,
+    faRulerHorizontal,
+    faStrikethrough,
+    faUnderline,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Placeholder from "@tiptap/extension-placeholder";
+import Styles from "./TextEditor.module.scss";
 import "./TextEditor.scss";
 
-const MenuBar = ({ editor }: { editor: ReturnType<typeof useEditor> }) => {
+const MenuBar = ({ editor, editable }: { editor: ReturnType<typeof useEditor>; editable?: boolean }) => {
     if (!editor) {
+        return null;
+    }
+    if (!editable) {
+        editor.setEditable(false);
         return null;
     }
 
     return (
-        <>
+        <div className={Styles.menu}>
             <button
                 type="button"
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 disabled={!editor.can().chain().focus().toggleBold().run()}
-                className={editor.isActive("bold") ? "is-active" : ""}
+                className={editor.isActive("bold") ? Styles.active : ""}
             >
-                bold
+                <FontAwesomeIcon icon={faBold} />
             </button>
             <button
                 type="button"
                 onClick={() => editor.chain().focus().toggleItalic().run()}
                 disabled={!editor.can().chain().focus().toggleItalic().run()}
-                className={editor.isActive("italic") ? "is-active" : ""}
+                className={editor.isActive("italic") ? Styles.active : ""}
             >
-                italic
+                <FontAwesomeIcon icon={faItalic} />
+            </button>
+            <button
+                type="button"
+                onClick={() => editor.chain().focus().toggleUnderline().run()}
+                disabled={!editor.can().chain().focus().toggleUnderline().run()}
+                className={editor.isActive("underline") ? Styles.active : ""}
+            >
+                <FontAwesomeIcon icon={faUnderline} />
             </button>
             <button
                 type="button"
                 onClick={() => editor.chain().focus().toggleStrike().run()}
                 disabled={!editor.can().chain().focus().toggleStrike().run()}
-                className={editor.isActive("strike") ? "is-active" : ""}
+                className={editor.isActive("strike") ? Styles.active : ""}
             >
-                strike
-            </button>
-            <button
-                type="button"
-                onClick={() => editor.chain().focus().toggleCode().run()}
-                disabled={!editor.can().chain().focus().toggleCode().run()}
-                className={editor.isActive("code") ? "is-active" : ""}
-            >
-                code
-            </button>
-            <button type="button" onClick={() => editor.chain().focus().unsetAllMarks().run()}>
-                clear marks
-            </button>
-            <button type="button" onClick={() => editor.chain().focus().clearNodes().run()}>
-                clear nodes
-            </button>
-            <button
-                type="button"
-                onClick={() => editor.chain().focus().setParagraph().run()}
-                className={editor.isActive("paragraph") ? "is-active" : ""}
-            >
-                paragraph
-            </button>
-            <button
-                type="button"
-                onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-                className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
-            >
-                h2
+                <FontAwesomeIcon icon={faStrikethrough} />
             </button>
             <button
                 type="button"
                 onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-                className={editor.isActive("heading", { level: 3 }) ? "is-active" : ""}
+                className={editor.isActive("heading", { level: 3 }) ? Styles.active : ""}
             >
-                h3
-            </button>
-            <button
-                type="button"
-                onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
-                className={editor.isActive("heading", { level: 4 }) ? "is-active" : ""}
-            >
-                h4
-            </button>
-            <button
-                type="button"
-                onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
-                className={editor.isActive("heading", { level: 5 }) ? "is-active" : ""}
-            >
-                h5
-            </button>
-            <button
-                type="button"
-                onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
-                className={editor.isActive("heading", { level: 6 }) ? "is-active" : ""}
-            >
-                h6
+                <FontAwesomeIcon icon={faHeading} />
             </button>
             <button
                 type="button"
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
-                className={editor.isActive("bulletList") ? "is-active" : ""}
+                className={editor.isActive("bulletList") ? Styles.active : ""}
             >
-                bullet list
+                <FontAwesomeIcon icon={faListUl} />
             </button>
             <button
                 type="button"
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                className={editor.isActive("orderedList") ? "is-active" : ""}
+                className={editor.isActive("orderedList") ? Styles.active : ""}
             >
-                ordered list
+                <FontAwesomeIcon icon={faListOl} />
             </button>
             <button
                 type="button"
                 onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-                className={editor.isActive("codeBlock") ? "is-active" : ""}
+                className={editor.isActive("codeBlock") ? Styles.active : ""}
             >
-                code block
+                <FontAwesomeIcon icon={faCode} />
             </button>
             <button
                 type="button"
                 onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                className={editor.isActive("blockquote") ? "is-active" : ""}
+                className={editor.isActive("blockquote") ? Styles.active : ""}
             >
-                blockquote
+                <FontAwesomeIcon icon={faQuoteLeft} />
             </button>
             <button type="button" onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-                horizontal rule
-            </button>
-            <button type="button" onClick={() => editor.chain().focus().setHardBreak().run()}>
-                hard break
+                <FontAwesomeIcon icon={faRulerHorizontal} />
             </button>
             <button type="button" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().chain().focus().undo().run()}>
-                undo
+                <FontAwesomeIcon icon={faRotateLeft} />
             </button>
             <button type="button" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().chain().focus().redo().run()}>
-                redo
+                <FontAwesomeIcon icon={faRotateRight} />
             </button>
-        </>
+        </div>
     );
 };
 
-const TextEditor = () => {
+interface Props {
+    content?: string;
+    onChange?: (content: string) => void;
+    placeholder?: string;
+    editable?: boolean;
+}
+
+const TextEditor: React.FC<Props> = ({ content, onChange, placeholder, editable = true }) => {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -146,43 +131,25 @@ const TextEditor = () => {
                     keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
                 },
             }),
+            Underline,
+            Placeholder.configure({
+                placeholder,
+                showOnlyWhenEditable: true,
+            }),
         ],
-        content: `
-      <h2>
-        Hi there,
-      </h2>
-      <p>
-        this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-      </p>
-      <ul>
-        <li>
-          That’s a bullet list with one …
-        </li>
-        <li>
-          … or two list items.
-        </li>
-      </ul>
-      <p>
-        Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
-      </p>
-      <pre><code class="language-css">body {
-  display: none;
-}</code></pre>
-      <p>
-        I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-      </p>
-      <blockquote>
-        Wow, that’s amazing. Good work, boy! 👏
-        <br />
-        — Mom
-      </blockquote>
-    `,
+        content,
+
+        // eslint-disable-next-line @typescript-eslint/no-shadow
+        onUpdate: ({ editor }) => {
+            const html = editor.getHTML();
+            if (onChange) onChange(html);
+        },
     });
 
     return (
-        <div>
-            <MenuBar editor={editor} />
-            <EditorContent editor={editor} />
+        <div className={Styles.editor}>
+            <MenuBar editor={editor} editable={editable} />
+            <EditorContent editor={editor} className={Styles.editor_canvas} />
         </div>
     );
 };

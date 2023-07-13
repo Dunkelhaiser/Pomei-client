@@ -222,6 +222,21 @@ const Card = forwardRef<Ref, Props>(({ title, content, date, rowLimit = 25, id, 
         },
     ];
 
+    function removeHTMLTags(htmlString: string) {
+        const tempElement = document.createElement("div");
+        tempElement.innerHTML = htmlString;
+
+        const paragraphs = tempElement.getElementsByTagName("p");
+
+        const plainTextArray = Array.from(paragraphs).map((p) => p.innerText);
+
+        const plainText = plainTextArray.join(" ");
+
+        const trimmedText = plainText.trim();
+
+        return trimmedText;
+    }
+
     return (
         <div
             onClick={() => navigate(`/note/${id}`)}
@@ -270,7 +285,7 @@ const Card = forwardRef<Ref, Props>(({ title, content, date, rowLimit = 25, id, 
                 )}
                 {isAuthorized && <AddToFolder show={isShowing} modalRef={modalRef} close={hideModal} noteId={id} />}
             </div>
-            <p style={{ WebkitLineClamp: rowLimit }}>{content}</p>
+            <p style={{ WebkitLineClamp: rowLimit }}>{removeHTMLTags(content || "")}</p>
 
             <span className={Styles.date}>
                 {new Date(date).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}

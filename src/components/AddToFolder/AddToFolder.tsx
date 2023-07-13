@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { faFolder } from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import toast from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -9,6 +10,7 @@ import { getFolders } from "../../api/folders";
 import Loader from "../Loader/Loader";
 import Text from "../Text/Text";
 import { addToFolder } from "../../api/notes";
+import { UserContext } from "../../context/UserContext";
 
 interface Props {
     noteId: string;
@@ -18,6 +20,7 @@ interface Props {
 }
 
 const AddToFolder: React.FC<Props> = ({ show, modalRef, close, noteId }) => {
+    const { isAuthorized } = useContext(UserContext);
     const queryClient = useQueryClient();
 
     const {
@@ -27,7 +30,7 @@ const AddToFolder: React.FC<Props> = ({ show, modalRef, close, noteId }) => {
     } = useQuery({
         queryKey: ["add_to_folders"],
         queryFn: () => getFolders(1, 15, "desc", "updatedAt"),
-        enabled: show,
+        enabled: show && isAuthorized,
         onError() {
             toast.error("Error loading folder");
         },

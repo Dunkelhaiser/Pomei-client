@@ -1,4 +1,6 @@
 .ProseMirror {
+    outline: none;
+
     > * + * {
         margin-top: 0.75em;
     }
@@ -18,22 +20,24 @@
     }
 
     code {
-        background-color: rgba(#616161, 0.1);
         color: #616161;
+        background-color: rgba(#616161, 0.1);
     }
 
     pre {
-        background: #0d0d0d;
-        color: #fff;
-        font-family: "JetBrainsMono", monospace;
         padding: 0.75rem 1rem;
+
+        font-family: JetBrainsMono, monospace;
+        color: #fff;
+
+        background: #1e1e1e;
         border-radius: 0.5rem;
 
         code {
-            color: inherit;
             padding: 0;
-            background: none;
             font-size: 0.8rem;
+            color: inherit;
+            background: none;
         }
     }
 
@@ -48,8 +52,21 @@
     }
 
     hr {
+        margin: 2rem 0;
         border: none;
         border-top: 2px solid rgba(#0d0d0d, 0.1);
-        margin: 2rem 0;
     }
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+    pointer-events: none;
+    content: attr(data-placeholder);
+
+    float: left;
+
+    height: 0;
+
+    color: var(--text);
+
+    opacity: 0.5;
 }

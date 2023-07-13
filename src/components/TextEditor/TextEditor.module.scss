@@ -1,0 +1,43 @@
+@use "../../scss/abstract/mixins" as *;
+
+.menu {
+    @include flex($direction: row, $justify: space-between, $align: center, $gap: 1rem);
+
+    border-bottom: 1px solid var(--text);
+
+    button {
+        cursor: pointer;
+
+        aspect-ratio: 1/1;
+        width: 1.875rem;
+        height: 1.875rem;
+        padding: 0.25rem;
+
+        background-color: transparent;
+        border: none;
+        border-radius: 0.5rem;
+
+        transition: var(--hover);
+
+        &:hover,
+        &:focus-visible {
+            opacity: 0.75;
+        }
+
+        &:active {
+            opacity: 1;
+        }
+
+        &.active {
+            color: var(--primary);
+        }
+    }
+}
+
+.editor {
+    @include flex($gap: 1rem);
+}
+
+.editor_canvas {
+    width: 100%;
+}

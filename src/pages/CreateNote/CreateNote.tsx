@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -8,7 +8,6 @@ import { NotesContext } from "../../context/NotesContext";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import Layout from "../../components/Layout/Layout";
-import Textarea from "../../components/Textarea/Textarea";
 import { Note, NoteForm } from "../../models/Note";
 import Styles from "./CreateNote.module.scss";
 import { createNote } from "../../api/notes";
@@ -20,6 +19,7 @@ const CreateNote = () => {
     const navigate = useNavigate();
     const { createLocalNote } = useContext(NotesContext);
     const { register, handleSubmit, reset } = useForm<NoteForm>();
+    const [content, setContent] = useState("");
 
     const queryClient = useQueryClient();
     const { mutate, isLoading } = useMutation({
@@ -37,9 +37,9 @@ const CreateNote = () => {
 
     const createNoteHandler = (note: NoteForm) => {
         if (!isAuthorized) {
-            createLocalNote(note);
+            createLocalNote({ ...note, content });
         } else {
-            mutate(note);
+            mutate({ ...note, content });
         }
         reset();
         navigate("/notes");
@@ -48,9 +48,8 @@ const CreateNote = () => {
     return (
         <Layout title="Create Note">
             <form onSubmit={handleSubmit(createNoteHandler)} className={Styles.form}>
-                <Input name="title" placeholder="Title" styleType="text" register={register} />
-                {/* <Textarea name="content" placeholder="Enter your note..." register={register} /> */}
-                <TextEditor />
+                <Input name="title" placeholder="Title" styleType="text" register={register} fontSize={1.75} />
+                <TextEditor placeholder="Enter your note..." onChange={setContent} />
                 <Button label="Create" type="submit" disabled={isLoading} />
             </form>
         </Layout>

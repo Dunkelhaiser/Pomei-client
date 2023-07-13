@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { faTrash, faTrashArrowUp } from "@fortawesome/free-solid-svg-icons";
@@ -9,7 +9,6 @@ import { NotesContext } from "../../context/NotesContext";
 import { Note as NoteForm } from "../../models/Note";
 import Input from "../../components/Input/Input";
 import Layout from "../../components/Layout/Layout";
-import Textarea from "../../components/Textarea/Textarea";
 import Button from "../../components/Button/Button";
 import NoteStyles from "./Note.module.scss";
 import { UserContext } from "../../context/UserContext";
@@ -17,14 +16,16 @@ import { loadNote, moveToBin, restoreNote, updateNote } from "../../api/notes";
 import Loader from "../../components/Loader/Loader";
 import Text from "../../components/Text/Text";
 import { IResError } from "../../api/response";
+import TextEditor from "../../components/TextEditor/TextEditor";
 
 const Note = () => {
     const queryClient = useQueryClient();
     const params = useParams();
     const navigate = useNavigate();
-    const { register, setValue, watch } = useForm<NoteForm>();
+    const { register, setValue, getValues, watch } = useForm<NoteForm>();
     const { getLocalNote, updateLocalNote, deleteLocalNote } = useContext(NotesContext);
     const { isAuthorized } = useContext(UserContext);
+    const [noteContent, setNoteContent] = useState("");
 
     const {
         isLoading,
@@ -36,7 +37,7 @@ const Note = () => {
         enabled: isAuthorized,
         onSuccess: (data) => {
             setValue("title", data?.note.title);
-            setValue("content", data?.note.content);
+            setNoteContent(data?.note.content || "");
             document.title = `Pomei | ${data?.note.title || "Untitled"}`;
         },
     });
@@ -83,7 +84,8 @@ const Note = () => {
                 throw Error("Note not found");
             }
             setValue("title", note?.title);
-            setValue("content", note?.content);
+            setNoteContent(note?.content || "");
+
             document.title = `Pomei | ${note?.title || "Untitled"}`;
         }
 
@@ -94,18 +96,34 @@ const Note = () => {
 
     useEffect(() => {
         if (!isAuthorized) {
+            watch((value) => {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                updateLocalNote({
+                    ...value,
+                    content: noteContent,
+                    id: getLocalNote(`${params.id}`).id,
+                    createdAt: getLocalNote(`${params.id}`).createdAt,
+                });
+            });
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            watch((value) => updateLocalNote({ ...value, id: getLocalNote(params.id).id, createdAt: getLocalNote(params.id).createdAt }));
-        }
-
-        if (isAuthorized && !noteData?.note.isDeleted) {
-            watch((value) => {
-                if (isLoading || isError || !value.title || !value.content) return;
-                mutate({ title: value.title || "", content: value.content || "" });
+            updateLocalNote({
+                title: getValues("title"),
+                content: noteContent,
+                id: getLocalNote(`${params.id}`).id,
+                createdAt: getLocalNote(`${params.id}`).createdAt,
             });
         }
-    }, [watch, isLoading, isError]);
+        if (isAuthorized && !noteData?.note.isDeleted) {
+            watch((value) => {
+                if (isLoading || isError || !value.title || !noteContent) return;
+                mutate({ title: value.title || "", content: noteContent || "" });
+            });
+            if (isLoading || isError || !getValues("title") || !noteContent) return;
+            mutate({ title: getValues("title") || "", content: noteContent || "" });
+        }
+    }, [watch, isLoading, isError, noteContent]);
 
     return (
         <Layout type={isLoading && isAuthorized ? "centered" : null}>
@@ -127,7 +145,7 @@ const Note = () => {
                             }}
                         />
                     </section>
-                    <Textarea name="content" placeholder="Enter your note..." register={register} />
+                    <TextEditor onChange={setNoteContent} content={noteContent} placeholder="Enter your note..." />
                 </>
             ) : (
                 <>
@@ -178,9 +196,9 @@ const Note = () => {
                             </section>
 
                             {noteData.note.isDeleted ? (
-                                <p>{noteData.note.content}</p>
+                                <TextEditor content={noteData.note.content} editable={false} />
                             ) : (
-                                <Textarea name="content" placeholder="Enter your note..." register={register} />
+                                <TextEditor content={noteData.note.content} onChange={setNoteContent} placeholder="Enter your note..." />
                             )}
                         </>
                     )}
