@@ -13,8 +13,8 @@ const Welcome = () => {
             <section className={WelcomeStyles.welcome}>
                 <h1 className={WelcomeStyles.title}>Welcome to Pomei!</h1>
                 <p className={WelcomeStyles.content}>
-                    Sign up to save and access your notes from any device, and enjoy additional features like folders, archive, bin and
-                    pinning notes.
+                    Sign up to save and access your notes from any device, and enjoy additional features like rich text editor, folders,
+                    archive, bin and pinning notes.
                 </p>
                 <div className={WelcomeStyles.buttons}>
                     <Button
