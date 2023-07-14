@@ -7,7 +7,7 @@ export interface Note {
     isDeleted: boolean;
     folderId?: string;
     createdAt: string;
-    updatedAt?: string;
+    updatedAt: string;
 }
 
 export type NoteForm = Omit<Note, "date" | "id">;

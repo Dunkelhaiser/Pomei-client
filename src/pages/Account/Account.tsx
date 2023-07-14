@@ -34,7 +34,7 @@ const Account = () => {
         },
     });
     return (
-        <Layout title="Account">
+        <Layout title="Account" type="default">
             <Button label="Sign Out" onClick={signOutHandler} />
             <Button label="Terminate" onClick={terminateAllSessionsHandler} />
             <Button label="Delete Account" color="danger" onClick={deleteAccountHandler} />

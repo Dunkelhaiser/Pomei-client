@@ -1,7 +1,7 @@
 @use "../../scss/abstract/mixins" as *;
 
 .menu {
-    @include flex($direction: row, $justify: space-between, $align: center, $gap: 1rem);
+    @include flex($direction: row, $align: center, $gap: 1rem, $wrap: wrap);
 
     border-bottom: 1px solid var(--text);
 
