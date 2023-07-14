@@ -18,7 +18,7 @@ const Notes = () => {
     const { isAuthorized } = useContext(UserContext);
     const { data, isLoading, isError, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
         queryKey: ["notes"],
-        queryFn: ({ pageParam = 1 }) => getNotes(pageParam, 7, "desc", "updatedAt"),
+        queryFn: ({ pageParam = 1 }) => getNotes(pageParam, 30, "desc", "updatedAt"),
         getNextPageParam: (lastPage, allPages) => {
             if (allPages.length < lastPage.totalPages) {
                 return allPages.length + 1;

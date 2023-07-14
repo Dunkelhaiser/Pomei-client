@@ -17,7 +17,7 @@ const Notes = () => {
     const { isAuthorized } = useContext(UserContext);
     const { data, isLoading, isError, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
         queryKey: ["notes", params.id],
-        queryFn: ({ pageParam = 1 }) => loadFolder(`${params.id}`, pageParam, 7, "desc", "updatedAt"),
+        queryFn: ({ pageParam = 1 }) => loadFolder(`${params.id}`, pageParam, 30, "desc", "updatedAt"),
         getNextPageParam: (lastPage, allPages) => {
             if (allPages.length < lastPage.totalPages) {
                 return allPages.length + 1;
