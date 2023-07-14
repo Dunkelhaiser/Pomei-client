@@ -83,3 +83,8 @@ export const resetPassword = async (token: string, data: NewPasswordForm) => {
     const res = await authApi.post(`auth/reset_password/${token}`, data);
     return res.data;
 };
+
+export const deleteAccount = async (id: string) => {
+    const res = await authApi.delete(`auth/delete_account/${id}`);
+    return res.data;
+};
