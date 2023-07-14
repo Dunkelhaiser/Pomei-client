@@ -77,6 +77,7 @@ const Notes = () => {
                                             isPinned={note.isPinned}
                                             isArchived={note.isArchived}
                                             isDeleted={note.isDeleted}
+                                            folderId={note.folderId}
                                             date={note.updatedAt || note.createdAt}
                                             ref={ref}
                                         />
@@ -91,6 +92,7 @@ const Notes = () => {
                                         isPinned={note.isPinned}
                                         isArchived={note.isArchived}
                                         isDeleted={note.isDeleted}
+                                        folderId={note.folderId}
                                         date={note.updatedAt || note.createdAt}
                                     />
                                 );
