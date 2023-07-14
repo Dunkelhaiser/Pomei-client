@@ -106,10 +106,10 @@ const Note = () => {
         if (isAuthorized && !noteData?.note.isDeleted) {
             watch((value) => {
                 if (isLoading || isError || !value.title || !noteContent) return;
-                mutate({ title: value.title || "", content: noteContent || "" });
+                mutate({ title: value.title || "", content: noteContent });
             });
             if (isLoading || isError || !getValues("title") || !noteContent) return;
-            mutate({ title: getValues("title") || "", content: noteContent || "" });
+            mutate({ title: getValues("title") || "", content: noteContent });
         }
     }, [watch, isLoading, isError, noteContent]);
 
