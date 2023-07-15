@@ -11,6 +11,8 @@ interface Props {
     fontWeight?: number;
     styleType?: "normal" | "line" | "text";
     type?: "text" | "email" | "password" | "color" | "date" | "file" | "number" | "radio" | "range" | "tel";
+    min?: number;
+    max?: number;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     register?: UseFormRegister<any>;
     errors?: FieldError | string | undefined | null;
@@ -30,6 +32,8 @@ const Input: React.FC<Props> = ({
     errors,
     onKeyUp,
     delay = 500,
+    max,
+    min,
 }) => {
     const isRegistered = register !== undefined && name !== undefined;
 
@@ -42,6 +46,8 @@ const Input: React.FC<Props> = ({
                 style={{ fontSize: `${fontSize}rem`, fontWeight }}
                 type={type}
                 value={value}
+                max={max}
+                min={min}
                 placeholder={placeholder}
                 {...(isRegistered ? register(name) : null)}
                 className={`${Styles.input} ${Styles[styleType]} ${errors ? Styles.error : ""}`}

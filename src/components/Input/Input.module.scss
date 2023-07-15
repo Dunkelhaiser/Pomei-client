@@ -6,7 +6,7 @@
     position: relative;
     width: 100%;
 
-    input {
+    input:not([type="number"]) {
         width: 100%;
     }
 }

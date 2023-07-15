@@ -3,6 +3,8 @@ import { SignUpForm } from "../models/schemas/SignUp";
 import { SignInForm } from "../models/schemas/SignIn";
 import { EmailRequestForm } from "../models/schemas/EmailRequest";
 import { NewPasswordForm } from "../models/schemas/NewPassword";
+import { ChangePasswordForm } from "../models/schemas/ChangePassword";
+import { AccountForm } from "../models/schemas/Account";
 
 export const authApi = axios.create({
     baseURL: `${import.meta.env.VITE_BACKEND_URL}/`,
@@ -86,5 +88,15 @@ export const resetPassword = async (token: string, data: NewPasswordForm) => {
 
 export const deleteAccount = async (id: string) => {
     const res = await authApi.delete(`auth/delete_account/${id}`);
+    return res.data;
+};
+
+export const changePassword = async (data: ChangePasswordForm, id: string) => {
+    const res = await authApi.put(`auth/update_password/${id}`, data);
+    return res.data;
+};
+
+export const updateAccount = async (data: AccountForm, id: string) => {
+    const res = await authApi.put(`auth/update_account/${id}`, data);
     return res.data;
 };
