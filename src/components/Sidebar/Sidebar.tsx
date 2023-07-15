@@ -4,7 +4,7 @@ import {
     // faList,
     faRightToBracket,
     // faRightFromBracket,
-    faGear,
+    // faGear,
     // faArrowRotateRight,
     faHome,
     faNoteSticky,
@@ -90,7 +90,7 @@ const Menu: React.FC<MenuProps> = ({ close }) => {
                 </ul>
             </nav>
             <ul className={Styles.navigation}>
-                <li>
+                {/* <li>
                     <NavLink
                         onClick={close}
                         to="/settings"
@@ -98,7 +98,7 @@ const Menu: React.FC<MenuProps> = ({ close }) => {
                     >
                         <FontAwesomeIcon icon={faGear} /> Settings
                     </NavLink>
-                </li>
+                </li> */}
                 <li>
                     {isAuthorized ? (
                         <NavLink to="account" onClick={close} className={(navData) => (navData.isActive ? Styles.active : "")}>
