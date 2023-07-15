@@ -1,22 +1,6 @@
 @use "../../scss/abstract/screen-queries" as *;
 @use "../../scss/abstract/mixins" as *;
 
-.layout {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 1rem;
-
-    @media ($tablet) {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-    @media ($tablet-small) {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    @media ($phone) {
-        grid-template-columns: repeat(1, minmax(0, 1fr));
-    }
-}
-
 .add_icon {
     cursor: pointer;
     font-size: 1.5rem;

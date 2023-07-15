@@ -54,7 +54,7 @@ const Home = () => {
                 <FontAwesomeIcon icon={faPlus} className={HomeStyles.add_icon} onClick={() => navigate("/create_note")} />
             </div>
             {!isAuthorized ? (
-                <section className={HomeStyles.layout}>
+                <Layout type="grid">
                     {sortedNotesLocal.map((note) => (
                         <Card
                             key={note.id}
@@ -69,10 +69,10 @@ const Home = () => {
                         />
                     ))}
                     {sortedNotesLocal.length < 1 && <Text text="No notes found." type="p" />}
-                </section>
+                </Layout>
             ) : (
                 <>
-                    <section className={HomeStyles.layout}>
+                    <Layout type="grid">
                         {isLoadingNotes && <Loader />}
                         {isErrorNotes && <Text text="Failed to load notes." type="p" />}
                         {!isLoadingNotes &&
@@ -95,14 +95,14 @@ const Home = () => {
                             ) : (
                                 <Text text="No notes found." type="p" />
                             ))}
-                    </section>
+                    </Layout>
 
                     <div className={HomeStyles.heading}>
                         <h2>Latest Folders</h2>
                         <FontAwesomeIcon icon={faPlus} className={HomeStyles.add_icon} onClick={showModal} />
                         <CreateFolder show={isShowing} modalRef={modalRef} close={hideModal} />
                     </div>
-                    <section className={HomeStyles.layout}>
+                    <Layout type="grid">
                         {isLoadingFolders && isAuthorized && <Loader />}
                         {isErrorFolders && isAuthorized && <Text text="Failed to load folders." type="p" />}
                         {!isLoadingFolders &&
@@ -122,7 +122,7 @@ const Home = () => {
                             ) : (
                                 <Text text="No folders found." type="p" />
                             ))}
-                    </section>
+                    </Layout>
                 </>
             )}
         </Layout>
