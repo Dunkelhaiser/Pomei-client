@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faFolder, faThumbtack } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -19,7 +19,7 @@ interface Props {
     isPinned: boolean;
 }
 
-type Ref = HTMLDivElement;
+type Ref = HTMLAnchorElement;
 
 const Folder = forwardRef<Ref, Props>(({ id, title, color, isPinned }, ref) => {
     const [expanded, setExpanded] = useToggle();
@@ -29,7 +29,6 @@ const Folder = forwardRef<Ref, Props>(({ id, title, color, isPinned }, ref) => {
         e.stopPropagation();
         setExpanded();
     };
-    const navigate = useNavigate();
     const queryClient = useQueryClient();
 
     const { mutate: deleteFolderHandler, isLoading: isDeletingFolder } = useMutation({
@@ -57,13 +56,7 @@ const Folder = forwardRef<Ref, Props>(({ id, title, color, isPinned }, ref) => {
         },
     });
     return (
-        <div
-            onClick={() => navigate(`/folder/${id}`)}
-            role="button"
-            tabIndex={0}
-            className={`${Styles.folder} ${expanded ? Styles.active : ""}`}
-            ref={ref}
-        >
+        <Link to={`/folder/${id}`} className={`${Styles.folder} ${expanded ? Styles.active : ""}`} ref={ref}>
             <div className={Styles.icon}>
                 <FontAwesomeIcon icon={faFolder} color={color || "hsl(208deg 25% 45%)"} className={Styles.folder_icon} />
                 {isPinned && <FontAwesomeIcon icon={faThumbtack} className={Styles.pin} />}
@@ -114,7 +107,7 @@ const Folder = forwardRef<Ref, Props>(({ id, title, color, isPinned }, ref) => {
                 disabled={isDeletingFolder}
             />
             <h3>{title}</h3>
-        </div>
+        </Link>
     );
 });
 Folder.displayName = "Folder";

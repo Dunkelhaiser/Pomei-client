@@ -1,5 +1,5 @@
 import { forwardRef, lazy, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faThumbtack } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -9,7 +9,6 @@ import ContextMenu from "../ContextMenu/ContextMenu";
 import useToggle from "../../hooks/useToggle/useToggle";
 import { UserContext } from "../../context/UserContext";
 import { NotesContext } from "../../context/NotesContext";
-import { handleFocus } from "../../utils/handleFocus/handleFocus";
 import { archiveNote, deleteNote, duplicateNote, moveToBin, pinNote, removeFromFolder, restoreNote } from "../../api/notes";
 import useModal from "../../hooks/useModal/useModal";
 
@@ -28,13 +27,12 @@ interface Props {
     rowLimit?: number | "none";
 }
 
-type Ref = HTMLDivElement;
+type Ref = HTMLAnchorElement;
 
 const Card = forwardRef<Ref, Props>(({ title, content, date, rowLimit = 25, id, isPinned, isArchived, isDeleted, folderId }, ref) => {
     const { isAuthorized } = useContext(UserContext);
     const { deleteLocalNote, copyLocalNote } = useContext(NotesContext);
     const [expanded, setExpanded] = useToggle();
-    const navigate = useNavigate();
 
     const expand = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
         e.stopPropagation();
@@ -238,14 +236,7 @@ const Card = forwardRef<Ref, Props>(({ title, content, date, rowLimit = 25, id, 
     }
 
     return (
-        <div
-            onClick={() => navigate(`/note/${id}`)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => handleFocus(e, () => navigate(`/note/${id}`))}
-            className={`${Styles.card} ${expanded ? Styles.active : ""}`}
-            ref={ref}
-        >
+        <Link to={`/note/${id}`} className={`${Styles.card} ${expanded ? Styles.active : ""}`} ref={ref}>
             <div className={Styles.heading}>
                 <div>
                     <h3>{title || "Untitled"}</h3>
@@ -294,7 +285,7 @@ const Card = forwardRef<Ref, Props>(({ title, content, date, rowLimit = 25, id, 
             <span className={Styles.date}>
                 {new Date(date).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
             </span>
-        </div>
+        </Link>
     );
 });
 Card.displayName = "Note";

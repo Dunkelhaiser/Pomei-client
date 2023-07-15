@@ -11,25 +11,40 @@ const Account = () => {
     const queryClient = useQueryClient();
 
     const { mutate: signOutHandler } = useMutation({
-        mutationFn: () => signOut(),
+        mutationFn: () => {
+            return toast.promise(signOut(), {
+                loading: "Signing out...",
+                success: "Signed out successfully",
+                error: (err) => err.response?.data.status,
+            });
+        },
         onSuccess() {
-            toast.success("Signed out successfully");
             queryClient.refetchQueries();
             setUser(null);
         },
     });
     const { mutate: terminateAllSessionsHandler } = useMutation({
-        mutationFn: () => terminateAllSessions(),
+        mutationFn: () => {
+            return toast.promise(terminateAllSessions(), {
+                loading: "Terminating sessions...",
+                success: "Terminated all sessions successfully",
+                error: (err) => err.response?.data.status,
+            });
+        },
         onSuccess() {
-            toast.success("Terminated all sessions successfully");
             queryClient.refetchQueries();
             setUser(null);
         },
     });
     const { mutate: deleteAccountHandler } = useMutation({
-        mutationFn: () => deleteAccount(`${user?.id}`),
+        mutationFn: () => {
+            return toast.promise(deleteAccount(`${user?.id}`), {
+                loading: "Deleting account...",
+                success: "Account deleted successfully",
+                error: (err) => err.response?.data.status,
+            });
+        },
         onSuccess() {
-            toast.success("Account deleted");
             setUser(null);
         },
     });
