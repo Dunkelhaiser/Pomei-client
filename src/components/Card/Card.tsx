@@ -36,6 +36,7 @@ const Card = forwardRef<Ref, Props>(({ title, content, date, rowLimit = 25, id, 
 
     const expand = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
         e.stopPropagation();
+        e.preventDefault();
         setExpanded();
     };
 
