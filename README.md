@@ -45,14 +45,14 @@
 
 ### Screenshots
 
-![](images/sceenshots/../Screenshots/1.png)
-![](images/sceenshots/../Screenshots/2.png)
-![](images/sceenshots/../Screenshots/3.png)
-![](images/sceenshots/../Screenshots/4.png)
-![](images/sceenshots/../Screenshots/5.png)
-![](images/sceenshots/../Screenshots/6.png)
-![](images/sceenshots/../Screenshots/7.png)
-![](images/sceenshots/../Screenshots/8.png)
+![](images/screenshots/1.png)
+![](images/screenshots/2.png)
+![](images/screenshots/3.png)
+![](images/screenshots/4.png)
+![](images/screenshots/5.png)
+![](images/screenshots/6.png)
+![](images/screenshots/7.png)
+![](images/screenshots/8.png)
 
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://react.dev/
