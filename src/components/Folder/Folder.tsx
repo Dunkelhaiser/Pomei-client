@@ -27,6 +27,7 @@ const Folder = forwardRef<Ref, Props>(({ id, title, color, isPinned }, ref) => {
     const { isShowing: isConfirming, showModal: showConfirmation, modalRef: confirmationRef, hideModal: hideConfirmation } = useModal();
     const expand = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
         e.stopPropagation();
+        e.preventDefault();
         setExpanded();
     };
     const queryClient = useQueryClient();
