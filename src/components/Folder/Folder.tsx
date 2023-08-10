@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faFolder, faThumbtack } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -11,6 +11,7 @@ import { deleteFolder, pinFolder } from "../../api/folders";
 import useModal from "../../hooks/useModal/useModal";
 import EditFolder from "../EditFolder/EditFolder";
 import Confirmation from "../Confirmation/Confirmation";
+import { handleFocus } from "../../utils/handleFocus/handleFocus";
 
 interface Props {
     id: string;
@@ -19,7 +20,7 @@ interface Props {
     isPinned: boolean;
 }
 
-type Ref = HTMLAnchorElement;
+type Ref = HTMLDivElement;
 
 const Folder = forwardRef<Ref, Props>(({ id, title, color, isPinned }, ref) => {
     const [expanded, setExpanded] = useToggle();
@@ -30,6 +31,7 @@ const Folder = forwardRef<Ref, Props>(({ id, title, color, isPinned }, ref) => {
         e.preventDefault();
         setExpanded();
     };
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
 
     const { mutate: deleteFolderHandler, isLoading: isDeletingFolder } = useMutation({
@@ -57,7 +59,14 @@ const Folder = forwardRef<Ref, Props>(({ id, title, color, isPinned }, ref) => {
         },
     });
     return (
-        <Link to={`/folder/${id}`} className={`${Styles.folder} ${expanded ? Styles.active : ""}`} ref={ref}>
+        <div
+            onClick={() => navigate(`/folder/${id}`)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => handleFocus(e, () => navigate(`/folder/${id}`))}
+            className={`${Styles.folder} ${expanded ? Styles.active : ""}`}
+            ref={ref}
+        >
             <div className={Styles.icon}>
                 <FontAwesomeIcon icon={faFolder} color={color || "hsl(208deg 25% 45%)"} className={Styles.folder_icon} />
                 {isPinned && <FontAwesomeIcon icon={faThumbtack} className={Styles.pin} />}
@@ -108,7 +117,7 @@ const Folder = forwardRef<Ref, Props>(({ id, title, color, isPinned }, ref) => {
                 disabled={isDeletingFolder}
             />
             <h3>{title}</h3>
-        </Link>
+        </div>
     );
 });
 Folder.displayName = "Folder";
