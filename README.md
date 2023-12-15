@@ -43,6 +43,8 @@
 -   [![PostgreSQL][Postgres]][Postgres-url]
 -   [![Prisma][Prisma]][Prisma-url]
 
+<p>To run project, clone repo run "npm i" and "npm run dev", or access it in https://pomei.netlify.app.</p>
+
 ### Screenshots
 
 ![](images/screenshots/1.png)
