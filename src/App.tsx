@@ -20,7 +20,6 @@ const Verification = lazy(() => import("./pages/Verification/Verification"));
 const PasswordReset = lazy(() => import("./pages/PasswordReset/PasswordReset"));
 const NewPassword = lazy(() => import("./pages/NewPassword/NewPassword"));
 const Account = lazy(() => import("./pages/Account/Account"));
-// const Settings = lazy(() => import("./pages/Settings/Settings"));
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -34,7 +33,6 @@ const router = createBrowserRouter(
                 <Route path="folder/:id" element={<Folder />} />
                 <Route path="archive" element={<Archive />} />
                 <Route path="bin" element={<Bin />} />
-                {/* <Route path="settings" element={<Settings />} /> */}
                 <Route path="account" element={<Account />} />
             </Route>
             <Route path="home" element={<Navigate to="/" />} />
