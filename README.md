@@ -9,11 +9,11 @@
     Simple notes taking app.
     <br />
     <br />
-    <a href="https://pomei.netlify.app">Live View</a>
+    <a href="https://pomei.pages.dev">Live View</a>
     ·
-    <a href="https://github.com/KaeserOfHonour/Pomei/issues">Report Bug</a>
+    <a href="https://github.com/Dunkelhaiser/Pomei/issues">Report Bug</a>
     ·
-    <a href="https://github.com/KaeserOfHonour/Pomei/issues">Request Feature</a>
+    <a href="https://github.com/Dunkelhaiser/Pomei/issues">Request Feature</a>
   </p>
 </div>
 
